@@ -22,7 +22,7 @@ public class Restaurant {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
-	private String resturantName;
+	private String restaurantName;
 	private String address;
 	private Long contactNumber;
 	private String email;
