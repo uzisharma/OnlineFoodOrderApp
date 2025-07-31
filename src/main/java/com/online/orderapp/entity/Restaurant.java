@@ -1,6 +1,6 @@
 package com.online.orderapp.entity;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -27,8 +27,8 @@ public class Restaurant {
 	private Long contactNumber;
 	private String email;
 	@CreationTimestamp
-	private LocalDate createdAt;
+	private LocalDateTime createdAt;
 	@UpdateTimestamp
-	private LocalDate updatedAt;
+	private LocalDateTime updatedAt;
 	
 }
