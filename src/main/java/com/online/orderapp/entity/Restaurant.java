@@ -1,5 +1,10 @@
 package com.online.orderapp.entity;
 
+import java.time.LocalDate;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,12 +21,14 @@ public class Restaurant {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
+	private Integer id;
 	private String resturantName;
-	private String location;
-	private String city;
-	private String state;
-	private String country;
-	private int pincode;
+	private String address;
+	private Long contactNumber;
+	private String email;
+	@CreationTimestamp
+	private LocalDate createdAt;
+	@UpdateTimestamp
+	private LocalDate updatedAt;
 	
 }
