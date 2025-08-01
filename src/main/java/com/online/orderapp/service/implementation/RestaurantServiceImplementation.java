@@ -29,7 +29,7 @@ public class RestaurantServiceImplementation implements RestaurantService {
 //		}else {
 //			throw new NoSuchElementException("Restaurant with ID : "+id+" not found");
 //		}
-		return restaurantRepository.findById(id).orElseThrow(()->new NoSuchElementException("Restaurant with ID : \"+id+\" not found"));
+		return restaurantRepository.findById(id).orElseThrow(()->new NoSuchElementException("Restaurant with ID : "+id+" not found"));
 	}
 
 	

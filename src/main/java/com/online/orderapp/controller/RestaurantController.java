@@ -13,6 +13,8 @@ import com.online.orderapp.dto.ResponseStructure;
 import com.online.orderapp.entity.Restaurant;
 import com.online.orderapp.service.RestaurantService;
 
+
+
 @RestController
 @RequestMapping("/restaurant/api")
 public class RestaurantController {
@@ -38,9 +40,9 @@ public class RestaurantController {
 		Restaurant response = restaurantService.fetchById(id);
 		ResponseStructure<Restaurant> apiResponse = new ResponseStructure<>();
 		apiResponse.setData(response);
-		apiResponse.setMessage("Restaurant Element Found");
-		apiResponse.setStatusCode(HttpStatus.FOUND.value());
+		apiResponse.setMessage("Restaurant Object Found");
+		apiResponse.setStatusCode(HttpStatus.OK.value());
 		
-		return new ResponseEntity<>(apiResponse, HttpStatus.FOUND);
+		return new ResponseEntity<>(apiResponse, HttpStatus.OK);
 	}
 }
