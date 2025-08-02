@@ -54,10 +54,11 @@ public class RestaurantController {
 		List<Restaurant> response = restaurantService.getAllRestaurant();
 		ResponseStructure<List<Restaurant>> apiResponse = new ResponseStructure<>();
 		apiResponse.setData(response);
-		apiResponse.setMessage("Restaurant Object Found");
+		apiResponse.setMessage("Api ran Successfully");
 		apiResponse.setStatusCode(HttpStatus.OK.value());
 		
 		return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+//		return ResponseEntity.ok(apiResponse); //another way to send ok response
 		
 	}
 }
