@@ -4,6 +4,10 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.online.orderapp.entity.Restaurant;
@@ -35,6 +39,14 @@ public class RestaurantServiceImplementation implements RestaurantService {
 	@Override
 	public List<Restaurant> getAllRestaurant() {
 		return restaurantRepository.findAll();
+	}
+
+	@Override
+	public Page<?> getAllRestaurants(int pageNum, int pageSize, String sortBy) {
+		Sort sort = Sort.by(sortBy).descending();
+		Pageable pageable = PageRequest.of(pageNum, pageSize, sort);
+		Page<?> page = restaurantRepository.findAll(pageable);
+		return page;
 	}
 
 
