@@ -3,6 +3,7 @@ package com.online.orderapp.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.online.orderapp.dto.ResponseStructure;
 import com.online.orderapp.entity.Restaurant;
 import com.online.orderapp.service.RestaurantService;
+
+
 
 @RestController
 @RequestMapping("/restaurant/api")
@@ -30,5 +33,16 @@ public class RestaurantController {
 		
 		return new ResponseEntity<>(apiResponse, HttpStatus.CREATED);
 		
+	}
+	
+	@GetMapping("/getById")
+	public ResponseEntity<ResponseStructure<Restaurant>> fetchById(int id){
+		Restaurant response = restaurantService.fetchById(id);
+		ResponseStructure<Restaurant> apiResponse = new ResponseStructure<>();
+		apiResponse.setData(response);
+		apiResponse.setMessage("Restaurant Object Found");
+		apiResponse.setStatusCode(HttpStatus.OK.value());
+		
+		return new ResponseEntity<>(apiResponse, HttpStatus.OK);
 	}
 }
