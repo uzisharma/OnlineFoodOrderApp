@@ -1,9 +1,12 @@
 package com.online.orderapp.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,8 +38,8 @@ public class RestaurantController {
 		
 	}
 	
-	@GetMapping("/getById")
-	public ResponseEntity<ResponseStructure<Restaurant>> fetchById(int id){
+	@GetMapping("/get/{id}")
+	public ResponseEntity<ResponseStructure<Restaurant>> fetchById(@PathVariable Integer id){
 		Restaurant response = restaurantService.fetchById(id);
 		ResponseStructure<Restaurant> apiResponse = new ResponseStructure<>();
 		apiResponse.setData(response);
@@ -44,5 +47,17 @@ public class RestaurantController {
 		apiResponse.setStatusCode(HttpStatus.OK.value());
 		
 		return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+	}
+	
+	@GetMapping("/getAll")
+	public ResponseEntity<ResponseStructure<List<Restaurant>>> getAllRestaurant(){
+		List<Restaurant> response = restaurantService.getAllRestaurant();
+		ResponseStructure<List<Restaurant>> apiResponse = new ResponseStructure<>();
+		apiResponse.setData(response);
+		apiResponse.setMessage("Restaurant Object Found");
+		apiResponse.setStatusCode(HttpStatus.OK.value());
+		
+		return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+		
 	}
 }

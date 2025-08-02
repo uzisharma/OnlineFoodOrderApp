@@ -1,7 +1,7 @@
 package com.online.orderapp.service.implementation;
 
+import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,6 +31,13 @@ public class RestaurantServiceImplementation implements RestaurantService {
 //		}
 		return restaurantRepository.findById(id).orElseThrow(()->new NoSuchElementException("Restaurant with ID : "+id+" not found"));
 	}
+
+	@Override
+	public List<Restaurant> getAllRestaurant() {
+		return restaurantRepository.findAll();
+	}
+
+
 
 	
 }
