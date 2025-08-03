@@ -49,6 +49,21 @@ public class RestaurantServiceImplementation implements RestaurantService {
 		return page;
 	}
 
+	@Override
+	public Restaurant updateRestaurant(int id, Restaurant restaurant) {
+		Restaurant fetchedRes= restaurantRepository.findById(id).orElseThrow(()->new NoSuchElementException("Restaurant with ID : "+id+" not found"));
+		if(fetchedRes!=null) {
+			fetchedRes.setEmail(restaurant.getEmail());
+			fetchedRes.setAddress(restaurant.getAddress());
+			fetchedRes.setContactNumber(restaurant.getContactNumber());
+			fetchedRes.setRestaurantName(restaurant.getRestaurantName());
+			restaurantRepository.save(fetchedRes);
+		}
+		return fetchedRes;
+	}
+	
+	
+
 
 
 	

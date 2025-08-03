@@ -17,4 +17,6 @@ public interface RestaurantService {
 
 	//pagination method
 	Page<?> getAllRestaurants(int pageNum, int pageSize, String sortBy);
+
+	public Restaurant updateRestaurant(int id, Restaurant restaurant);
 }

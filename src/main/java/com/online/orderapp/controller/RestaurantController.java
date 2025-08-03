@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -75,5 +76,17 @@ public class RestaurantController {
 		return ResponseEntity.ok(apiResponse);
 	}
 	
+	@PutMapping("/update")
+	public ResponseEntity<ResponseStructure<Restaurant>> updateRestaurant(@RequestParam int id, @RequestBody Restaurant restaurant){
+		Restaurant response = restaurantService.updateRestaurant(id, restaurant);
+		ResponseStructure<Restaurant> apiResponse = new ResponseStructure<>();
+		apiResponse.setData(response);
+		apiResponse.setMessage("Updated Successfully");
+		apiResponse.setStatusCode(HttpStatus.OK.value());
+		
+		return ResponseEntity.ok(apiResponse);
+	}
+	
+
 	
 }
