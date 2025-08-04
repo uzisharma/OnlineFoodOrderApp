@@ -43,7 +43,7 @@ public class RestaurantServiceImplementation implements RestaurantService {
 
 	@Override
 	public Page<?> getAllRestaurants(int pageNum, int pageSize, String sortBy) {
-		Sort sort = Sort.by(sortBy).descending();
+		Sort sort = Sort.by(sortBy).ascending();
 		Pageable pageable = PageRequest.of(pageNum, pageSize, sort);
 		Page<?> page = restaurantRepository.findAll(pageable);
 		return page;

@@ -66,7 +66,9 @@ public class RestaurantController {
 	}
 	
 	@GetMapping("/getByPage")
-	public ResponseEntity<ResponseStructure<Page<?>>> getAllRestaurants(@RequestParam(defaultValue = "0", required = false) int pageNum,@RequestParam(defaultValue = "5", required = false) int pageSize,@RequestParam(defaultValue = "createdAt", required = false) String sortBy){
+	public ResponseEntity<ResponseStructure<Page<?>>> getAllRestaurants(@RequestParam(defaultValue = "0", required = false) int pageNum,
+			@RequestParam(defaultValue = "3", required = false) int pageSize,
+			@RequestParam(defaultValue = "createdAt", required = false) String sortBy){
 		Page<?> response = restaurantService.getAllRestaurants(pageNum, pageSize, sortBy);
 		ResponseStructure<Page<?>> apiResponse = new ResponseStructure<>();
 		apiResponse.setData(response);
