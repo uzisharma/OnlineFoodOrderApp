@@ -61,6 +61,12 @@ public class RestaurantServiceImplementation implements RestaurantService {
 		}
 		return fetchedRes;
 	}
+
+	@Override
+	public void deleteRestaurant(Integer id) {
+		Restaurant restaurant =fetchById(id);
+		restaurantRepository.delete(restaurant);
+	}
 	
 	
 
