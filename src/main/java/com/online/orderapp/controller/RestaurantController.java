@@ -1,6 +1,7 @@
 package com.online.orderapp.controller;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -96,6 +97,17 @@ public class RestaurantController {
 		
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	
+	}
+	
+	
+	@PostMapping("{restaurantId}/assignFood")
+	public ResponseEntity<ResponseStructure<Restaurant>> assignFood(@PathVariable Integer restaurantId, @RequestBody Set<Integer> food){
+		Restaurant restaurant = restaurantService.assignFood(restaurantId, food);
+		ResponseStructure<Restaurant> apiResponse = new ResponseStructure<>();
+		apiResponse.setData(restaurant);
+		apiResponse.setMessage("Assigned");
+		apiResponse.setStatusCode(HttpStatus.OK.value());
+		return ResponseEntity.ok(apiResponse);
 	}
 	
 }

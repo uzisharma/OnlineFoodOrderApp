@@ -1,7 +1,9 @@
 package com.online.orderapp.service.implementation;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -10,7 +12,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.online.orderapp.entity.Food;
 import com.online.orderapp.entity.Restaurant;
+import com.online.orderapp.repository.FoodRepository;
 import com.online.orderapp.repository.RestaurantRepository;
 import com.online.orderapp.service.RestaurantService;
 
@@ -19,6 +23,9 @@ public class RestaurantServiceImplementation implements RestaurantService {
 	
 	@Autowired
 	private RestaurantRepository restaurantRepository;
+	
+	@Autowired
+	private FoodRepository foodRepository;
 
 	@Override
 	public Restaurant createRestaurant(Restaurant restaurant) {
@@ -66,6 +73,22 @@ public class RestaurantServiceImplementation implements RestaurantService {
 	public void deleteRestaurant(Integer id) {
 		Restaurant restaurant =fetchById(id);
 		restaurantRepository.delete(restaurant);
+	}
+	
+	@Override
+	public Restaurant assignFood(Integer restaurantId, Set<Integer> foodId) {
+		Restaurant restaurant = fetchById(restaurantId);
+		
+		List<Food> foodItems = new ArrayList<>();
+		
+		for(Integer id : foodId) {
+			Food food = foodRepository.findById(id).orElseThrow(()->new NoSuchElementException("Food with ID: "+id+" not found"));
+			foodItems.add(food);
+		}
+		
+		restaurant.setFood(foodItems);
+		
+		return restaurantRepository.save(restaurant);
 	}
 	
 	

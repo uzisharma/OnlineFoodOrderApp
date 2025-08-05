@@ -2,6 +2,7 @@ package com.online.orderapp.service;
 
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.data.domain.Page;
 
@@ -21,4 +22,6 @@ public interface RestaurantService {
 	public Restaurant updateRestaurant(int id, Restaurant restaurant);
 
 	public void deleteRestaurant(Integer id);
+
+	Restaurant assignFood(Integer restaurantId, Set<Integer> foodId);
 }
