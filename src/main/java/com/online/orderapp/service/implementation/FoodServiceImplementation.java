@@ -1,5 +1,6 @@
 package com.online.orderapp.service.implementation;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,15 +9,24 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import com.online.orderapp.entity.Food;
+import com.online.orderapp.entity.Restaurant;
 import com.online.orderapp.repository.FoodRepository;
+import com.online.orderapp.repository.RestaurantRepository;
 import com.online.orderapp.service.FoodService;
 
 @Service
 public class FoodServiceImplementation implements FoodService {
 
+    private final RestaurantRepository restaurantRepository;
+
 
 	@Autowired
 	private FoodRepository foodRepository;
+
+
+    FoodServiceImplementation(RestaurantRepository restaurantRepository) {
+        this.restaurantRepository = restaurantRepository;
+    }
 
 	
 	@Override
@@ -52,6 +62,17 @@ public class FoodServiceImplementation implements FoodService {
 	@Override
 	public void deleteFood(Integer id) {
 		Food food = getFoodById(id);
+		List<Restaurant> restaurants = food.getRestaurants();
+		
+		if(restaurants.size()==0) {
+			foodRepository.delete(food);
+			return;
+		}
+		
+		for(Restaurant restaurant : restaurants) {
+			restaurant.getFood().remove(food);
+		}
+		restaurantRepository.saveAll(restaurants);
 		foodRepository.delete(food);
 	}
 
