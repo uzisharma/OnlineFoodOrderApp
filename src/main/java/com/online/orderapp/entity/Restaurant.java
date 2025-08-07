@@ -13,6 +13,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -39,5 +40,8 @@ public class Restaurant {
 	@JoinTable(name="restaurant_food", joinColumns = @JoinColumn(name="id_restaurant"), 
 				inverseJoinColumns = @JoinColumn(name="id_food")) //its optional and its use to change the auto generated table name
 	private List<Food> food;
+	
+	@OneToMany(mappedBy = "restaurant")
+	private List<Order> orders;
 	
 }
