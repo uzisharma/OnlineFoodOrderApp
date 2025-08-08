@@ -76,12 +76,13 @@
 
 ### 🔹Add Swagger-UI To Expose All Api
 add to pom.xml:-
-   		<!-- https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui -->
-		<dependency>
-		    <groupId>org.springdoc</groupId>
-		    <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-		    <version>2.8.9</version>
-		</dependency>
+<img width="944" height="141" alt="image" src="https://github.com/user-attachments/assets/5297b26a-d42b-4d4e-8ed6-2299cc8b0f93" />
+<!-- https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui -->
+<dependency>
+	<groupId>org.springdoc</groupId>
+	<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+	<version>2.8.9</version>
+</dependency>
 
 http://localhost:8080/swagger-ui/index.html
 
