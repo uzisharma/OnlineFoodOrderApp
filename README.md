@@ -74,4 +74,15 @@
 @GeneratedValue(strategy = GenerationType.AUTO)
 ```
 
+### 🔹Add Swagger-UI To Expose All Api
+add to pom.xml:-
+   		<!-- https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui -->
+		<dependency>
+		    <groupId>org.springdoc</groupId>
+		    <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+		    <version>2.8.9</version>
+		</dependency>
+
+http://localhost:8080/swagger-ui/index.html
+
 
