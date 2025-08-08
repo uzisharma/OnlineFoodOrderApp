@@ -24,7 +24,7 @@ import com.online.orderapp.service.RestaurantService;
 
 
 @RestController
-@RequestMapping("/restaurant/api")
+@RequestMapping("/api/restaurant")
 public class RestaurantController {
 	
 	@Autowired
@@ -100,7 +100,7 @@ public class RestaurantController {
 	}
 	
 	
-	@PostMapping("{restaurantId}/assignFood")
+	@PostMapping("/{restaurantId}/assign")
 	public ResponseEntity<ResponseStructure<Restaurant>> assignFood(@PathVariable Integer restaurantId, @RequestBody Set<Integer> food){
 		Restaurant restaurant = restaurantService.assignFood(restaurantId, food);
 		ResponseStructure<Restaurant> apiResponse = new ResponseStructure<>();

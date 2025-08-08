@@ -20,7 +20,7 @@ import com.online.orderapp.entity.Restaurant;
 import com.online.orderapp.service.FoodService;
 
 @RestController
-@RequestMapping("api/food")
+@RequestMapping("/api/food")
 public class FoodController {
 
 
@@ -52,7 +52,7 @@ public class FoodController {
 	@GetMapping("/getAll")
 	public ResponseEntity<ResponseStructure<Page<Food>>> getAllFood(
 				@RequestParam(defaultValue="0", required= false) int pageNum, 
-				@RequestParam(defaultValue = "4", required=false) int PageSize
+				@RequestParam(defaultValue = "10", required=false) int PageSize
 				){
 		Page<Food> response = foodService.getAllFood(pageNum, PageSize);
 		ResponseStructure<Page<Food>> apiResponse = new ResponseStructure<>();
