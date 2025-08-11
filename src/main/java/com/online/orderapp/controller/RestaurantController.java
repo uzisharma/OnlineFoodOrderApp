@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.online.orderapp.dto.ResponseStructure;
+import com.online.orderapp.entity.Food;
 import com.online.orderapp.entity.Restaurant;
 import com.online.orderapp.service.RestaurantService;
 
@@ -54,22 +55,23 @@ public class RestaurantController {
 		return new ResponseEntity<>(apiResponse, HttpStatus.OK);
 	}
 	
-	@GetMapping("/getAll")
-	public ResponseEntity<ResponseStructure<List<Restaurant>>> getAllRestaurant(){
-		List<Restaurant> response = restaurantService.getAllRestaurant();
-		ResponseStructure<List<Restaurant>> apiResponse = new ResponseStructure<>();
-		apiResponse.setData(response);
-		apiResponse.setMessage("Api ran Successfully");
-		apiResponse.setStatusCode(HttpStatus.OK.value());
-		
-		return new ResponseEntity<>(apiResponse, HttpStatus.OK);
-//		return ResponseEntity.ok(apiResponse); //another way to send ok response
-		
-	}
+//	@GetMapping("/getAll")
+//	public ResponseEntity<ResponseStructure<List<Restaurant>>> getAllRestaurant(){
+//		List<Restaurant> response = restaurantService.getAllRestaurant();
+//		ResponseStructure<List<Restaurant>> apiResponse = new ResponseStructure<>();
+//		apiResponse.setData(response);
+//		apiResponse.setMessage("Api ran Successfully");
+//		apiResponse.setStatusCode(HttpStatus.OK.value());
+//		
+//		return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+////		return ResponseEntity.ok(apiResponse); //another way to send ok response
+//		
+//	}
 	
-	@GetMapping("/getByPage")
-	public ResponseEntity<ResponseStructure<Page<?>>> getAllRestaurants(@RequestParam(defaultValue = "0", required = false) int pageNum,
-			@RequestParam(defaultValue = "3", required = false) int pageSize,
+	@GetMapping("/getAll")
+	public ResponseEntity<ResponseStructure<Page<?>>> getAllRestaurants(
+			@RequestParam(defaultValue = "0", required = false) int pageNum,
+			@RequestParam(defaultValue = "5", required = false) int pageSize,
 			@RequestParam(defaultValue = "createdAt", required = false) String sortBy){
 		Page<?> response = restaurantService.getAllRestaurants(pageNum, pageSize, sortBy);
 		ResponseStructure<Page<?>> apiResponse = new ResponseStructure<>();
@@ -108,6 +110,17 @@ public class RestaurantController {
 		apiResponse.setMessage("Assigned");
 		apiResponse.setStatusCode(HttpStatus.OK.value());
 		return ResponseEntity.ok(apiResponse);
+	}
+	
+	
+	@GetMapping("/{id}/getAll")
+	public ResponseEntity<ResponseStructure<List<Food>>> getFoodByRestaurantId(@PathVariable Integer id){
+		ResponseStructure<List<Food>> apiResponse = new ResponseStructure<List<Food>>();
+		apiResponse.setData(restaurantService.findFoodByRestaurantId(id));
+		apiResponse.setMessage("Food item found");
+		apiResponse.setStatusCode(HttpStatus.OK.value());
+		return ResponseEntity.ok(apiResponse);
+		
 	}
 	
 }

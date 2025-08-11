@@ -54,7 +54,7 @@ public class FoodServiceImplementation implements FoodService {
 			fetchedFood.setFoodName(food.getFoodName());
 			fetchedFood.setDescription(food.getDescription());
 			fetchedFood.setPrice(food.getPrice());
-			
+			foodRepository.save(fetchedFood);
 		}
 		return fetchedFood;
 	}

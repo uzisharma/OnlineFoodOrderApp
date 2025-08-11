@@ -43,10 +43,10 @@ public class RestaurantServiceImplementation implements RestaurantService {
 		return restaurantRepository.findById(id).orElseThrow(()->new NoSuchElementException("Restaurant with ID : "+id+" not found"));
 	}
 
-	@Override
-	public List<Restaurant> getAllRestaurant() {
-		return restaurantRepository.findAll();
-	}
+//	@Override
+//	public List<Restaurant> getAllRestaurant() {
+//		return restaurantRepository.findAll();
+//	}
 
 	@Override
 	public Page<?> getAllRestaurants(int pageNum, int pageSize, String sortBy) {
@@ -90,6 +90,19 @@ public class RestaurantServiceImplementation implements RestaurantService {
 		
 		return restaurantRepository.save(restaurant);
 	}
+
+	@Override
+	public List<Food> findFoodByRestaurantId(Integer id) {
+		// TODO Auto-generated method stub
+		List<Food> food = restaurantRepository.findFoodByRestaurantId(id);
+		if(food==null || food.size()==0) {
+			throw new NoSuchElementException("Restaurant with Id : "+id+" not found or the food is not assigned to the restaurant");
+		}else {
+			return food;
+		}
+	}
+
+
 	
 	
 
