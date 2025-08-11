@@ -1,6 +1,5 @@
 package com.online.orderapp.controller;
 
-import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,22 +53,23 @@ public class RestaurantController {
 		return new ResponseEntity<>(apiResponse, HttpStatus.OK);
 	}
 	
-	@GetMapping("/getAll")
-	public ResponseEntity<ResponseStructure<List<Restaurant>>> getAllRestaurant(){
-		List<Restaurant> response = restaurantService.getAllRestaurant();
-		ResponseStructure<List<Restaurant>> apiResponse = new ResponseStructure<>();
-		apiResponse.setData(response);
-		apiResponse.setMessage("Api ran Successfully");
-		apiResponse.setStatusCode(HttpStatus.OK.value());
-		
-		return new ResponseEntity<>(apiResponse, HttpStatus.OK);
-//		return ResponseEntity.ok(apiResponse); //another way to send ok response
-		
-	}
+//	@GetMapping("/getAll")
+//	public ResponseEntity<ResponseStructure<List<Restaurant>>> getAllRestaurant(){
+//		List<Restaurant> response = restaurantService.getAllRestaurant();
+//		ResponseStructure<List<Restaurant>> apiResponse = new ResponseStructure<>();
+//		apiResponse.setData(response);
+//		apiResponse.setMessage("Api ran Successfully");
+//		apiResponse.setStatusCode(HttpStatus.OK.value());
+//		
+//		return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+////		return ResponseEntity.ok(apiResponse); //another way to send ok response
+//		
+//	}
 	
-	@GetMapping("/getByPage")
-	public ResponseEntity<ResponseStructure<Page<?>>> getAllRestaurants(@RequestParam(defaultValue = "0", required = false) int pageNum,
-			@RequestParam(defaultValue = "3", required = false) int pageSize,
+	@GetMapping("/getAll")
+	public ResponseEntity<ResponseStructure<Page<?>>> getAllRestaurants(
+			@RequestParam(defaultValue = "0", required = false) int pageNum,
+			@RequestParam(defaultValue = "5", required = false) int pageSize,
 			@RequestParam(defaultValue = "createdAt", required = false) String sortBy){
 		Page<?> response = restaurantService.getAllRestaurants(pageNum, pageSize, sortBy);
 		ResponseStructure<Page<?>> apiResponse = new ResponseStructure<>();

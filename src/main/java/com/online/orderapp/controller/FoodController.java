@@ -28,7 +28,7 @@ public class FoodController {
 	private FoodService foodService;
 
 	
-	@PostMapping("/addFood")
+	@PostMapping("/save")
 	public ResponseEntity<ResponseStructure<Food>> createFood(@RequestBody Food food){
 		Food response = foodService.createFood(food);
 		ResponseStructure<Food> apiResponse = new ResponseStructure<>();

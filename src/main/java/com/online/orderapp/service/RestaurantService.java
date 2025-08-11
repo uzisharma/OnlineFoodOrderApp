@@ -1,7 +1,6 @@
 package com.online.orderapp.service;
 
 
-import java.util.List;
 import java.util.Set;
 
 import org.springframework.data.domain.Page;
@@ -14,7 +13,7 @@ public interface RestaurantService {
 
 	public Restaurant fetchById(int id);
 
-	public List<Restaurant> getAllRestaurant();
+//	public List<Restaurant> getAllRestaurant();
 
 	//pagination method
 	Page<?> getAllRestaurants(int pageNum, int pageSize, String sortBy);

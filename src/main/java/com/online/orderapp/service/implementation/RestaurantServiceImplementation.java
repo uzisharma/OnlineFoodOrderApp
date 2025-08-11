@@ -43,10 +43,10 @@ public class RestaurantServiceImplementation implements RestaurantService {
 		return restaurantRepository.findById(id).orElseThrow(()->new NoSuchElementException("Restaurant with ID : "+id+" not found"));
 	}
 
-	@Override
-	public List<Restaurant> getAllRestaurant() {
-		return restaurantRepository.findAll();
-	}
+//	@Override
+//	public List<Restaurant> getAllRestaurant() {
+//		return restaurantRepository.findAll();
+//	}
 
 	@Override
 	public Page<?> getAllRestaurants(int pageNum, int pageSize, String sortBy) {
