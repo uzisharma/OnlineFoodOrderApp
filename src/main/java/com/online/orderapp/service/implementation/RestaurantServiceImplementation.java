@@ -90,6 +90,19 @@ public class RestaurantServiceImplementation implements RestaurantService {
 		
 		return restaurantRepository.save(restaurant);
 	}
+
+	@Override
+	public List<Food> findFoodByRestaurantId(Integer id) {
+		// TODO Auto-generated method stub
+		List<Food> food = restaurantRepository.findFoodByRestaurantId(id);
+		if(food==null || food.size()==0) {
+			throw new NoSuchElementException("Restaurant with Id : "+id+" not found or the food is not assigned to the restaurant");
+		}else {
+			return food;
+		}
+	}
+
+
 	
 	
 

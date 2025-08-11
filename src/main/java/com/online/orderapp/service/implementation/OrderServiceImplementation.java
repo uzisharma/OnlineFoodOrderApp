@@ -14,6 +14,7 @@ import com.online.orderapp.entity.Order;
 import com.online.orderapp.entity.OrderItem;
 import com.online.orderapp.entity.Restaurant;
 import com.online.orderapp.exception.PaymentFailedException;
+import com.online.orderapp.repository.OrderRepository;
 import com.online.orderapp.service.FoodService;
 import com.online.orderapp.service.OrderService;
 import com.online.orderapp.service.RestaurantService;
@@ -28,6 +29,7 @@ public class OrderServiceImplementation implements OrderService {
 	
 	private final RestaurantService restaurantService;
 	private final FoodService foodService;
+	private final OrderRepository orderRepository;
 	
 	
 	@Override
@@ -54,15 +56,38 @@ public class OrderServiceImplementation implements OrderService {
 
 	@Override
 	public String payAndPlaceOrder(PaymentDto payment) {
+		//simulate payment
 		if(payment.isPaymentSuccessful()) {
 			Order order = new Order();
 			order.setStatus(OrderStatus.PLACED);
 			
-			Restaurant restaurant = restaurantService.fetchById(1);
+			Restaurant restaurant = restaurantService.fetchById(payment.getRestaurantId());
+			//set restaurant to order
+			order.setRestaurant(restaurant);
+			
 			List<OrderItem> items = new ArrayList<>();
-		}else {
-			throw new PaymentFailedException();
+			double totalPrice=0;
+			
+			for(OrderItemRequest request : payment.getOrderItems()) {
+				Food food = foodService.getFoodById(request.getFoodId());
+				
+				OrderItem orderItem = new OrderItem();
+				orderItem.setFood(food);
+				orderItem.setQuantity(request.getQuantity());
+				
+				items.add(orderItem);
+				
+				double price = food.getPrice() * request.getQuantity();
+				totalPrice += price;
+			}
+			
+			order.setTotalPrice(totalPrice);
+			order.setOrderItems(items);
+			orderRepository.save(order);
+			return "Order has been placed";
 		}
-		return null;
+		else {
+			throw new PaymentFailedException("Payment was not successful, hence order cannot be placed");
+		}
 	}
 }

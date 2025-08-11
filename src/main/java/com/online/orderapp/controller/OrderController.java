@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.online.orderapp.dto.BillResponse;
 import com.online.orderapp.dto.OrderRequest;
+import com.online.orderapp.dto.PaymentDto;
 import com.online.orderapp.dto.ResponseStructure;
 import com.online.orderapp.service.OrderService;
 
@@ -30,5 +31,17 @@ public class OrderController {
 		apiResponse.setStatusCode(HttpStatus.CREATED.value());
 		
 		return new ResponseEntity<ResponseStructure<BillResponse>>(apiResponse, HttpStatus.CREATED);
+	}
+	
+	
+	@PostMapping("/pay-and-place-order")
+	public ResponseEntity<ResponseStructure<String>> payAndPlaceOrder(@RequestBody PaymentDto payment){
+		String data = orderService.payAndPlaceOrder(payment);
+		ResponseStructure<String> apiResponse = new ResponseStructure<>();
+		apiResponse.setData(data);
+		apiResponse.setMessage("Order placed");
+		apiResponse.setStatusCode(HttpStatus.CREATED.value());
+		
+		return new ResponseEntity<>(apiResponse,HttpStatus.CREATED);
 	}
 }
