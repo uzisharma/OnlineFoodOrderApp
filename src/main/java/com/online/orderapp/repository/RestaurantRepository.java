@@ -12,5 +12,5 @@ import com.online.orderapp.entity.Restaurant;
 public interface RestaurantRepository extends JpaRepository<Restaurant, Integer> {
 	
 	@Query("SELECT r.food FROM Restaurant r WHERE r.id = :restaurantId")
-	List<Food> findFoodByRestaurantId(@Param(value = "restaurnatId") int id);
+	List<Food> findFoodByRestaurantId(@Param(value = "restaurantId") int id);
 }
