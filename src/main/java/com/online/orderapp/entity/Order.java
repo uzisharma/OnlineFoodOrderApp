@@ -2,6 +2,7 @@ package com.online.orderapp.entity;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.online.orderapp.util.OrderStatus;
 
 import jakarta.persistence.CascadeType;
@@ -27,6 +28,7 @@ public class Order {
 	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
 	private List<OrderItem> orderItems;
 	
+	@JsonIgnore
 	@ManyToOne
 	private Restaurant restaurant;
 	

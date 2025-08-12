@@ -74,7 +74,7 @@ public class OrderServiceImplementation implements OrderService {
 				OrderItem orderItem = new OrderItem();
 				orderItem.setFood(food);
 				orderItem.setQuantity(request.getQuantity());
-				
+				orderItem.setOrder(order);				
 				items.add(orderItem);
 				
 				double price = food.getPrice() * request.getQuantity();
