@@ -7,6 +7,7 @@ import java.util.Set;
 import org.springframework.data.domain.Page;
 
 import com.online.orderapp.entity.Food;
+import com.online.orderapp.entity.Order;
 import com.online.orderapp.entity.Restaurant;
 
 public interface RestaurantService {
@@ -27,4 +28,6 @@ public interface RestaurantService {
 	Restaurant assignFood(Integer restaurantId, Set<Integer> foodId);
 	
 	List<Food> findFoodByRestaurantId(Integer id);
+	
+	List<Order> findOrdersByRestaurantId(Integer id);
 }

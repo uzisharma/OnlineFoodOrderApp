@@ -2,6 +2,8 @@ package com.online.orderapp.service.implementation;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -74,7 +76,7 @@ public class OrderServiceImplementation implements OrderService {
 				OrderItem orderItem = new OrderItem();
 				orderItem.setFood(food);
 				orderItem.setQuantity(request.getQuantity());
-				
+				orderItem.setOrder(order);				
 				items.add(orderItem);
 				
 				double price = food.getPrice() * request.getQuantity();
@@ -89,5 +91,42 @@ public class OrderServiceImplementation implements OrderService {
 		else {
 			throw new PaymentFailedException("Payment was not successful, hence order cannot be placed");
 		}
+	}
+
+
+	@Override
+	public void deleteOrder(Integer id) {
+		// TODO Auto-generated method stub
+		Order order = getOrder(id);
+		orderRepository.delete(order);
+	}
+
+
+	@Override
+	public Order getOrder(Integer id) {
+		// TODO Auto-generated method stub
+		Optional<Order> order = orderRepository.findById(id);
+		if(order.isPresent()) {
+			return order.get();
+		}else {
+			throw new NoSuchElementException("Order with Id : "+id+" does not exist");
+		}
+	}
+
+
+	@Override
+	public Order updateStatusByAdmin(OrderStatus status, Integer id) {
+		Order order = getOrder(id);
+		order.setStatus(status);
+		return orderRepository.save(order);
+	}
+
+
+	@Override
+	public String cancelOrder(Integer id) {
+		// TODO Auto-generated method stub
+		Order order = getOrder(id);
+		order.setStatus(OrderStatus.CANCELLED);
+		return "Order with Id : "+id+" got cancelled, your money will be refunded in two days";
 	}
 }
