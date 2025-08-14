@@ -7,7 +7,9 @@ import lombok.Data;
 @Data
 public class PaymentDto {
 	private List<OrderItemRequest> orderItems;
-	private boolean isPaymentSuccessful;
+	private boolean PaymentSuccessful;
 
 	private Integer restaurantId;
+	
+	private Integer userId;
 }

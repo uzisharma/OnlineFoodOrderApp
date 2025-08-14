@@ -37,5 +37,9 @@ public class Order {
 	
 	private Double totalPrice;
 	
+	@JsonIgnore
+	@ManyToOne
+	private User user;
+	
 
 }

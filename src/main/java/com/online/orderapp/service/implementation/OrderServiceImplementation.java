@@ -15,11 +15,13 @@ import com.online.orderapp.entity.Food;
 import com.online.orderapp.entity.Order;
 import com.online.orderapp.entity.OrderItem;
 import com.online.orderapp.entity.Restaurant;
+import com.online.orderapp.entity.User;
 import com.online.orderapp.exception.PaymentFailedException;
 import com.online.orderapp.repository.OrderRepository;
 import com.online.orderapp.service.FoodService;
 import com.online.orderapp.service.OrderService;
 import com.online.orderapp.service.RestaurantService;
+import com.online.orderapp.service.UserService;
 import com.online.orderapp.util.OrderStatus;
 
 import lombok.RequiredArgsConstructor;
@@ -32,6 +34,8 @@ public class OrderServiceImplementation implements OrderService {
 	private final RestaurantService restaurantService;
 	private final FoodService foodService;
 	private final OrderRepository orderRepository;
+	
+	private final UserService userService;
 	
 	
 	@Override
@@ -66,6 +70,10 @@ public class OrderServiceImplementation implements OrderService {
 			Restaurant restaurant = restaurantService.fetchById(payment.getRestaurantId());
 			//set restaurant to order
 			order.setRestaurant(restaurant);
+			
+			//set user to order
+			User user = userService.getUser(payment.getUserId());
+			order.setUser(user);
 			
 			List<OrderItem> items = new ArrayList<>();
 			double totalPrice=0;
