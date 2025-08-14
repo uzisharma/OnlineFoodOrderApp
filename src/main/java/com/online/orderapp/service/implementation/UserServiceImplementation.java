@@ -3,6 +3,9 @@ package com.online.orderapp.service.implementation;
 import java.io.IOException;
 import java.util.NoSuchElementException;
 
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -30,9 +33,19 @@ public class UserServiceImplementation implements UserService{
 	public User getUser(Integer id) {
 		return userRepository.findById(id).orElseThrow(()->new NoSuchElementException("User with id : "+id+" not found"));
 	}
+	
+	@Cacheable(value="user_cache", key="#id")
+	@Override
+	public Page<User> getAllUsers(int pageNum, int pageSize) {
+		Pageable pageable = PageRequest.of(pageNum, pageSize);
+		Page<User> page = userRepository.findAll(pageable);
+		return page;
+		
+	}
 
 
 	@Override
+	@CachePut(value="user_cache", key="#id")
 	public User updateUser(User user, Integer id) {
 		User fetchedUser = userRepository.findById(id).orElseThrow(()->new NoSuchElementException("User not found"));
 		if(fetchedUser!=null) {
@@ -50,6 +63,7 @@ public class UserServiceImplementation implements UserService{
 	}
 
 	@Override
+	@CacheEvict(value="user_cache", key="#id")
 	public void deleteUser(Integer id) {
 		User user = getUser(id);
 		userRepository.delete(user);
@@ -77,12 +91,6 @@ public class UserServiceImplementation implements UserService{
 		return image;
 	}
 
-	@Override
-	public Page<User> getAllUsers(int pageNum, int pageSize) {
-		Pageable pageable = PageRequest.of(pageNum, pageSize);
-		Page<User> page = userRepository.findAll(pageable);
-		return page;
-		
-	}
+
 
 }
