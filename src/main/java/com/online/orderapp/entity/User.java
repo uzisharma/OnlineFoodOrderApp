@@ -10,6 +10,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
 @Entity
@@ -20,10 +23,22 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
+	@NotNull
+	@NotBlank
 	private String userName;
+	@NotNull
+	@NotBlank
 	private String password;
+	@NotNull
+	@Pattern(
+			regexp = "^[A-Za-z0-9._+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$",
+			flags = Pattern.Flag.CASE_INSENSITIVE,
+			message = "Invalid email format"
+			)
 	private String email;
+	@NotNull
 	private long contactNumber;
+	@NotNull
 	private String address;
 	private String gender;
 	

@@ -24,6 +24,8 @@ import com.online.orderapp.dto.ResponseStructure;
 import com.online.orderapp.entity.User;
 import com.online.orderapp.service.UserService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
@@ -32,7 +34,7 @@ public class UserController {
 	private UserService userService;
 	
 	@PostMapping("/save")
-	ResponseEntity<ResponseStructure<User>> saveUser(@RequestBody User user){
+	ResponseEntity<ResponseStructure<User>> saveUser(@Valid @RequestBody User user){
 		User response =userService.saveUser(user);
 		ResponseStructure<User> apiResponse = new ResponseStructure<>();
 		apiResponse.setData(response);
