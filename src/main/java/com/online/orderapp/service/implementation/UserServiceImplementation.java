@@ -9,6 +9,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -34,7 +35,7 @@ public class UserServiceImplementation implements UserService{
 		return userRepository.findById(id).orElseThrow(()->new NoSuchElementException("User with id : "+id+" not found"));
 	}
 	
-	@Cacheable(value="user_cache", key="#id")
+	@Cacheable(value="user_cache")
 	@Override
 	public Page<User> getAllUsers(int pageNum, int pageSize) {
 		Pageable pageable = PageRequest.of(pageNum, pageSize);
@@ -45,7 +46,7 @@ public class UserServiceImplementation implements UserService{
 
 
 	@Override
-	@CachePut(value="user_cache", key="#id")
+	@CachePut(value="user_cache")
 	public User updateUser(User user, Integer id) {
 		User fetchedUser = userRepository.findById(id).orElseThrow(()->new NoSuchElementException("User not found"));
 		if(fetchedUser!=null) {
@@ -63,10 +64,16 @@ public class UserServiceImplementation implements UserService{
 	}
 
 	@Override
-	@CacheEvict(value="user_cache", key="#id")
+	@CacheEvict(value="user_cache")
 	public void deleteUser(Integer id) {
 		User user = getUser(id);
 		userRepository.delete(user);
+	}
+	
+	@CacheEvict(value="user_cache", allEntries = true)
+	@Scheduled(fixedRate = 120000)
+	public void evictAllCache() {
+		System.out.println("Evicting all entries from 'user_cache' cache");
 	}
 
 	@Override
