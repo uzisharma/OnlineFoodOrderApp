@@ -12,8 +12,6 @@ public class OnlineFoodOrderApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(OnlineFoodOrderApplication.class, args);
-		
-		
 	}
 
 }
