@@ -2,7 +2,6 @@ package com.online.orderapp.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -64,9 +63,9 @@ public class OrderController {
 	}
 	
 	@DeleteMapping("/{id}/delete")
-	public ResponseEntity deleteOrder(@PathVariable Integer id) {
+	public ResponseEntity<?> deleteOrder(@PathVariable Integer id) {
 		orderService.deleteOrder(id);
-		return new ResponseEntity(HttpStatus.NO_CONTENT);
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 	
 	@PatchMapping("/{id}cancelOrder")

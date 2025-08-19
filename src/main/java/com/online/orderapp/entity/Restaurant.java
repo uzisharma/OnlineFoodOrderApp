@@ -14,6 +14,9 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,9 +30,17 @@ public class Restaurant {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
+	@NotNull
+	@NotBlank
 	private String restaurantName;
+	
 	private String address;
+	@NotNull
+	@NotBlank
 	private Long contactNumber;
+	@Pattern(
+			regexp = "^[A-Za-z0-9]+"
+			)
 	private String email;
 	@CreationTimestamp
 	private LocalDateTime createdAt;
