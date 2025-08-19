@@ -23,4 +23,6 @@ public interface UserService {
 	
 	byte[] getImage(Integer id);
 
+	User login(String userName, String password);
+
 }

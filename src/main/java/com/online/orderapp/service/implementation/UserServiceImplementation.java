@@ -35,6 +35,11 @@ public class UserServiceImplementation implements UserService{
 		return userRepository.findById(id).orElseThrow(()->new NoSuchElementException("User with id : "+id+" not found"));
 	}
 	
+	@Override
+	public User login(String userName, String password) {
+		return userRepository.loginAuth(userName, password).orElseThrow(()-> new NoSuchElementException("Incorrect Login Credentials"));
+	}
+	
 	@Cacheable(value="user_cache")
 	@Override
 	public Page<User> getAllUsers(int pageNum, int pageSize) {
@@ -97,6 +102,8 @@ public class UserServiceImplementation implements UserService{
 		}
 		return image;
 	}
+
+
 
 
 

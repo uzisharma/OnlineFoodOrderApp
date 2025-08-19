@@ -112,5 +112,15 @@ public class UserController {
 	}
 	
 	
+	@PostMapping("/login")
+	public ResponseEntity<ResponseStructure<User>> login(@RequestBody User loginRequest){
+		User response = userService.login(loginRequest.getUserName(), loginRequest.getPassword());
+		ResponseStructure<User> apiResponse = new ResponseStructure<>();
+		apiResponse.setData(response);
+		apiResponse.setMessage("Login Success");
+		apiResponse.setStatusCode(HttpStatus.OK.value());
+		return ResponseEntity.ok(apiResponse);
+	}
+	
 	
 }
