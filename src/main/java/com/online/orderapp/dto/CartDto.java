@@ -12,7 +12,9 @@ public class CartDto {
 	private Integer restuarantId;
 	
 	
-	private List<CartItemDto> orderItem;
+	private List<CartItemResponseDto> orderItem;
 	
 	private Integer userId;
+	
+	private double totalPrice;
 }

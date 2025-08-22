@@ -6,7 +6,7 @@ import java.util.NoSuchElementException;
 import org.springframework.stereotype.Service;
 
 import com.online.orderapp.dto.CartDto;
-import com.online.orderapp.dto.CartItemDto;
+import com.online.orderapp.dto.CartItemResponseDto;
 import com.online.orderapp.entity.Cart;
 import com.online.orderapp.entity.Food;
 import com.online.orderapp.entity.Restaurant;
@@ -43,7 +43,7 @@ public class CartServiceImplementation implements CartService {
 		
 		List<Food> foods = foodRepository.findAllById(cartDto.getOrderItem()
 				.stream()
-				.map(CartItemDto::getFoodId)
+				.map(CartItemResponseDto::getFoodId)
 				.toList()
 				);
 		
