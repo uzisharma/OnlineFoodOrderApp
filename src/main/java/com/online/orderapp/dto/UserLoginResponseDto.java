@@ -8,7 +8,7 @@ import lombok.Data;
 public class UserLoginResponseDto {
 
 	private Integer id;
-	private String username;
+	private String userName;
 	private String email;
 	
 }
