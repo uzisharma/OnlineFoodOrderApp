@@ -23,7 +23,7 @@ public class CartMapper {
             CartItemResponseDto i = new CartItemResponseDto();
             i.setFoodId(ci.getFood().getId());
             i.setQuantity(ci.getQuantity());
-            i.setPrice(ci.getFood().getPrice() * ci.getQuantity()); // ✅ compute
+            i.setPrice(ci.getFood().getPrice() * ci.getQuantity()); // ✅😂✔️compute 
             return i;
         }).toList();
 

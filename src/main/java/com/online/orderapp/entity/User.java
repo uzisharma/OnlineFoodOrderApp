@@ -2,6 +2,8 @@ package com.online.orderapp.entity;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -27,6 +29,8 @@ public class User {
 	@NotNull
 	@NotBlank
 	private String userName;
+	
+	@JsonIgnore
 	@NotNull
 	@NotBlank
 	private String password;
