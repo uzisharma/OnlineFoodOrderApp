@@ -23,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.online.orderapp.dto.ResponseStructure;
 import com.online.orderapp.dto.UserLoginRequestDto;
 import com.online.orderapp.dto.UserLoginResponseDto;
+import com.online.orderapp.dto.UserResponseDto;
 import com.online.orderapp.entity.User;
 import com.online.orderapp.service.UserService;
 
@@ -46,9 +47,9 @@ public class UserController {
 	}
 	
 	@GetMapping("/get/{id}")
-	public ResponseEntity<ResponseStructure<User>> getUserById(@PathVariable Integer id){
-		User response = userService.getUser(id);
-		ResponseStructure<User> apiResponse = new ResponseStructure<>();
+	public ResponseEntity<ResponseStructure<UserResponseDto>> getUserById(@PathVariable Integer id){
+		UserResponseDto response = userService.getUser(id);
+		ResponseStructure<UserResponseDto> apiResponse = new ResponseStructure<>();
 		apiResponse.setData(response);
 		apiResponse.setMessage("User with Id : "+ id+" founded successfully");
 		apiResponse.setStatusCode(HttpStatus.FOUND.value());

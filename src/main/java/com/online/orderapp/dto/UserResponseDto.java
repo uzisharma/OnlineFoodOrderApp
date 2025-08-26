@@ -13,4 +13,6 @@ public class UserResponseDto {
 	private String email;
 	private long contactNumber;
 	private String address;
+	private String gender;
+	private byte[] image;
 }

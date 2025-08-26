@@ -14,7 +14,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.online.orderapp.dto.UserLoginResponseDto;
+import com.online.orderapp.dto.UserResponseDto;
 import com.online.orderapp.entity.User;
+import com.online.orderapp.mapper.UserMapper;
 import com.online.orderapp.repository.UserRepository;
 import com.online.orderapp.service.UserService;
 
@@ -25,7 +27,7 @@ import lombok.RequiredArgsConstructor;
 public class UserServiceImplementation implements UserService{
 	
 	private final UserRepository userRepository;
-//	private final UserMapper userMapper;
+	private final UserMapper userMapper;
 
 	@Override
 	public User saveUser(User user) {
@@ -33,8 +35,9 @@ public class UserServiceImplementation implements UserService{
 	}
 
 	@Override
-	public User getUser(Integer id) {
-		return userRepository.findById(id).orElseThrow(()->new NoSuchElementException("User with id : "+id+" not found"));
+	public UserResponseDto getUser(Integer id) {
+		User user = userRepository.findById(id).orElseThrow(()->new NoSuchElementException("User with id : "+id+" not found"));
+		return userMapper.toUserResponse(user);
 	}
 	
 	@Override
@@ -75,7 +78,7 @@ public class UserServiceImplementation implements UserService{
 	@Override
 	@CacheEvict(value="user_cache")
 	public void deleteUser(Integer id) {
-		User user = getUser(id);
+		User user = userRepository.findById(id).orElseThrow(()-> new NoSuchElementException("User not found"));
 		userRepository.delete(user);
 	}
 	
@@ -89,7 +92,7 @@ public class UserServiceImplementation implements UserService{
 	public String uploadImage(MultipartFile file, Integer id) throws IOException {
 
 		byte[] image = file.getBytes();
-		User user = getUser(id);
+		User user = userRepository.findById(id).orElseThrow(()-> new NoSuchElementException("User not found"));
 		user.setImage(image);
 		userRepository.save(user);
 		return "Image Uploaded";
@@ -98,7 +101,7 @@ public class UserServiceImplementation implements UserService{
 	@Override
 	public byte[] getImage(Integer id) {
 		// TODO Auto-generated method stub
-		User user = getUser(id);
+		User user = userRepository.findById(id).orElseThrow(()-> new NoSuchElementException("User not found"));
 		byte[] image = user.getImage();
 		if(image==null || image.length==0) {
 			throw new NoSuchElementException("User with id :"+id+" does not have any image");

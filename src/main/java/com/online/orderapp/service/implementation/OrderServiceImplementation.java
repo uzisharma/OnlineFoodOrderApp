@@ -18,10 +18,11 @@ import com.online.orderapp.entity.Restaurant;
 import com.online.orderapp.entity.User;
 import com.online.orderapp.exception.PaymentFailedException;
 import com.online.orderapp.repository.OrderRepository;
+import com.online.orderapp.repository.UserRepository;
 import com.online.orderapp.service.FoodService;
 import com.online.orderapp.service.OrderService;
 import com.online.orderapp.service.RestaurantService;
-import com.online.orderapp.service.UserService;
+//import com.online.orderapp.service.UserService;
 import com.online.orderapp.util.OrderStatus;
 
 import lombok.RequiredArgsConstructor;
@@ -35,7 +36,7 @@ public class OrderServiceImplementation implements OrderService {
 	private final FoodService foodService;
 	private final OrderRepository orderRepository;
 	
-	private final UserService userService;
+	private final UserRepository userRepository;
 	
 	
 	@Override
@@ -72,7 +73,8 @@ public class OrderServiceImplementation implements OrderService {
 			order.setRestaurant(restaurant);
 			
 			//set user to order
-			User user = userService.getUser(payment.getUserId());
+//			User user = userService.getUser(payment.getUserId());
+			User user = userRepository.findById(payment.getUserId()).orElseThrow(()-> new NoSuchElementException("User not found"));
 			order.setUser(user);
 			
 			List<OrderItem> items = new ArrayList<>();
