@@ -15,7 +15,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.online.orderapp.dto.UserLoginResponseDto;
 import com.online.orderapp.entity.User;
-import com.online.orderapp.mapper.UserMapper;
 import com.online.orderapp.repository.UserRepository;
 import com.online.orderapp.service.UserService;
 
@@ -26,7 +25,7 @@ import lombok.RequiredArgsConstructor;
 public class UserServiceImplementation implements UserService{
 	
 	private final UserRepository userRepository;
-	private final UserMapper userMapper;
+//	private final UserMapper userMapper;
 
 	@Override
 	public User saveUser(User user) {
@@ -41,8 +40,8 @@ public class UserServiceImplementation implements UserService{
 	@Override
 	public UserLoginResponseDto login(String userName, String password) {
 		
-		User user = userRepository.loginAuth(userName, password).orElseThrow(()-> new NoSuchElementException("Incorrect Login Credentials"));
-		return userMapper.toLoginResponse(user);
+		return userRepository.loginAuth(userName, password).orElseThrow(()-> new NoSuchElementException("Incorrect Login Credentials"));
+		
 	}
 	
 	@Cacheable(value="user_cache")
