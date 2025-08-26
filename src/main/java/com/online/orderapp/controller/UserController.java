@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.online.orderapp.dto.ResponseStructure;
+import com.online.orderapp.dto.UserLoginRequestDto;
+import com.online.orderapp.dto.UserLoginResponseDto;
 import com.online.orderapp.entity.User;
 import com.online.orderapp.service.UserService;
 
@@ -113,14 +115,22 @@ public class UserController {
 	
 	
 	@PostMapping("/login")
-	public ResponseEntity<ResponseStructure<User>> login(@RequestBody User loginRequest){
-		User response = userService.login(loginRequest.getUserName(), loginRequest.getPassword());
-		ResponseStructure<User> apiResponse = new ResponseStructure<>();
+	public ResponseEntity<ResponseStructure<UserLoginResponseDto>> login(
+			@RequestBody UserLoginRequestDto loginRequest){
+		
+		UserLoginResponseDto response = userService.login(
+				loginRequest.getUserName(), 
+				loginRequest.getPassword()
+				);
+		ResponseStructure<UserLoginResponseDto> apiResponse = new ResponseStructure<>();
 		apiResponse.setData(response);
 		apiResponse.setMessage("Login Success");
 		apiResponse.setStatusCode(HttpStatus.OK.value());
 		return ResponseEntity.ok(apiResponse);
 	}
+	
+//	@GetMapping("/getByUserName")
+//	public 
 	
 	
 }

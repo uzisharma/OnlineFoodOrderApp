@@ -13,6 +13,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.online.orderapp.dto.UserLoginResponseDto;
 import com.online.orderapp.entity.User;
 import com.online.orderapp.repository.UserRepository;
 import com.online.orderapp.service.UserService;
@@ -36,7 +37,7 @@ public class UserServiceImplementation implements UserService{
 	}
 	
 	@Override
-	public User login(String userName, String password) {
+	public UserLoginResponseDto login(String userName, String password) {
 		return userRepository.loginAuth(userName, password).orElseThrow(()-> new NoSuchElementException("Incorrect Login Credentials"));
 	}
 	
