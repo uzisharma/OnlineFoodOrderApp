@@ -4,31 +4,31 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import lombok.Data;
 
 @Entity
 @Data
-public class CartItem {
-	
+public class CartRestaurant {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 	
-	
-	@OneToOne(mappedBy = "cartItem")
+	@ManyToOne
 	@JsonIgnore
-	private Cart cart;
+	private CartItem cartItem;
 	
-	@OneToMany(mappedBy = "cartItem" , cascade = CascadeType.ALL)
-	private List<CartRestaurant> cartRestaurant;
+	@OneToMany
+	private List<Food> food;
 	
-	private Double cartPrice;
+	private Integer quantity;
+	
+	private Double quantityPrice;
 	
 }
