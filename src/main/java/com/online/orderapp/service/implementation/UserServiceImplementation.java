@@ -121,6 +121,12 @@ public class UserServiceImplementation implements UserService{
 		return image;
 	}
 
+	@Override
+	public String deleteAllUser() {
+		userRepository.deleteAll();
+		return "User Deleted";
+	}
+
 
 
 

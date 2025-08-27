@@ -27,4 +27,6 @@ public interface UserService {
 
 	UserLoginResponseDto login(String userName, String password);
 
+	String deleteAllUser();
+
 }

@@ -86,6 +86,16 @@ public class UserController {
 		return new ResponseEntity<User>(HttpStatus.NO_CONTENT);
 	}
 	
+	@DeleteMapping("/delete-all")
+	public ResponseEntity<ResponseStructure<String>> deleteAllUser(){
+		String response = userService.deleteAllUser();
+		ResponseStructure<String> apiResponse = new ResponseStructure<>();
+		apiResponse.setData(response);
+		apiResponse.setMessage("All Users Deleted");
+		apiResponse.setStatusCode(HttpStatus.NO_CONTENT.value());
+		return new ResponseEntity<ResponseStructure<String>>(apiResponse, HttpStatus.NO_CONTENT);
+	}
+	
 	@PatchMapping("/{id}/user/uploadImage")
 	public ResponseEntity<ResponseStructure<String>> uploadImage(@RequestParam MultipartFile image, @PathVariable Integer id) throws IOException{
 		String response = userService.uploadImage(image, id);
