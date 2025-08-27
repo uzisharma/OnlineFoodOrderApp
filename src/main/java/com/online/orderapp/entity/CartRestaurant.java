@@ -1,6 +1,5 @@
 package com.online.orderapp.entity;
 
-import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -9,7 +8,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import lombok.Data;
 
 @Entity
@@ -24,8 +22,8 @@ public class CartRestaurant {
 	@JsonIgnore
 	private CartItem cartItem;
 	
-	@OneToMany
-	private List<Food> food;
+	@ManyToOne
+	private Food food;
 	
 	private Integer quantity;
 	
