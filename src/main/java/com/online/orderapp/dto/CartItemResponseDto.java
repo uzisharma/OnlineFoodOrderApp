@@ -9,5 +9,5 @@ public class CartItemResponseDto {
 	private Integer id;
 	private List<CartRestaurantResponseDto> cartRestaurant;
 	private Double cartPrice;
-	private Integer totalQuantity;
+	private Integer totalCartItem;
 }
