@@ -48,7 +48,7 @@ public class UserServiceImplementation implements UserService{
 	@Override
 	public UserLoginResponseDto login(String userName, String rawPassword) {
 		
-		User user = userRepository.findByUserName(userName).orElseThrow(()-> new NoSuchElementException("Incorrect Login Credentials"));
+		User user = userRepository.findByUserNameWithCart(userName).orElseThrow(()-> new NoSuchElementException("Incorrect Login Credentials"));
 		
 		// Check password using BCrypt
 		if(!passwordEncoder.matches(rawPassword, user.getPassword())) {

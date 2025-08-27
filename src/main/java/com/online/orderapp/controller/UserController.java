@@ -130,8 +130,5 @@ public class UserController {
 		return ResponseEntity.ok(apiResponse);
 	}
 	
-//	@GetMapping("/getByUserName")
-//	public 
-	
 	
 }
