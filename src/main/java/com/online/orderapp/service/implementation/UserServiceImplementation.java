@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,9 +29,13 @@ public class UserServiceImplementation implements UserService{
 	
 	private final UserRepository userRepository;
 	private final UserMapper userMapper;
+	private final PasswordEncoder passwordEncoder;
 
 	@Override
 	public User saveUser(User user) {
+		//encode raw password before saving
+		String encodedPassword = passwordEncoder.encode(user.getPassword());
+		user.setPassword(encodedPassword);
 		return userRepository.save(user);
 	}
 
@@ -41,10 +46,16 @@ public class UserServiceImplementation implements UserService{
 	}
 	
 	@Override
-	public UserLoginResponseDto login(String userName, String password) {
+	public UserLoginResponseDto login(String userName, String rawPassword) {
 		
-		return userRepository.loginAuth(userName, password).orElseThrow(()-> new NoSuchElementException("Incorrect Login Credentials"));
+		User user = userRepository.findByUserName(userName).orElseThrow(()-> new NoSuchElementException("Incorrect Login Credentials"));
 		
+		// Check password using BCrypt
+		if(!passwordEncoder.matches(rawPassword, user.getPassword())) {
+			throw new NoSuchElementException("Invalid username or password");
+		}
+		
+		return userMapper.toLoginResponse(user);
 	}
 	
 	@Cacheable(value="user_cache")
