@@ -32,4 +32,6 @@ public class CartItem {
 	
 	private Double cartPrice;
 	
+	private Integer totalQuantity;
+	
 }

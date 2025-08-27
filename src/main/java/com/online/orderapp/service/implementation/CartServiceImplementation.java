@@ -88,6 +88,10 @@ public class CartServiceImplementation implements CartService{
 				.mapToDouble(CartRestaurant::getQuantityPrice)
 				.sum();
 		cartItem.setCartPrice(total);
+		int totQuantity = (int)cartItem.getCartRestaurant()
+				.stream()
+				.count();
+		cartItem.setTotalQuantity(totQuantity);
 		
 		cartItemRepo.save(cartItem);
 //		return cartRepo.save(cart);
