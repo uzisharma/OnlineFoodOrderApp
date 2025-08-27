@@ -5,15 +5,19 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.online.orderapp.dto.CartResponseDto;
 import com.online.orderapp.entity.Cart;
 import com.online.orderapp.entity.CartItem;
 import com.online.orderapp.entity.CartRestaurant;
 import com.online.orderapp.entity.Food;
+import com.online.orderapp.entity.Restaurant;
 import com.online.orderapp.entity.User;
+import com.online.orderapp.mapper.CartMapper;
 import com.online.orderapp.repository.CartItemRepository;
 import com.online.orderapp.repository.CartRepository;
 import com.online.orderapp.repository.CartRestaurantRepository;
 import com.online.orderapp.repository.FoodRepository;
+import com.online.orderapp.repository.RestaurantRepository;
 import com.online.orderapp.repository.UserRepository;
 import com.online.orderapp.service.CartService;
 
@@ -24,19 +28,23 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CartServiceImplementation implements CartService{
 	private final UserRepository userRepo;
+	private final RestaurantRepository restaurantRepo;
 	private final FoodRepository foodRepo;
 	private final CartRepository cartRepo;
 	private final CartItemRepository cartItemRepo;
 	private final CartRestaurantRepository cartRestaurantRepo;
+	private final CartMapper cartMapper;
 
 	@Override
 	@Transactional
-	public Cart addFoodToCart(Integer userId, Integer foodId, Integer quantity) {
+	public CartResponseDto addFoodToCart(Integer userId,Integer restaurantId, Integer foodId, Integer quantity) {
 		User user = userRepo.findById(userId)
 				.orElseThrow(()-> new NoSuchElementException("User Not Found"));
 		
 		Food food = foodRepo.findById(foodId)
 				.orElseThrow(()-> new NoSuchElementException("Food not found"));
+		
+		Restaurant restaurant = restaurantRepo.findById(restaurantId).orElseThrow(()->new NoSuchElementException("restaurant with id :"+restaurantId+" not found"));
 		
 		//Get or create cart
 		Cart cart = user.getUserCart();
@@ -58,12 +66,14 @@ public class CartServiceImplementation implements CartService{
 		
 		if(existingItem.isPresent()) {
 			CartRestaurant cartRestaurant = existingItem.get();
-			cartRestaurant.setQuantity(cartRestaurant.getQuantity() + quantity);
+			cartRestaurant.setRestaurant(restaurant);
+			cartRestaurant.setQuantity( quantity);
 			cartRestaurant.setQuantityPrice(cartRestaurant.getQuantity() * (double)food.getPrice() );
 			cartRestaurantRepo.save(cartRestaurant);
 		}else {
 			CartRestaurant cartRestaurant = new CartRestaurant();
 			cartRestaurant.setCartItem(cartItem);
+			cartRestaurant.setRestaurant(restaurant);
 			cartRestaurant.setFood(food);
 			cartRestaurant.setQuantity(quantity);
 			cartRestaurant.setQuantityPrice(quantity * (double)food.getPrice());
@@ -80,7 +90,8 @@ public class CartServiceImplementation implements CartService{
 		cartItem.setCartPrice(total);
 		
 		cartItemRepo.save(cartItem);
-		return cartRepo.save(cart);
+//		return cartRepo.save(cart);
+		return cartMapper.toDto(cart);
 				
 	}
 

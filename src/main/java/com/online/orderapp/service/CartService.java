@@ -1,7 +1,7 @@
 package com.online.orderapp.service;
 
-import com.online.orderapp.entity.Cart;
+import com.online.orderapp.dto.CartResponseDto;
 
 public interface CartService{
-	Cart addFoodToCart(Integer userId, Integer foodId, Integer quantity);
+	CartResponseDto addFoodToCart(Integer userId,Integer restaurantId, Integer foodId, Integer quantity);
 }

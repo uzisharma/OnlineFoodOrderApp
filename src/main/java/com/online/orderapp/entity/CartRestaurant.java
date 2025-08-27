@@ -25,6 +25,10 @@ public class CartRestaurant {
 	@ManyToOne
 	private Food food;
 	
+//	private Integer restaurantId;
+	@ManyToOne
+	private Restaurant restaurant;
+	
 	private Integer quantity;
 	
 	private Double quantityPrice;

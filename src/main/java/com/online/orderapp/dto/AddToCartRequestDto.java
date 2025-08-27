@@ -8,4 +8,5 @@ public class AddToCartRequestDto {
 	private Integer userId;
 	private Integer foodId;
 	private Integer quantity;
+	private Integer restaurantId;
 }
