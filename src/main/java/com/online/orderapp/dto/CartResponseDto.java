@@ -6,6 +6,6 @@ import lombok.Data;
 public class CartResponseDto {
 
 	private Integer id;
-	private CartItemResponseDto cartItem;
+	private CartItemResponseDto userCartItem;
 	
 }

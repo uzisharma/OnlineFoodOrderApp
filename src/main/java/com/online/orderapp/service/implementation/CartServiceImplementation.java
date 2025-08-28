@@ -121,12 +121,21 @@ public class CartServiceImplementation implements CartService{
 	}
 
 	@Override
+	@Transactional
 	public String deleteCartById(Integer id) {
 		Cart cart = cartRepo.findById(id)
 				.orElseThrow(()-> new NoSuchElementException("cart is not available for id : "+id));
-
+		CartItem cartItem = cartItemRepo.findById(cart.getUserCartItem().getId())
+				.orElseThrow(()->new NoSuchElementException("Unable to find cart-item"));
+		CartRestaurant cartRestaurant = cartRestaurantRepo.findByCartItemsId(cartItem.getId())
+				.orElseThrow(()->new NoSuchElementException("cartRestaurant not found"));
+		System.out.println(cart.getId()+ " "+cart.getUserCartItem().getId() +"  "+cartItem.getId());
 		
-		cartRepo.delete(cart);
+		
+//		cartRestaurantRepo.delete(cartRestaurant);
+//		cartRepo.delete(cart);
+//		cartItemRepo.delete(cartItem);
+		cartRepo.deleteByUserId(cart.getUser().getId());
 		return "Cart Deleted with id: "+id;
 	}
 
