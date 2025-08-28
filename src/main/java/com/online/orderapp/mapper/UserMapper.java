@@ -16,8 +16,8 @@ public interface UserMapper {
 	UserLoginResponseDto toLoginResponse(User user);
 
 	default Integer getTotalCartItem(User user) {
-		if(user.getUserCart() !=null && user.getUserCart().getCartItem() != null) {
-			return user.getUserCart().getCartItem().getTotalCartItem();
+		if(user.getUserCart() !=null && user.getUserCart().getUserCartItem() != null) {
+			return user.getUserCart().getUserCartItem().getTotalCartItem();
 		}
 		return 0;
 	}

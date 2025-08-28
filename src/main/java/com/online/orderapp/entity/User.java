@@ -54,5 +54,7 @@ public class User {
 	private List<Order> orders;
 	
 	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-	private Cart userCart;
+	//deleting user successfully deletes the cart and related table fields
+	private Cart userCart; //inversion side
+	
 }

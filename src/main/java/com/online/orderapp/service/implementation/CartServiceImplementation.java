@@ -53,10 +53,11 @@ public class CartServiceImplementation implements CartService{
 			cart.setUser(user);
 			
 			CartItem cartItem = new CartItem();
-			cart.setCartItem(cartItem);
+			cart.setUserCartItem(cartItem);
+//			cartItem.setCart(cart);
 			cartRepo.save(cart);
 		}
-		CartItem cartItem = cart.getCartItem();
+		CartItem cartItem = cart.getUserCartItem();
 		
 		//Check if food already exist in cart 
 		Optional<CartRestaurant> existingItem = cartItem.getCartRestaurant()
@@ -72,7 +73,7 @@ public class CartServiceImplementation implements CartService{
 			cartRestaurantRepo.save(cartRestaurant);
 		}else {
 			CartRestaurant cartRestaurant = new CartRestaurant();
-			cartRestaurant.setCartItem(cartItem);
+			cartRestaurant.setCartItems(cartItem);
 			cartRestaurant.setRestaurant(restaurant);
 			cartRestaurant.setFood(food);
 			cartRestaurant.setQuantity(quantity);
@@ -97,6 +98,36 @@ public class CartServiceImplementation implements CartService{
 //		return cartRepo.save(cart);
 		return cartMapper.toDto(cart);
 				
+	}
+
+	@Override
+	public CartResponseDto findCartByUserId(Integer id) {
+		// TODO Auto-generated method stub
+		Cart cart = cartRepo.findByUserId(id).orElseThrow(()-> new NoSuchElementException("User with id: "+id +" not found"));
+		return cartMapper.toDto(cart);
+	}
+
+
+	@Override
+	@Transactional
+	public CartResponseDto deleteCartByUserId(Integer userId) {
+		Cart cart = cartRepo.findByUserId(userId)
+				.orElseThrow(()->new NoSuchElementException("Cart for userId "+userId+" not found"));
+		
+		CartResponseDto dto = cartMapper.toDto(cart);
+		
+		cartRepo.delete(cart);
+		return dto;
+	}
+
+	@Override
+	public String deleteCartById(Integer id) {
+		Cart cart = cartRepo.findById(id)
+				.orElseThrow(()-> new NoSuchElementException("cart is not available for id : "+id));
+
+		
+		cartRepo.delete(cart);
+		return "Cart Deleted with id: "+id;
 	}
 
 }

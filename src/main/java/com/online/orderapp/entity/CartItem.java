@@ -19,15 +19,11 @@ import lombok.Data;
 public class CartItem {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
 	
-	@OneToOne(mappedBy = "cartItem")
-	@JsonIgnore
-	private Cart cart;
-	
-	@OneToMany(mappedBy = "cartItem" , cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "cartItems",cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<CartRestaurant> cartRestaurant = new ArrayList<>();
 	
 	private Double cartPrice;

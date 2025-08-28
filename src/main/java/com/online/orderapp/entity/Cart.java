@@ -8,6 +8,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import lombok.Data;
 
@@ -16,14 +17,14 @@ import lombok.Data;
 public class Cart {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;	
 	
 	@OneToOne
 	@JsonIgnore
-	private User user;
+	private User user; //owner
 	
-	@OneToOne(cascade = CascadeType.ALL)
-	private CartItem cartItem;
+	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+	private CartItem userCartItem;
 
 }

@@ -15,12 +15,12 @@ import lombok.Data;
 public class CartRestaurant {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
 	@ManyToOne
 	@JsonIgnore
-	private CartItem cartItem;
+	private CartItem cartItems;
 	
 	@ManyToOne
 	private Food food;
