@@ -110,7 +110,8 @@ public class CartServiceImplementation implements CartService{
 	@Override
 	public CartResponseDto findCartByUserId(Integer id) {
 		// TODO Auto-generated method stub
-		Cart cart = cartRepo.findByUserId(id).orElseThrow(()-> new NoSuchElementException("User with id: "+id +" not found"));
+		Cart cart = cartRepo.findByUserId(id)
+				.orElseThrow(()-> new NoSuchElementException("User with id: "+id +" not found or Cart is null"));
 		return cartMapper.toDto(cart);
 	}
 
