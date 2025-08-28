@@ -23,7 +23,8 @@ public class Cart {
 	@JsonIgnore
 	private User user; //owner
 	
-	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+	//Cart is now the "parent" in the relationship
+	@OneToOne(mappedBy = "cart",cascade = CascadeType.ALL, orphanRemoval = true)
 	private CartItem userCartItem;
 
 }

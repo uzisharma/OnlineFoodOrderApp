@@ -54,7 +54,7 @@ public class CartServiceImplementation implements CartService{
 			
 			CartItem cartItem = new CartItem();
 			cart.setUserCartItem(cartItem);
-//			cartItem.setCart(cart);
+			cartItem.setCart(cart);
 			cartRepo.save(cart);
 		}
 		CartItem cartItem = cart.getUserCartItem();
