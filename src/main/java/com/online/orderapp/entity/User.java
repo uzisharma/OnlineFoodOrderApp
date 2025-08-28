@@ -24,7 +24,7 @@ import lombok.Data;
 public class User {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	@NotNull
 	@NotBlank
@@ -53,8 +53,7 @@ public class User {
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private List<Order> orders;
 	
-	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-	//deleting user successfully deletes the cart and related table fields
-	private Cart userCart; //inversion side
+	@OneToOne(mappedBy = "userCartItem",cascade = CascadeType.ALL,orphanRemoval = true)
+	private Cart userCart; //inversion side but parent also, deleting user should delete the associated cart
 	
 }

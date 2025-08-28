@@ -42,29 +42,19 @@ public class CartController {
 		return ResponseEntity.ok(apiResponse);
 	}
 	
-	@GetMapping("/get/{id}")
-	public ResponseEntity<ResponseStructure<CartResponseDto>> getUserCart(@PathVariable Integer id){
-		CartResponseDto response = cartService.findCartByUserId(id);
-		
-		ResponseStructure<CartResponseDto> apiResponse = new ResponseStructure<>();
-		apiResponse.setData(response);
-		apiResponse.setMessage("User found with id: "+ id);
-		apiResponse.setStatusCode(HttpStatus.OK.value());
-		
-		return ResponseEntity.ok(apiResponse);
-	}
+//	@GetMapping("/get/{id}")
+//	public ResponseEntity<ResponseStructure<CartResponseDto>> getUserCart(@PathVariable Integer id){
+//		CartResponseDto response = cartService.findCartByUserId(id);
+//		
+//		ResponseStructure<CartResponseDto> apiResponse = new ResponseStructure<>();
+//		apiResponse.setData(response);
+//		apiResponse.setMessage("User found with id: "+ id);
+//		apiResponse.setStatusCode(HttpStatus.OK.value());
+//		
+//		return ResponseEntity.ok(apiResponse);
+//	}
 	
-	@DeleteMapping("/{userId}/delete")
-	public ResponseEntity<ResponseStructure<CartResponseDto>> clearCartByUserId(@PathVariable Integer userId){
-	    CartResponseDto response = cartService.deleteCartByUserId(userId);
 
-	    ResponseStructure<CartResponseDto> apiResponse = new ResponseStructure<>();
-	    apiResponse.setData(response);
-	    apiResponse.setMessage("Cart cleared for userId: " + userId);
-	    apiResponse.setStatusCode(HttpStatus.OK.value());
-
-	    return ResponseEntity.ok(apiResponse);
-	}
 	
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<ResponseStructure<String>> deleteCartById(@PathVariable Integer id){

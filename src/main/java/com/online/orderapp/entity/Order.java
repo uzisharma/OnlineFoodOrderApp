@@ -22,7 +22,7 @@ import lombok.Data;
 @Table(name = "FoodOrder")
 public class Order {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
 	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL)

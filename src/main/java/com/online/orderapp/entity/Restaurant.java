@@ -1,11 +1,13 @@
 package com.online.orderapp.entity;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -28,7 +30,7 @@ import lombok.NoArgsConstructor;
 public class Restaurant {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	@NotNull
 	@NotBlank
@@ -54,5 +56,8 @@ public class Restaurant {
 	
 	@OneToMany(mappedBy = "restaurant")
 	private List<Order> orders;
+	
+	@OneToMany(mappedBy="restaurant", cascade=CascadeType.ALL, orphanRemoval = true)
+	private List<CartRestaurant> cartRestaurant = new ArrayList<>();
 	
 }

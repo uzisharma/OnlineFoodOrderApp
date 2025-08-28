@@ -50,13 +50,16 @@ public class CartServiceImplementation implements CartService{
 		Cart cart = user.getUserCart();
 		if(cart==null) {
 			cart = new Cart();
-			cart.setUser(user);
 			
 			CartItem cartItem = new CartItem();
 			cart.setUserCartItem(cartItem);
 			cartItem.setCart(cart);
 			cartRepo.save(cart);
 		}
+		
+		user.setUserCart(cart);
+		userRepo.save(user);
+		
 		CartItem cartItem = cart.getUserCartItem();
 		
 		//Check if food already exist in cart 
@@ -100,42 +103,24 @@ public class CartServiceImplementation implements CartService{
 				
 	}
 
-	@Override
-	public CartResponseDto findCartByUserId(Integer id) {
-		// TODO Auto-generated method stub
-		Cart cart = cartRepo.findByUserId(id).orElseThrow(()-> new NoSuchElementException("User with id: "+id +" not found"));
-		return cartMapper.toDto(cart);
-	}
+//	@Override
+//	public CartResponseDto findCartByUserId(Integer id) {
+//		// TODO Auto-generated method stub
+//		Cart cart = cartRepo.findByUserId(id).orElseThrow(()-> new NoSuchElementException("User with id: "+id +" not found"));
+//		return cartMapper.toDto(cart);
+//	}
 
 
-	@Override
-	@Transactional
-	public CartResponseDto deleteCartByUserId(Integer userId) {
-		Cart cart = cartRepo.findByUserId(userId)
-				.orElseThrow(()->new NoSuchElementException("Cart for userId "+userId+" not found"));
-		
-		CartResponseDto dto = cartMapper.toDto(cart);
-		
-		cartRepo.delete(cart);
-		return dto;
-	}
+
 
 	@Override
 	@Transactional
 	public String deleteCartById(Integer id) {
 		Cart cart = cartRepo.findById(id)
 				.orElseThrow(()-> new NoSuchElementException("cart is not available for id : "+id));
-		CartItem cartItem = cartItemRepo.findById(cart.getUserCartItem().getId())
-				.orElseThrow(()->new NoSuchElementException("Unable to find cart-item"));
-		CartRestaurant cartRestaurant = cartRestaurantRepo.findByCartItemsId(cartItem.getId())
-				.orElseThrow(()->new NoSuchElementException("cartRestaurant not found"));
-		System.out.println(cart.getId()+ " "+cart.getUserCartItem().getId() +"  "+cartItem.getId());
 		
-		
-//		cartRestaurantRepo.delete(cartRestaurant);
-//		cartRepo.delete(cart);
-//		cartItemRepo.delete(cartItem);
-		cartRepo.deleteByUserId(cart.getUser().getId());
+		cartRepo.delete(cart);
+
 		return "Cart Deleted with id: "+id;
 	}
 
