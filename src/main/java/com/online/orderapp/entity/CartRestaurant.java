@@ -21,8 +21,8 @@ public class CartRestaurant {
 	
 	@ManyToOne
 	@JsonIgnore
-	@JoinColumn(name = "cart_item_id")
-	private CartItem cartItems;
+	@JoinColumn(name = "cart_item_id") 
+	private CartItem cartItems; //FK will be here
 	
 	@ManyToOne
 	private Food food;

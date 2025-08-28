@@ -7,6 +7,8 @@ import java.util.List;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -18,7 +20,6 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -37,13 +38,13 @@ public class Restaurant {
 	private String restaurantName;
 	
 	private String address;
+	
+	
 	@NotNull
-	@NotBlank
 	private Long contactNumber;
-	@Pattern(
-			regexp = "^[A-Za-z0-9]+"
-			)
+	
 	private String email;
+	
 	@CreationTimestamp
 	private LocalDateTime createdAt;
 	@UpdateTimestamp
@@ -57,6 +58,7 @@ public class Restaurant {
 	@OneToMany(mappedBy = "restaurant")
 	private List<Order> orders;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy="restaurant", cascade=CascadeType.ALL, orphanRemoval = true)
 	private List<CartRestaurant> cartRestaurant = new ArrayList<>();
 	

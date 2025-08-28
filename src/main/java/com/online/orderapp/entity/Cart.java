@@ -1,5 +1,6 @@
 package com.online.orderapp.entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,10 +17,12 @@ public class Cart {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;	
 
-	
 	@OneToOne
-	@JoinColumn(name = "user_id")
-	private CartItem userCartItem; //Owner FK will be stored here
+	@JoinColumn(name="user_id")
+	private User user; //Owner FK will be stored here
+	
+	@OneToOne(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
+	private CartItem userCartItem;
 	
 	
 

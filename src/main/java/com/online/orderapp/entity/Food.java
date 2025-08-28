@@ -28,6 +28,8 @@ public class Food {
 	@ManyToMany(mappedBy = "food")
 	List<Restaurant> restaurants;
 	
+	
+	@JsonIgnore
 	@OneToMany(mappedBy = "food", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<CartRestaurant> cartRestaurants = new ArrayList<>(); 
 }

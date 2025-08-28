@@ -50,7 +50,7 @@ public class CartServiceImplementation implements CartService{
 		Cart cart = user.getUserCart();
 		if(cart==null) {
 			cart = new Cart();
-			
+			cart.setUser(user);
 			CartItem cartItem = new CartItem();
 			cart.setUserCartItem(cartItem);
 			cartItem.setCart(cart);
@@ -103,12 +103,12 @@ public class CartServiceImplementation implements CartService{
 				
 	}
 
-//	@Override
-//	public CartResponseDto findCartByUserId(Integer id) {
-//		// TODO Auto-generated method stub
-//		Cart cart = cartRepo.findByUserId(id).orElseThrow(()-> new NoSuchElementException("User with id: "+id +" not found"));
-//		return cartMapper.toDto(cart);
-//	}
+	@Override
+	public CartResponseDto findCartByUserId(Integer id) {
+		// TODO Auto-generated method stub
+		Cart cart = cartRepo.findByUserId(id).orElseThrow(()-> new NoSuchElementException("User with id: "+id +" not found"));
+		return cartMapper.toDto(cart);
+	}
 
 
 
