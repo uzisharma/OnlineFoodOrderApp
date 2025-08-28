@@ -123,6 +123,10 @@ public class CartServiceImplementation implements CartService{
 	public String deleteCartItemByUserId(Integer id) {
 		User user = userRepo.findById(id)
 				.orElseThrow(()->new NoSuchElementException("User not found with id :"+id));
+		if (user.getUserCart() == null) {
+		    throw new NoSuchElementException("Cart does not exist for user id: " + id);
+		}
+		
 		Cart cart = cartRepo.findById(user.getUserCart().getId())
 				.orElseThrow(()->new NoSuchElementException("Cart not found with user id: "+ id));
 

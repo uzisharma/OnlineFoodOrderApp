@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.online.orderapp.dto.ResponseStructure;
+import com.online.orderapp.dto.food.FoodResponseDto;
 import com.online.orderapp.entity.Food;
 import com.online.orderapp.entity.Restaurant;
 import com.online.orderapp.service.FoodService;
@@ -29,9 +30,9 @@ public class FoodController {
 
 	
 	@PostMapping("/save")
-	public ResponseEntity<ResponseStructure<Food>> createFood(@RequestBody Food food){
-		Food response = foodService.createFood(food);
-		ResponseStructure<Food> apiResponse = new ResponseStructure<>();
+	public ResponseEntity<ResponseStructure<FoodResponseDto>> createFood(@RequestBody Food food){
+		FoodResponseDto response = foodService.createFood(food);
+		ResponseStructure<FoodResponseDto> apiResponse = new ResponseStructure<>();
 		apiResponse.setData(response);
 		apiResponse.setMessage("Food Object Added");
 		apiResponse.setStatusCode(HttpStatus.CREATED.value());
@@ -39,9 +40,9 @@ public class FoodController {
 	}
 	
 	@GetMapping("/get/{id}")
-	public ResponseEntity<ResponseStructure<Food>> getById(@PathVariable Integer id ){
-		Food responseFood = foodService.getFoodById(id);
-		ResponseStructure<Food> apiResponse = new ResponseStructure<>();
+	public ResponseEntity<ResponseStructure<FoodResponseDto>> getById(@PathVariable Integer id ){
+		FoodResponseDto responseFood = foodService.getFoodById(id);
+		ResponseStructure<FoodResponseDto> apiResponse = new ResponseStructure<>();
 		apiResponse.setData(responseFood);
 		apiResponse.setMessage("Food Object Found");
 		apiResponse.setStatusCode(HttpStatus.FOUND.value());
@@ -50,12 +51,12 @@ public class FoodController {
 	}
 	
 	@GetMapping("/getAll")
-	public ResponseEntity<ResponseStructure<Page<Food>>> getAllFood(
+	public ResponseEntity<ResponseStructure<Page<FoodResponseDto>>> getAllFood(
 				@RequestParam(defaultValue="0", required= false) int pageNum, 
 				@RequestParam(defaultValue = "10", required=false) int PageSize
 				){
-		Page<Food> response = foodService.getAllFood(pageNum, PageSize);
-		ResponseStructure<Page<Food>> apiResponse = new ResponseStructure<>();
+		Page<FoodResponseDto> response = foodService.getAllFood(pageNum, PageSize);
+		ResponseStructure<Page<FoodResponseDto>> apiResponse = new ResponseStructure<>();
 		apiResponse.setData(response);
 		apiResponse.setMessage("Data Fetched Acoording to page");
 		apiResponse.setStatusCode(HttpStatus.OK.value());
@@ -64,9 +65,9 @@ public class FoodController {
 	}
 	
 	@PutMapping("/update")
-	public ResponseEntity<ResponseStructure<Food>> updateFood(@RequestParam Integer id, @RequestBody Food food){
-		Food response = foodService.updateFood(food, id);
-		ResponseStructure<Food> apiResponse = new ResponseStructure<>();
+	public ResponseEntity<ResponseStructure<FoodResponseDto>> updateFood(@RequestParam Integer id, @RequestBody Food food){
+		FoodResponseDto response = foodService.updateFood(food, id);
+		ResponseStructure<FoodResponseDto> apiResponse = new ResponseStructure<>();
 		apiResponse.setData(response);
 		apiResponse.setMessage("Updated Successfully");
 		apiResponse.setStatusCode(HttpStatus.OK.value());

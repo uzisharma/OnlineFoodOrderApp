@@ -56,7 +56,7 @@ public class CartController {
 	
 
 	
-	@DeleteMapping("/delete/{id}")
+	@DeleteMapping("{id}/delete")
 	public ResponseEntity<ResponseStructure<String>> deleteCartById(@PathVariable Integer id){
 		String response = cartService.deleteCartItemByUserId(id);
 		

@@ -2,17 +2,18 @@ package com.online.orderapp.service;
 
 import org.springframework.data.domain.Page;
 
+import com.online.orderapp.dto.food.FoodResponseDto;
 import com.online.orderapp.entity.Food;
 
 public interface FoodService {
 
-	Food createFood(Food food);
+	FoodResponseDto createFood(Food food);
 	
-	Food getFoodById(Integer id);
+	FoodResponseDto getFoodById(Integer id);
 	
-	Page<Food> getAllFood(int pageNum, int pageSize);
+	Page<FoodResponseDto> getAllFood(int pageNum, int pageSize);
 	
-	Food updateFood(Food food, Integer id);
+	FoodResponseDto updateFood(Food food, Integer id);
 	
 	void deleteFood(Integer id);
 }

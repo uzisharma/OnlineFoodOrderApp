@@ -17,9 +17,9 @@ import com.online.orderapp.entity.OrderItem;
 import com.online.orderapp.entity.Restaurant;
 import com.online.orderapp.entity.User;
 import com.online.orderapp.exception.PaymentFailedException;
+import com.online.orderapp.repository.FoodRepository;
 import com.online.orderapp.repository.OrderRepository;
 import com.online.orderapp.repository.UserRepository;
-import com.online.orderapp.service.FoodService;
 import com.online.orderapp.service.OrderService;
 import com.online.orderapp.service.RestaurantService;
 //import com.online.orderapp.service.UserService;
@@ -33,8 +33,8 @@ public class OrderServiceImplementation implements OrderService {
 
 	
 	private final RestaurantService restaurantService;
-	private final FoodService foodService;
 	private final OrderRepository orderRepository;
+	private final FoodRepository foodRepository;
 	
 	private final UserRepository userRepository;
 	
@@ -46,7 +46,8 @@ public class OrderServiceImplementation implements OrderService {
 		float totalPrice = 0;
 		
 		for(OrderItemRequest orderItem : orderRequest.getOrderItems()) {
-			Food food =foodService.getFoodById(orderItem.getFoodId());
+			Food food =foodRepository.findById(orderItem.getFoodId())
+					.orElseThrow(()-> new NoSuchElementException("Unable to find food"));
 			float itemPrice = food.getPrice() * orderItem.getQuantity();
 			totalPrice+=itemPrice;
 			summary.append(food.getFoodName())
@@ -81,7 +82,8 @@ public class OrderServiceImplementation implements OrderService {
 			double totalPrice=0;
 			
 			for(OrderItemRequest request : payment.getOrderItems()) {
-				Food food = foodService.getFoodById(request.getFoodId());
+				Food food =foodRepository.findById(request.getFoodId())
+						.orElseThrow(()-> new NoSuchElementException("Unable to find food"));
 				
 				OrderItem orderItem = new OrderItem();
 				orderItem.setFood(food);
