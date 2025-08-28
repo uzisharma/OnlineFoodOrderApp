@@ -1,5 +1,6 @@
 package com.online.orderapp.service.implementation;
 
+import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -61,6 +62,9 @@ public class CartServiceImplementation implements CartService{
 		userRepo.save(user);
 		
 		CartItem cartItem = cart.getUserCartItem();
+		if(cartItem.getCartRestaurant() == null) {
+			cartItem.setCartRestaurant(new ArrayList<>());
+		}
 		
 		//Check if food already exist in cart 
 		Optional<CartRestaurant> existingItem = cartItem.getCartRestaurant()
@@ -115,10 +119,13 @@ public class CartServiceImplementation implements CartService{
 
 	@Override
 	@Transactional
-	public String deleteCartById(Integer id) {
-		Cart cart = cartRepo.findById(id)
-				.orElseThrow(()-> new NoSuchElementException("cart is not available for id : "+id));
-		
+	public String deleteCartItemByUserId(Integer id) {
+		User user = userRepo.findById(id)
+				.orElseThrow(()->new NoSuchElementException("User not found with id :"+id));
+		Cart cart = cartRepo.findById(user.getUserCart().getId())
+				.orElseThrow(()->new NoSuchElementException("Cart not found with user id: "+ id));
+
+		user.setUserCart(null);
 		cartRepo.delete(cart);
 
 		return "Cart Deleted with id: "+id;

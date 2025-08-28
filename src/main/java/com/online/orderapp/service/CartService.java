@@ -9,5 +9,5 @@ public interface CartService{
 
 
 
-	String deleteCartById(Integer id);
+	String deleteCartItemByUserId(Integer id);
 }
