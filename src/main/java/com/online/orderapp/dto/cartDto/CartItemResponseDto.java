@@ -8,6 +8,7 @@ import lombok.Data;
 public class CartItemResponseDto {
 	private Integer id;
 	private List<CartRestaurantResponseDto> cartRestaurant;
+	private Integer restaurantId;
 	private Double cartPrice;
 	private Integer totalCartItem;
 }

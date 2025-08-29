@@ -74,14 +74,14 @@ public class CartServiceImplementation implements CartService{
 		
 		if(existingItem.isPresent()) {
 			CartRestaurant cartRestaurant = existingItem.get();
-			cartRestaurant.setRestaurant(restaurant);
+//			cartRestaurant.setRestaurant(restaurant);
 			cartRestaurant.setQuantity( quantity);
 			cartRestaurant.setQuantityPrice(cartRestaurant.getQuantity() * (double)food.getPrice() );
 			cartRestaurantRepo.save(cartRestaurant);
 		}else {
 			CartRestaurant cartRestaurant = new CartRestaurant();
 			cartRestaurant.setCartItems(cartItem);
-			cartRestaurant.setRestaurant(restaurant);
+//			cartRestaurant.setRestaurant(restaurant);
 			cartRestaurant.setFood(food);
 			cartRestaurant.setQuantity(quantity);
 			cartRestaurant.setQuantityPrice(quantity * (double)food.getPrice());
@@ -100,6 +100,7 @@ public class CartServiceImplementation implements CartService{
 				.stream()
 				.count();
 		cartItem.setTotalCartItem(totalCartItem);
+		cartItem.setRestaurant(restaurant);
 		
 		cartItemRepo.save(cartItem);
 //		return cartRepo.save(cart);

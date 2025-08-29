@@ -18,7 +18,7 @@ public class OrderItemNew {
 	private Integer id;
 	
 	@ManyToOne
-	@JoinColumn(name = "order_placed_id")
+//	@JoinColumn(name = "order_placed_id")
 	private OrderPlaced orderPlaced;
 	
 	

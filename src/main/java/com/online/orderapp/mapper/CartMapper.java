@@ -16,8 +16,8 @@ public interface CartMapper {
 	
 	CartResponseDto toDto(Cart cart);
 	
+	@Mapping(source = "restaurant.id", target="restaurantId")
 	CartItemResponseDto toDto(CartItem cartItem);
 	
-	@Mapping(source = "restaurant.id", target = "restaurantId")
 	CartRestaurantResponseDto toDto(CartRestaurant cartRestaurant);
 }

@@ -33,8 +33,8 @@ public class OrderPlacedServiceImplementation implements OrderPlacedService{
 	public OrderPlaced placeOrder(Integer cartId) {
 		// TODO Auto-generated method stub
 		
-		String id = "ORD-" + UUID.randomUUID().toString().substring(0,8).toUpperCase();
-				
+//		String id = "ORD-" + UUID.randomUUID().toString().substring(0,8).toUpperCase();
+		OrderPlaced orderPlaced = new OrderPlaced();
 		
 		Cart cart = cartRepository.findById(cartId)
 				.orElseThrow(()-> new NoSuchElementException("Cart with id :" + cartId + "not found"));
@@ -50,18 +50,21 @@ public class OrderPlacedServiceImplementation implements OrderPlacedService{
 					item.setFood(cartRes.getFood());
 					item.setQuantity(cartRes.getQuantity());
 					item.setQuantityPrice(cartRes.getQuantityPrice());
+					item.setOrderPlaced(orderPlaced);
 					return item;
 				})
 				.toList();
 		
-		OrderPlaced orderPlaced = new OrderPlaced();
-		orderPlaced.setId(id);
+
+//		orderPlaced.setId(id);
 		orderPlaced.setUser(user);
 		orderPlaced.setRestaurant(restaurant);
 		orderPlaced.setOrderItem(orderItems);
 		orderPlaced.setDeliveryDate(LocalDate.now());
 		orderPlaced.setDeliveryTime(LocalTime.now().plusMinutes(40).truncatedTo(ChronoUnit.MINUTES));
 		orderPlaced.setPaymentStatus(PaymentStatus.COMPLETED);
+		
+		orderItems.forEach(item->item.setOrderPlaced(orderPlaced));
 		
 		return orderPlacedRepository.save(orderPlaced);
 	}
