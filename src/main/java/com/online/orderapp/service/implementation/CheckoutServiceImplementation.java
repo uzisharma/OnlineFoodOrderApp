@@ -1,5 +1,6 @@
 package com.online.orderapp.service.implementation;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.springframework.stereotype.Service;
@@ -55,10 +56,9 @@ public class CheckoutServiceImplementation implements CheckoutService{
 		Checkout checkout = checkoutRepository.findByUserId(userId)
 			.orElseThrow(()-> new NoSuchElementException("Checkout with user id : "+ userId+" is not available"));
 		
-		OrderPlaced order = orderPlacedRepository.findByUserId(userId)
-				.orElseThrow(()-> new NoSuchElementException("Checkout with user id : "+ userId+" is not available"));
+		List<OrderPlaced> order = orderPlacedRepository.findByUserId(userId);
 		
-		order.setCheckout(null);
+		order.forEach(item->item.setCheckout(null));
 		checkoutRepository.delete(checkout);
 		return "Checkout with cart id : "+ userId+" deleted";
 	}

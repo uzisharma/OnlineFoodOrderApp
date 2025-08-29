@@ -5,7 +5,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,8 +26,10 @@ public class CheckoutController {
 	private final CheckoutMapper checkoutMapper;
 	
 	
-	@PostMapping("/add")
-	public ResponseEntity<ResponseStructure<CheckoutResponseDto>> addToCheckout(@RequestBody CheckoutRequestDto checkoutRequestDto){
+	@PostMapping("/add/{cartId}")
+	public ResponseEntity<ResponseStructure<CheckoutResponseDto>> addToCheckout(@PathVariable Integer cartId){
+		CheckoutRequestDto checkoutRequestDto = new CheckoutRequestDto();
+		checkoutRequestDto.setCartId(cartId);
 		Checkout checkout =checkoutService.addToCheckout(checkoutRequestDto);
 		CheckoutResponseDto response = checkoutMapper.toDto(checkout);
 		ResponseStructure<CheckoutResponseDto> apiResponse = new ResponseStructure<>();
