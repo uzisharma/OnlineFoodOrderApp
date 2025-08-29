@@ -2,6 +2,8 @@ package com.online.orderapp.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,5 +38,16 @@ public class CheckoutController {
 		
 		return new ResponseEntity<>(apiResponse,HttpStatus.ACCEPTED);
 		
+	}
+	
+	@DeleteMapping("/{cartId}/delete")
+	public ResponseEntity<ResponseStructure<String>> deleteCheckout(@PathVariable Integer cartId){
+		String response = checkoutService.deleteCheckout(cartId);
+		ResponseStructure<String> apiResponse = new ResponseStructure<>();
+		apiResponse.setData(response);
+		apiResponse.setMessage("Checkout Record Deleted");
+		apiResponse.setStatusCode(HttpStatus.NO_CONTENT.value());
+		
+		return new ResponseEntity<>(apiResponse, HttpStatus.NO_CONTENT);
 	}
 }

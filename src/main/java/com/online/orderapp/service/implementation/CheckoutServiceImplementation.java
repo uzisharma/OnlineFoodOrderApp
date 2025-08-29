@@ -41,5 +41,16 @@ public class CheckoutServiceImplementation implements CheckoutService{
 		
 	}
 
+
+	@Override
+	public String deleteCheckout(Integer cartId) {
+		// TODO Auto-generated method stub
+		Checkout checkout = checkoutRepository.findByCartId(cartId)
+			.orElseThrow(()-> new NoSuchElementException("Checkout with cart id : "+ cartId+" is not available"));
+		
+		checkoutRepository.delete(checkout);
+		return "Checkout with cart id : "+ cartId+" deleted";
+	}
+
 	
 }
