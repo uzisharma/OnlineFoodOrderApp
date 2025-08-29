@@ -7,8 +7,10 @@ import org.springframework.stereotype.Service;
 import com.online.orderapp.dto.checkoutDto.CheckoutRequestDto;
 import com.online.orderapp.entity.Cart;
 import com.online.orderapp.entity.Checkout;
+import com.online.orderapp.entity.OrderPlaced;
 import com.online.orderapp.repository.CartRepository;
 import com.online.orderapp.repository.CheckoutRepository;
+import com.online.orderapp.repository.OrderPlacedRepository;
 import com.online.orderapp.service.CheckoutService;
 
 import lombok.AllArgsConstructor;
@@ -19,6 +21,7 @@ public class CheckoutServiceImplementation implements CheckoutService{
 	
 	private final CheckoutRepository checkoutRepository;
 	private final CartRepository cartRepository;
+	private final OrderPlacedRepository orderPlacedRepository;
 	
 	
 	@Override
@@ -47,13 +50,17 @@ public class CheckoutServiceImplementation implements CheckoutService{
 
 
 	@Override
-	public String deleteCheckout(Integer cartId) {
+	public String deleteCheckout(Integer userId) {
 		// TODO Auto-generated method stub
-		Checkout checkout = checkoutRepository.findByCartId(cartId)
-			.orElseThrow(()-> new NoSuchElementException("Checkout with cart id : "+ cartId+" is not available"));
+		Checkout checkout = checkoutRepository.findByUserId(userId)
+			.orElseThrow(()-> new NoSuchElementException("Checkout with user id : "+ userId+" is not available"));
 		
+		OrderPlaced order = orderPlacedRepository.findByUserId(userId)
+				.orElseThrow(()-> new NoSuchElementException("Checkout with user id : "+ userId+" is not available"));
+		
+		order.setCheckout(null);
 		checkoutRepository.delete(checkout);
-		return "Checkout with cart id : "+ cartId+" deleted";
+		return "Checkout with cart id : "+ userId+" deleted";
 	}
 
 	

@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
+import com.online.orderapp.dto.checkoutDto.CheckoutResponseDto;
 import com.online.orderapp.entity.OrderItemNew;
 import com.online.orderapp.util.PaymentStatus;
 
@@ -21,6 +22,8 @@ public class OrderPlacedDto {
 	private String restaurantName;
 	
 	private List<OrderItemNew> orderItem;
+	
+	private CheckoutResponseDto checkout;
 	
 	private Double totalPrice;
 	

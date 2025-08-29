@@ -40,9 +40,9 @@ public class CheckoutController {
 		
 	}
 	
-	@DeleteMapping("/{cartId}/delete")
-	public ResponseEntity<ResponseStructure<String>> deleteCheckout(@PathVariable Integer cartId){
-		String response = checkoutService.deleteCheckout(cartId);
+	@DeleteMapping("/{userId}/delete")
+	public ResponseEntity<ResponseStructure<String>> deleteCheckout(@PathVariable Integer userId){
+		String response = checkoutService.deleteCheckout(userId);
 		ResponseStructure<String> apiResponse = new ResponseStructure<>();
 		apiResponse.setData(response);
 		apiResponse.setMessage("Checkout Record Deleted");

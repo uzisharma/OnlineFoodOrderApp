@@ -7,6 +7,6 @@ public interface CheckoutService {
 
 	Checkout addToCheckout(CheckoutRequestDto checkoutRequestDto);
 
-	String deleteCheckout(Integer cartId);
+	String deleteCheckout(Integer userId);
 
 }

@@ -10,6 +10,7 @@ import com.online.orderapp.dto.cartDto.CartResponseDto;
 import com.online.orderapp.entity.Cart;
 import com.online.orderapp.entity.CartItem;
 import com.online.orderapp.entity.CartRestaurant;
+import com.online.orderapp.entity.Checkout;
 import com.online.orderapp.entity.Food;
 import com.online.orderapp.entity.Restaurant;
 import com.online.orderapp.entity.User;
@@ -17,6 +18,7 @@ import com.online.orderapp.mapper.CartMapper;
 import com.online.orderapp.repository.CartItemRepository;
 import com.online.orderapp.repository.CartRepository;
 import com.online.orderapp.repository.CartRestaurantRepository;
+import com.online.orderapp.repository.CheckoutRepository;
 import com.online.orderapp.repository.FoodRepository;
 import com.online.orderapp.repository.RestaurantRepository;
 import com.online.orderapp.repository.UserRepository;
@@ -34,6 +36,7 @@ public class CartServiceImplementation implements CartService{
 	private final CartRepository cartRepo;
 	private final CartItemRepository cartItemRepo;
 	private final CartRestaurantRepository cartRestaurantRepo;
+	private final CheckoutRepository checkoutRepo;
 	private final CartMapper cartMapper;
 
 	@Override
@@ -124,6 +127,9 @@ public class CartServiceImplementation implements CartService{
 	public String deleteCartItemByUserId(Integer id) {
 		User user = userRepo.findById(id)
 				.orElseThrow(()->new NoSuchElementException("User not found with id :"+id));
+		Checkout checkout = checkoutRepo.findByUserId(user.getId())
+				.orElseThrow(()->new NoSuchElementException("User not found with id :"+user.getId()));
+		
 		if (user.getUserCart() == null) {
 		    throw new NoSuchElementException("Cart does not exist for user id: " + id);
 		}
@@ -132,6 +138,7 @@ public class CartServiceImplementation implements CartService{
 				.orElseThrow(()->new NoSuchElementException("Cart not found with user id: "+ id));
 
 		user.setUserCart(null);
+		checkout.setCart(null);
 		cartRepo.delete(cart);
 
 		return "Cart Deleted with id: "+id;
