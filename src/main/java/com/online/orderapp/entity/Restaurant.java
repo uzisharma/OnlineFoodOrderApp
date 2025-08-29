@@ -63,7 +63,7 @@ public class Restaurant {
 	private List<CartItem> cartItem = new ArrayList<>();
 	
 	@JsonIgnore
-	@ManyToMany(mappedBy = "restaurant")
+	@OneToMany(mappedBy = "restaurant")
 	private List<OrderPlaced> orderPlaced;
 	
 }

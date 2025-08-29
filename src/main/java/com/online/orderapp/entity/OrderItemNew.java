@@ -1,6 +1,8 @@
 package com.online.orderapp.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,8 +19,9 @@ public class OrderItemNew {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
+	@JsonIgnore
 	@ManyToOne
-//	@JoinColumn(name = "order_placed_id")
+	@JoinColumn(name = "order_placed_id")
 	private OrderPlaced orderPlaced;
 	
 	
