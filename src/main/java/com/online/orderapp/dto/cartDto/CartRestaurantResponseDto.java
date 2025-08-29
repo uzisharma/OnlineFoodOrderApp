@@ -1,4 +1,4 @@
-package com.online.orderapp.dto;
+package com.online.orderapp.dto.cartDto;
 
 import com.online.orderapp.entity.Food;
 

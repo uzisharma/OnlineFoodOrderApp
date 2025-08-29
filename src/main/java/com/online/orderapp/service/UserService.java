@@ -5,8 +5,8 @@ import java.io.IOException;
 import org.springframework.data.domain.Page;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.online.orderapp.dto.UserLoginResponseDto;
-import com.online.orderapp.dto.UserResponseDto;
+import com.online.orderapp.dto.userDto.UserLoginResponseDto;
+import com.online.orderapp.dto.userDto.UserResponseDto;
 import com.online.orderapp.entity.User;
 
 public interface UserService {

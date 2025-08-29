@@ -21,9 +21,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.online.orderapp.dto.ResponseStructure;
-import com.online.orderapp.dto.UserLoginRequestDto;
-import com.online.orderapp.dto.UserLoginResponseDto;
-import com.online.orderapp.dto.UserResponseDto;
+import com.online.orderapp.dto.userDto.UserLoginRequestDto;
+import com.online.orderapp.dto.userDto.UserLoginResponseDto;
+import com.online.orderapp.dto.userDto.UserResponseDto;
 import com.online.orderapp.entity.User;
 import com.online.orderapp.service.UserService;
 

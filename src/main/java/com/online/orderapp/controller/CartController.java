@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.online.orderapp.dto.AddToCartRequestDto;
-import com.online.orderapp.dto.CartResponseDto;
 import com.online.orderapp.dto.ResponseStructure;
+import com.online.orderapp.dto.cartDto.AddToCartRequestDto;
+import com.online.orderapp.dto.cartDto.CartResponseDto;
 import com.online.orderapp.service.CartService;
 
 import lombok.RequiredArgsConstructor;

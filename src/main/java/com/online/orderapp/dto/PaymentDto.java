@@ -2,6 +2,8 @@ package com.online.orderapp.dto;
 
 import java.util.List;
 
+import com.online.orderapp.dto.orderDto.OrderItemRequest;
+
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 

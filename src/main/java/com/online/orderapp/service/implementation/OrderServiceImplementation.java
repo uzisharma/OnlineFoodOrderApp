@@ -8,9 +8,9 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.online.orderapp.dto.BillResponse;
-import com.online.orderapp.dto.OrderItemRequest;
-import com.online.orderapp.dto.OrderRequest;
 import com.online.orderapp.dto.PaymentDto;
+import com.online.orderapp.dto.orderDto.OrderItemRequest;
+import com.online.orderapp.dto.orderDto.OrderRequest;
 import com.online.orderapp.entity.Food;
 import com.online.orderapp.entity.Order;
 import com.online.orderapp.entity.OrderItem;

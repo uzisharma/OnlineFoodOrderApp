@@ -14,8 +14,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.online.orderapp.dto.UserLoginResponseDto;
-import com.online.orderapp.dto.UserResponseDto;
+import com.online.orderapp.dto.userDto.UserLoginResponseDto;
+import com.online.orderapp.dto.userDto.UserResponseDto;
 import com.online.orderapp.entity.User;
 import com.online.orderapp.mapper.UserMapper;
 import com.online.orderapp.repository.UserRepository;

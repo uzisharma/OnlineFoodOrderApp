@@ -1,4 +1,4 @@
-package com.online.orderapp.dto.food;
+package com.online.orderapp.dto.foodDto;
 
 import java.util.List;
 

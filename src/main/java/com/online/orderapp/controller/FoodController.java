@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.online.orderapp.dto.ResponseStructure;
-import com.online.orderapp.dto.food.FoodResponseDto;
+import com.online.orderapp.dto.foodDto.FoodResponseDto;
 import com.online.orderapp.entity.Food;
 import com.online.orderapp.entity.Restaurant;
 import com.online.orderapp.service.FoodService;

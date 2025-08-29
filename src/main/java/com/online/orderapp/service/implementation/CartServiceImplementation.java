@@ -6,7 +6,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.online.orderapp.dto.CartResponseDto;
+import com.online.orderapp.dto.cartDto.CartResponseDto;
 import com.online.orderapp.entity.Cart;
 import com.online.orderapp.entity.CartItem;
 import com.online.orderapp.entity.CartRestaurant;

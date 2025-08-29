@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.online.orderapp.dto.BillResponse;
-import com.online.orderapp.dto.OrderRequest;
 import com.online.orderapp.dto.PaymentDto;
 import com.online.orderapp.dto.ResponseStructure;
+import com.online.orderapp.dto.orderDto.OrderRequest;
 import com.online.orderapp.entity.Order;
 import com.online.orderapp.service.OrderService;
 import com.online.orderapp.util.OrderStatus;
