@@ -22,6 +22,12 @@ public class Checkout {
 	@JoinColumn(name = "cart_id", referencedColumnName = "id")
 	private Cart cart;
 	
+	private Double gstPercent;
+	
+	private Double gstAmount;
+	
+	private Double originalAmount;
+	
 	private Double totalAmount;
 	
 	private Integer itemQuantity;

@@ -29,11 +29,15 @@ public class CheckoutServiceImplementation implements CheckoutService{
 		
 		Checkout checkout = new Checkout();
 		Double gst = 0.18;
-		Double totalAmount = cart.getUserCartItem().getCartPrice() *(1+ gst);
+		Double gstAmount = cart.getUserCartItem().getCartPrice()*gst;
+		Double totalAmount = cart.getUserCartItem().getCartPrice() + gstAmount;
 		Integer totalQuantity = cart.getUserCartItem().getTotalCartItem();
 		
 		checkout.setUserId(cart.getUser().getId());
 		checkout.setCart(cart);
+		checkout.setGstPercent(gst*100);
+		checkout.setGstAmount(gstAmount);
+		checkout.setOriginalAmount(cart.getUserCartItem().getCartPrice());
 		checkout.setTotalAmount(totalAmount);
 		checkout.setItemQuantity(totalQuantity);
 		

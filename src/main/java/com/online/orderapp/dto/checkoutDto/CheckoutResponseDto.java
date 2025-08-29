@@ -11,6 +11,12 @@ public class CheckoutResponseDto {
 	
 	private Integer cartId;
 	
+	private Double gstPercent;
+	
+	private Double gstAmount;
+	
+	private Double originalAmount;
+	
 	private Double totalAmount;
 	
 	private Integer itemQuantity;
