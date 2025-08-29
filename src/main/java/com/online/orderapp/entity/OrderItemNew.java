@@ -1,13 +1,12 @@
 package com.online.orderapp.entity;
 
-import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.Data;
 
 @Entity
@@ -18,15 +17,17 @@ public class OrderItemNew {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	@OneToOne
-	private Restaurant restaurant;
+	@ManyToOne
+	@JoinColumn(name = "order_placed_id")
+	private OrderPlaced orderPlaced;
 	
-	@ManyToMany
-	private List<Food> food;
+	
+	@ManyToOne
+	private Food food;
 	
 	private Integer quantity;
 	
-	private Integer quantityPrice;
+	private Double quantityPrice;
 	
 	
 }

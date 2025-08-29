@@ -28,8 +28,8 @@ public class CartRestaurant {
 	private Food food;
 	
 //	private Integer restaurantId;
-	@ManyToOne
-	private Restaurant restaurant;
+//	@ManyToOne
+//	private Restaurant restaurant;
 	
 	private Integer quantity;
 	

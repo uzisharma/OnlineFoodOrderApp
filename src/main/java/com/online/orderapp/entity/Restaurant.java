@@ -60,7 +60,7 @@ public class Restaurant {
 	
 	@JsonIgnore
 	@OneToMany(mappedBy="restaurant", cascade=CascadeType.ALL, orphanRemoval = true)
-	private List<CartRestaurant> cartRestaurant = new ArrayList<>();
+	private List<CartItem> cartItem = new ArrayList<>();
 	
 	@JsonIgnore
 	@ManyToMany(mappedBy = "restaurant")

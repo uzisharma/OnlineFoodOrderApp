@@ -1,17 +1,20 @@
 package com.online.orderapp.entity;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
+
+import com.online.orderapp.util.PaymentStatus;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.OneToMany;
 import lombok.Data;
 
 @Entity
@@ -29,16 +32,18 @@ public class OrderPlaced {
 	private User user;
 	
 
-	@ManyToMany
+	@ManyToOne
 	@JoinColumn(name = "restaurant_id", referencedColumnName = "id")
-	private List<Restaurant> restaurant;
+	private Restaurant restaurant; //single restaurant per order
 	
-	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-	private OrderItemNew orderItem;
+	@OneToMany(mappedBy = "orderPlaced",cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<OrderItemNew> orderItem;
 	
 	private Double totalPrice;
 	
-	private LocalDateTime deliveryDateAndTime;
+	private LocalDate deliveryDate;
 	
+	private LocalTime deliveryTime;
 	
+	private PaymentStatus paymentStatus;
 }

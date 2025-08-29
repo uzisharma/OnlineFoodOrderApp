@@ -3,13 +3,13 @@ package com.online.orderapp.entity;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import lombok.Data;
@@ -31,6 +31,9 @@ public class CartItem {
 	//parent
 	@OneToMany(mappedBy = "cartItems",cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<CartRestaurant> cartRestaurant = new ArrayList<>();
+	
+	@ManyToOne
+	private Restaurant restaurant;
 	
 	
 	private Double cartPrice;
