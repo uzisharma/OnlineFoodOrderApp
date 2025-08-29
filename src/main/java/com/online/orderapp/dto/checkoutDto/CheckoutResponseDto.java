@@ -13,5 +13,7 @@ public class CheckoutResponseDto {
 	
 	private Double totalAmount;
 	
+	private Integer itemQuantity;
+	
 	
 }

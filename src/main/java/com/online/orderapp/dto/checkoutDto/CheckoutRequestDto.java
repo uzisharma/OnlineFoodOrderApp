@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 public class CheckoutRequestDto {
 	
-	private Integer id;
+//	private Integer id;
 	
 	private Integer cartId;
 	
