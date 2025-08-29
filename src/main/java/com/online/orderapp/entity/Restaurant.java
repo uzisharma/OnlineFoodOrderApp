@@ -62,4 +62,8 @@ public class Restaurant {
 	@OneToMany(mappedBy="restaurant", cascade=CascadeType.ALL, orphanRemoval = true)
 	private List<CartRestaurant> cartRestaurant = new ArrayList<>();
 	
+	@JsonIgnore
+	@ManyToMany(mappedBy = "restaurant")
+	private List<OrderPlaced> orderPlaced;
+	
 }

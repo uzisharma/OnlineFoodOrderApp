@@ -56,4 +56,7 @@ public class User {
 	@OneToOne(mappedBy = "user",cascade = CascadeType.ALL,orphanRemoval = true)
 	private Cart userCart; //inversion side but parent also, deleting user should delete the associated cart
 	
+	
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<OrderPlaced> orderPlaced;
 }
