@@ -52,14 +52,11 @@ public class CheckoutServiceImplementation implements CheckoutService{
 
 	@Override
 	public String deleteCheckout(Integer userId) {
-		// TODO Auto-generated method stub
-		Checkout checkout = checkoutRepository.findByUserId(userId)
-			.orElseThrow(()-> new NoSuchElementException("Checkout with user id : "+ userId+" is not available"));
+		List<OrderPlaced> orderPlaced = orderPlacedRepository.findByUserId(userId);
 		
-		List<OrderPlaced> order = orderPlacedRepository.findByUserId(userId);
+		orderPlaced.forEach(item->item.setCheckout(null));
+		orderPlacedRepository.saveAll(orderPlaced);
 		
-		order.forEach(item->item.setCheckout(null));
-		checkoutRepository.delete(checkout);
 		return "Checkout with cart id : "+ userId+" deleted";
 	}
 
