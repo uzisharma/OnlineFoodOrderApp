@@ -13,7 +13,7 @@ import com.online.orderapp.entity.CartRestaurant;
 @Mapper(componentModel = "spring")
 public interface CartMapper {
 	
-	
+	@Mapping(source = "userCartItem", target="userCartItem")
 	CartResponseDto toDto(Cart cart);
 	
 	@Mapping(source = "restaurant.id", target="restaurantId")

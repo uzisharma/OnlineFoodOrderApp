@@ -38,81 +38,151 @@ public class CartServiceImplementation implements CartService{
 	private final CheckoutRepository checkoutRepo;
 	private final CartMapper cartMapper;
 
-	@Override
-	@Transactional
-	public CartResponseDto addFoodToCart(Integer userId,Integer restaurantId, Integer foodId, Integer quantity) {
-		User user = userRepo.findById(userId)
-				.orElseThrow(()-> new NoSuchElementException("User Not Found"));
-		
-		Food food = foodRepo.findById(foodId)
-				.orElseThrow(()-> new NoSuchElementException("Food not found"));
-		
-		Restaurant restaurant = restaurantRepo.findById(restaurantId)
-				.orElseThrow(()->new NoSuchElementException("restaurant with id :"+restaurantId+" not found"));
-		
-		//Get or create cart
-		Cart cart = user.getUserCart();
-		if(cart==null) {
-			cart = new Cart();
-			cart.setUser(user);
-			CartItem cartItem = new CartItem();
-			cart.setUserCartItem(cartItem);
-			cartItem.setCart(cart);
-			cartRepo.save(cart);
-			cartItemRepo.save(cartItem);
-		}
-		
-		user.setUserCart(cart);
-		userRepo.save(user);
-		
-		CartItem cartItem = cart.getUserCartItem();
-		
-		if(cartItem==null) {
-			cartItem = new CartItem();
-			cartItem.setCart(cart);
-		}
-		
-		//Check if food already exist in cart 
-		Optional<CartRestaurant> existingItem = cartItem.getCartRestaurant()
-				.stream()
-				.filter(cr -> cr.getFood().getId().equals(foodId))
-				.findFirst();
-		
-		if(existingItem.isPresent()) {
-			CartRestaurant cartRestaurant = existingItem.get();
-//			cartRestaurant.setRestaurant(restaurant);
-			cartRestaurant.setQuantity( quantity);
-			cartRestaurant.setQuantityPrice(cartRestaurant.getQuantity() * (double)food.getPrice() );
-			cartRestaurantRepo.save(cartRestaurant);
-		}else {
-			CartRestaurant cartRestaurant = new CartRestaurant();
-			cartRestaurant.setCartItems(cartItem);
-			cartRestaurant.setFood(food);
-			cartRestaurant.setQuantity(quantity);
-			cartRestaurant.setQuantityPrice(quantity * (double)food.getPrice());
-			
-			
-			cartItem.getCartRestaurant().add(cartRestaurant);
-			cartRestaurantRepo.save(cartRestaurant);
-		}
-		
-		double total = cartItem.getCartRestaurant()
-				.stream()
-				.mapToDouble(CartRestaurant::getQuantityPrice)
-				.sum();
-		cartItem.setCartPrice(total);
-		int totalCartItem = (int)cartItem.getCartRestaurant()
-				.stream()
-				.count();
-		cartItem.setTotalCartItem(totalCartItem);
-		cartItem.setRestaurant(restaurant);
-		
-		cartItemRepo.save(cartItem);
-//		return cartRepo.save(cart);
-		return cartMapper.toDto(cart);
-				
+//	@Override
+//	@Transactional
+//	public CartResponseDto addFoodToCart(Integer userId,Integer restaurantId, Integer foodId, Integer quantity) {
+//		User user = userRepo.findById(userId)
+//				.orElseThrow(()-> new NoSuchElementException("User Not Found"));
+//		
+//		Food food = foodRepo.findById(foodId)
+//				.orElseThrow(()-> new NoSuchElementException("Food not found"));
+//		
+//		Restaurant restaurant = restaurantRepo.findById(restaurantId)
+//				.orElseThrow(()->new NoSuchElementException("restaurant with id :"+restaurantId+" not found"));
+//		
+//		//Get or create cart
+//		Cart cart = user.getUserCart();
+//		if(cart==null) {
+//			cart = new Cart();
+//			cart.setUser(user);
+//			CartItem cartItem = new CartItem();
+//			cart.setUserCartItem(cartItem);
+//			cartItem.setCart(cart);
+//			cartRepo.save(cart);
+//			cartItemRepo.save(cartItem);
+//		}
+//		
+//		user.setUserCart(cart);
+//		userRepo.save(user);
+//		
+//		CartItem cartItem = cart.getUserCartItem();
+//		
+//		if(cartItem==null) {
+//			cartItem = new CartItem();
+//			cartItem.setCart(cart);
+//		}
+//		
+//		//Check if food already exist in cart 
+//		Optional<CartRestaurant> existingItem = cartItem.getCartRestaurant()
+//				.stream()
+//				.filter(cr -> cr.getFood().getId().equals(foodId))
+//				.findFirst();
+//		
+//		if(existingItem.isPresent()) {
+//			CartRestaurant cartRestaurant = existingItem.get();
+////			cartRestaurant.setRestaurant(restaurant);
+//			cartRestaurant.setQuantity( quantity);
+//			cartRestaurant.setQuantityPrice(cartRestaurant.getQuantity() * (double)food.getPrice() );
+//			cartRestaurantRepo.save(cartRestaurant);
+//		}else {
+//			CartRestaurant cartRestaurant = new CartRestaurant();
+//			cartRestaurant.setCartItems(cartItem);
+//			cartRestaurant.setFood(food);
+//			cartRestaurant.setQuantity(quantity);
+//			cartRestaurant.setQuantityPrice(quantity * (double)food.getPrice());
+//			
+//			
+//			cartItem.getCartRestaurant().add(cartRestaurant);
+//			cartRestaurantRepo.save(cartRestaurant);
+//		}
+//		
+//		double total = cartItem.getCartRestaurant()
+//				.stream()
+//				.mapToDouble(CartRestaurant::getQuantityPrice)
+//				.sum();
+//		cartItem.setCartPrice(total);
+//		int totalCartItem = (int)cartItem.getCartRestaurant()
+//				.stream()
+//				.count();
+//		cartItem.setTotalCartItem(totalCartItem);
+//		cartItem.setRestaurant(restaurant);
+//		
+//		cartItemRepo.save(cartItem);
+////		return cartRepo.save(cart);
+//		return cartMapper.toDto(cart);
+//				
+//	}
+
+	
+	public CartResponseDto addFoodToCart(Integer userId, Integer restaurantId, Integer foodId, Integer quantity) {
+	    User user = userRepo.findById(userId)
+	            .orElseThrow(() -> new NoSuchElementException("User Not Found"));
+
+	    Food food = foodRepo.findById(foodId)
+	            .orElseThrow(() -> new NoSuchElementException("Food not found"));
+
+	    Restaurant restaurant = restaurantRepo.findById(restaurantId)
+	            .orElseThrow(() -> new NoSuchElementException("Restaurant with id :" + restaurantId + " not found"));
+
+	    // Get or create cart
+	    Cart cart = user.getUserCart();
+	    if (cart == null) {
+	        cart = new Cart();
+	        cart.setUser(user);
+	        cartRepo.save(cart);
+	    }
+
+	    user.setUserCart(cart);
+	    userRepo.save(user);
+
+	    // Get or create cartItem
+	    CartItem cartItem = cart.getUserCartItem();
+	    if (cartItem == null) {
+	        cartItem = new CartItem();
+	        cartItem.setCart(cart);
+	        cart.setUserCartItem(cartItem); // ✅ attach back to cart
+	        cartItemRepo.save(cartItem);
+	    }
+
+	    // Check if food already exists in cart
+	    Optional<CartRestaurant> existingItem = cartItem.getCartRestaurant()
+	            .stream()
+	            .filter(cr -> cr.getFood().getId().equals(foodId))
+	            .findFirst();
+
+	    if (existingItem.isPresent()) {
+	        CartRestaurant cartRestaurant = existingItem.get();
+	        cartRestaurant.setQuantity(quantity);
+	        cartRestaurant.setQuantityPrice(cartRestaurant.getQuantity() * (double) food.getPrice());
+	        cartRestaurantRepo.save(cartRestaurant);
+	    } else {
+	        CartRestaurant cartRestaurant = new CartRestaurant();
+	        cartRestaurant.setCartItems(cartItem);
+	        cartRestaurant.setFood(food);
+	        cartRestaurant.setQuantity(quantity);
+	        cartRestaurant.setQuantityPrice(quantity * (double) food.getPrice());
+
+	        cartItem.getCartRestaurant().add(cartRestaurant);
+	        cartRestaurantRepo.save(cartRestaurant);
+	    }
+
+	    // Recalculate totals
+	    double total = cartItem.getCartRestaurant()
+	            .stream()
+	            .mapToDouble(CartRestaurant::getQuantityPrice)
+	            .sum();
+	    cartItem.setCartPrice(total);
+
+	    int totalCartItem = cartItem.getCartRestaurant().size();
+	    cartItem.setTotalCartItem(totalCartItem);
+	    cartItem.setRestaurant(restaurant);
+
+	    cartItemRepo.save(cartItem);
+
+	    return cartMapper.toDto(cart);
 	}
 
+	
 	@Override
 	public CartResponseDto findCartByUserId(Integer id) {
 		// TODO Auto-generated method stub

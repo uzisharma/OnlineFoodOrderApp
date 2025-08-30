@@ -30,7 +30,9 @@ public class CheckoutServiceImplementation implements CheckoutService{
 		// TODO Auto-generated method stub
 		Cart cart = cartRepository.findById(checkoutRequestDto.getCartId())
 				.orElseThrow(()-> new NoSuchElementException("cart is not available with the id :"+checkoutRequestDto.getCartId()));
-		
+		if(cart.getUserCartItem() == null) {
+			throw new NoSuchElementException("CartItem is not available");
+		}
 		Checkout checkout = new Checkout();
 		Double gst = 0.18;
 		Double gstAmount = cart.getUserCartItem().getCartPrice()*gst;
