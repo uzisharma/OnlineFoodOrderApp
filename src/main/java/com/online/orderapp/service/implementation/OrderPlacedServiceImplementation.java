@@ -18,6 +18,8 @@ import com.online.orderapp.entity.User;
 import com.online.orderapp.repository.CartRepository;
 import com.online.orderapp.repository.CheckoutRepository;
 import com.online.orderapp.repository.OrderPlacedRepository;
+import com.online.orderapp.service.CartItemService;
+import com.online.orderapp.service.CheckoutService;
 import com.online.orderapp.service.OrderPlacedService;
 import com.online.orderapp.util.PaymentStatus;
 
@@ -30,10 +32,12 @@ public class OrderPlacedServiceImplementation implements OrderPlacedService{
 	private final OrderPlacedRepository orderPlacedRepository;
 	private final CartRepository cartRepository;
 	private final CheckoutRepository checkoutRepository;
+	private final CartItemService cartItemService;
+	private final CheckoutService checkoutService;
 	
 	
 	@Override
-	public OrderPlaced placeOrder(Integer cartId) {
+	public OrderPlaced placeOrder(Integer cartId, PaymentStatus paymentStatus) {
 		// TODO Auto-generated method stub
 		
 		String id = "ORD-" + UUID.randomUUID().toString().substring(0,8).toUpperCase();
@@ -67,12 +71,24 @@ public class OrderPlacedServiceImplementation implements OrderPlacedService{
 		orderPlaced.setOrderItem(orderItems);
 		orderPlaced.setDeliveryDate(LocalDate.now());
 		orderPlaced.setDeliveryTime(LocalTime.now().plusMinutes(40).truncatedTo(ChronoUnit.MINUTES));
-		orderPlaced.setPaymentStatus(PaymentStatus.COMPLETED);
+		orderPlaced.setPaymentStatus(paymentStatus);
 		orderPlaced.setCheckout(checkout);
 		orderPlaced.setTotalPrice(checkout.getTotalAmount());
 		
 		orderItems.forEach(item-> item.setOrderPlaced(orderPlaced));
-		return orderPlacedRepository.save(orderPlaced);
+		
+		
+		OrderPlaced save = orderPlacedRepository.save(orderPlaced);
+		
+		if(paymentStatus == PaymentStatus.COMPLETED) {
+			cartItemService.deleteByCartId(cartId);
+			checkoutService.deleteCheckout(user.getId());
+		}else if(paymentStatus == PaymentStatus.FAILED) {
+//			cartItemService.deleteByCartId(cartId);
+			checkoutService.deleteCheckout(user.getId());
+		}
+		
+		return save;
 	}
 	
 	
