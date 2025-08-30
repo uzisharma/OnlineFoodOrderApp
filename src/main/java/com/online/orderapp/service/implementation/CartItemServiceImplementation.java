@@ -1,53 +1,30 @@
 package com.online.orderapp.service.implementation;
 
 
-import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.springframework.stereotype.Service;
-import com.online.orderapp.entity.CartItem;
-import com.online.orderapp.entity.CartRestaurant;
-import com.online.orderapp.repository.CartItemRepository;
-import com.online.orderapp.repository.CartRestaurantRepository;
+
+import com.online.orderapp.entity.Cart;
+import com.online.orderapp.repository.CartRepository;
 import com.online.orderapp.service.CartItemService;
 
-import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
 public class CartItemServiceImplementation implements CartItemService{
-
 	
-	private final CartItemRepository cartItemRepository;
-	private final CartRestaurantRepository cartRestaurantRepository;
+	private final CartRepository cartRepository;
 
-
-
-	
 	
 	@Override
-	@Transactional
 	public void deleteByCartId(Integer cartId) {
-//		List<Cart> carts = cartRepository.findByCartId(cartId);
 		
-		List<CartItem> cartItem = cartItemRepository.findByCartId(cartId);
-		cartItem.forEach(item->{
-			item.setCart(null);
-			item.setRestaurant(null);
-		});
-		
-		cartItemRepository.saveAll(cartItem);
-		
-		List<CartRestaurant> cartRestaurant = cartRestaurantRepository.findByCartItemsId(cartId);
-		
-		cartRestaurant.forEach(item->{
-			item.setCartItems(null);
-		});
-		
-		cartRestaurantRepository.saveAll(cartRestaurant);
-		
-		cartItemRepository.deleteAll(cartItem);
-		// TODO Auto-generated method stub
+		Cart cart = cartRepository.findById(cartId)
+				.orElseThrow(()->new NoSuchElementException("cart not available"));
+		cart.setUserCartItem(null);
+		cartRepository.save(cart);
 		
 	}
 

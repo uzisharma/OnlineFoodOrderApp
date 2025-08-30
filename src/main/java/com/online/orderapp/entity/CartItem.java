@@ -22,7 +22,7 @@ public class CartItem {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne
 	@JoinColumn(name="cart_id") //FK now lives here in cart_item table
 	private Cart cart;
 	
