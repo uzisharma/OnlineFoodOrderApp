@@ -55,8 +55,7 @@ public class Restaurant {
 				inverseJoinColumns = @JoinColumn(name="id_food")) //its optional and its use to change the auto generated table name
 	private List<Food> food;
 	
-	@OneToMany(mappedBy = "restaurant")
-	private List<Order> orders;
+
 	
 	@JsonIgnore
 	@OneToMany(mappedBy="restaurant", cascade=CascadeType.ALL, orphanRemoval = true)

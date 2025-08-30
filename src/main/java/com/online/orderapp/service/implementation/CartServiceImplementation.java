@@ -1,6 +1,5 @@
 package com.online.orderapp.service.implementation;
 
-import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -48,7 +47,8 @@ public class CartServiceImplementation implements CartService{
 		Food food = foodRepo.findById(foodId)
 				.orElseThrow(()-> new NoSuchElementException("Food not found"));
 		
-		Restaurant restaurant = restaurantRepo.findById(restaurantId).orElseThrow(()->new NoSuchElementException("restaurant with id :"+restaurantId+" not found"));
+		Restaurant restaurant = restaurantRepo.findById(restaurantId)
+				.orElseThrow(()->new NoSuchElementException("restaurant with id :"+restaurantId+" not found"));
 		
 		//Get or create cart
 		Cart cart = user.getUserCart();
@@ -59,14 +59,17 @@ public class CartServiceImplementation implements CartService{
 			cart.setUserCartItem(cartItem);
 			cartItem.setCart(cart);
 			cartRepo.save(cart);
+			cartItemRepo.save(cartItem);
 		}
 		
 		user.setUserCart(cart);
 		userRepo.save(user);
 		
 		CartItem cartItem = cart.getUserCartItem();
-		if(cartItem.getCartRestaurant() == null) {
-			cartItem.setCartRestaurant(new ArrayList<>());
+		
+		if(cartItem==null) {
+			cartItem = new CartItem();
+			cartItem.setCart(cart);
 		}
 		
 		//Check if food already exist in cart 
@@ -84,7 +87,6 @@ public class CartServiceImplementation implements CartService{
 		}else {
 			CartRestaurant cartRestaurant = new CartRestaurant();
 			cartRestaurant.setCartItems(cartItem);
-//			cartRestaurant.setRestaurant(restaurant);
 			cartRestaurant.setFood(food);
 			cartRestaurant.setQuantity(quantity);
 			cartRestaurant.setQuantityPrice(quantity * (double)food.getPrice());
@@ -126,9 +128,9 @@ public class CartServiceImplementation implements CartService{
 	@Transactional
 	public String deleteCartItemByUserId(Integer id) {
 		User user = userRepo.findById(id)
-				.orElseThrow(()->new NoSuchElementException("User not found with id :"+id));
+				.orElseThrow(()->new NoSuchElementException("User not found with Id :"+id));
 		Checkout checkout = checkoutRepo.findByUserId(user.getId())
-				.orElseThrow(()->new NoSuchElementException("User not found with id :"+user.getId()));
+				.orElseThrow(()->new NoSuchElementException("Checkout not found with id :"+user.getId()));
 		
 		if (user.getUserCart() == null) {
 		    throw new NoSuchElementException("Cart does not exist for user id: " + id);

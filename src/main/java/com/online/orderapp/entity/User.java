@@ -49,9 +49,7 @@ public class User {
 	
 	@Lob
 	private byte[] image;
-	
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-	private List<Order> orders;
+
 	
 	@OneToOne(mappedBy = "user",cascade = CascadeType.ALL,orphanRemoval = true)
 	private Cart userCart; //inversion side but parent also, deleting user should delete the associated cart

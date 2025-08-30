@@ -79,7 +79,6 @@ public class UserServiceImplementation implements UserService{
 			fetchedUser.setEmail(user.getEmail());
 			fetchedUser.setGender(user.getGender());
 			fetchedUser.setImage(user.getImage());
-			fetchedUser.setOrders(user.getOrders());
 			fetchedUser.setPassword(user.getPassword());
 			userRepository.save(fetchedUser);
 		}

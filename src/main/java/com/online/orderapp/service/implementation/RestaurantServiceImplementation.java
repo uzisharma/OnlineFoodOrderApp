@@ -13,7 +13,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.online.orderapp.entity.Food;
-import com.online.orderapp.entity.Order;
 import com.online.orderapp.entity.Restaurant;
 import com.online.orderapp.repository.FoodRepository;
 import com.online.orderapp.repository.RestaurantRepository;
@@ -103,16 +102,6 @@ public class RestaurantServiceImplementation implements RestaurantService {
 		}
 	}
 
-	@Override
-	public List<Order> findOrdersByRestaurantId(Integer id) {
-		List<Order> orders = restaurantRepository.findOrdersByRestaurantId(id);
-		if(orders==null || orders.size()==0) {
-			throw new NoSuchElementException("Restaurant with Id : "+id+" not found or the order is not assigned to the restaurnat");
-			
-		}else {
-			return orders;
-		}
-	}
 
 
 	

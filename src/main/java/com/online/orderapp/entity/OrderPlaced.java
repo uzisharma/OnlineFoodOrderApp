@@ -12,6 +12,8 @@ import com.online.orderapp.util.PaymentStatus;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -53,5 +55,6 @@ public class OrderPlaced {
 	
 	private LocalTime deliveryTime;
 	
+	@Enumerated(EnumType.STRING)
 	private PaymentStatus paymentStatus;
 }
