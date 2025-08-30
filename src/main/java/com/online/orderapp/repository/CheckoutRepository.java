@@ -14,5 +14,9 @@ public interface CheckoutRepository extends JpaRepository<Checkout, Integer>{
 	
 	@Query
 	Optional<Checkout> findByUserId(Integer id);
+	
+//	@Query
+//	List<Checkout> findByUserId(Integer id);
+	
 
 }

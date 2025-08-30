@@ -2,6 +2,8 @@ package com.online.orderapp.entity;
 
 import java.util.List;
 
+import org.hibernate.validator.constraints.UniqueElements;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.CascadeType;
@@ -29,8 +31,11 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
 	private Integer id;
+	
+	
 	@NotNull
 	@NotBlank
+	@UniqueElements
 	private String userName;
 	
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)

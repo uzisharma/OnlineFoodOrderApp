@@ -201,7 +201,13 @@ public class CartServiceImplementation implements CartService{
 				.orElseThrow(()->new NoSuchElementException("User not found with Id :"+id));
 		Checkout checkout = checkoutRepo.findByUserId(user.getId())
 				.orElseThrow(()->new NoSuchElementException("Checkout not found with id :"+user.getId()));
-		
+//		
+//		List<Checkout> checkout = checkoutRepo.findByUserId(id);
+//		
+//		if (checkout.isEmpty()) {
+//		    throw new NoSuchElementException("No checkout found for user id: " + id);
+//		}
+//		
 		if (user.getUserCart() == null) {
 		    throw new NoSuchElementException("Cart does not exist for user id: " + id);
 		}
@@ -210,7 +216,12 @@ public class CartServiceImplementation implements CartService{
 				.orElseThrow(()->new NoSuchElementException("Cart not found with user id: "+ id));
 
 		user.setUserCart(null);
+		
 		checkout.setCart(null);
+//		
+//		checkout.forEach(item->{
+//			item.setCart(null);
+//		});
 		cartRepo.delete(cart);
 
 		return "Cart Deleted with id: "+id;
