@@ -2,7 +2,6 @@ package com.online.orderapp.entity;
 
 import java.util.List;
 
-import org.hibernate.validator.constraints.UniqueElements;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -35,7 +34,6 @@ public class User {
 	
 	@NotNull
 	@NotBlank
-	@UniqueElements
 	private String userName;
 	
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)

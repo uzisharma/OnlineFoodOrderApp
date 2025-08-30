@@ -9,13 +9,19 @@ import com.online.orderapp.entity.Checkout;
 
 
 
-@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(componentModel = "spring",
+uses = { CartMapper.class },
+unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface CheckoutMapper {
 		
 	
 	@Mapping(source = "cart.id", target = "cartId")
 	@Mapping(source = "cart.user.id", target= "userId")
+	@Mapping(source = "cart.userCartItem.cartRestaurant" , target= "orderSummary")
+	@Mapping(source = "cart.userCartItem.restaurant.restaurantName", target="restaurantName")
 	CheckoutResponseDto toDto(Checkout checkout);
+	
+
 
 	
 }

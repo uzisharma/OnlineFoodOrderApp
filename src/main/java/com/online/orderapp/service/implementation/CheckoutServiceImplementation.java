@@ -2,6 +2,7 @@ package com.online.orderapp.service.implementation;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -27,9 +28,18 @@ public class CheckoutServiceImplementation implements CheckoutService{
 	
 	@Override
 	public Checkout addToCheckout(CheckoutRequestDto checkoutRequestDto) {
-		// TODO Auto-generated method stub
+		//cartId
+		Optional<Checkout> previousCheckout = checkoutRepository.findByCartId(checkoutRequestDto.getCartId());
+		
+
+		
 		Cart cart = cartRepository.findById(checkoutRequestDto.getCartId())
 				.orElseThrow(()-> new NoSuchElementException("cart is not available with the id :"+checkoutRequestDto.getCartId()));
+		
+		if(previousCheckout.isPresent()) {
+			deleteCheckout(cart.getUser().getId());
+		}
+		
 		if(cart.getUserCartItem() == null) {
 			throw new NoSuchElementException("CartItem is not available");
 		}
@@ -55,10 +65,12 @@ public class CheckoutServiceImplementation implements CheckoutService{
 	@Override
 	public String deleteCheckout(Integer userId) {
 		List<OrderPlaced> orderPlaced = orderPlacedRepository.findByUserId(userId);
+		Checkout checkout = checkoutRepository.findByUserId(userId)
+			.orElseThrow(()-> new NoSuchElementException("Checkout with userId :" + userId + " is not available"));
 		
 		orderPlaced.forEach(item->item.setCheckout(null));
 		orderPlacedRepository.saveAll(orderPlaced);
-		
+		checkoutRepository.delete(checkout);
 		return "Checkout with cart id : "+ userId+" deleted";
 	}
 

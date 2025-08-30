@@ -6,6 +6,7 @@ import org.mapstruct.Mapping;
 import com.online.orderapp.dto.cartDto.CartItemResponseDto;
 import com.online.orderapp.dto.cartDto.CartResponseDto;
 import com.online.orderapp.dto.cartDto.CartRestaurantResponseDto;
+import com.online.orderapp.dto.orderDto.OrderSummaryDto;
 import com.online.orderapp.entity.Cart;
 import com.online.orderapp.entity.CartItem;
 import com.online.orderapp.entity.CartRestaurant;
@@ -19,5 +20,10 @@ public interface CartMapper {
 	@Mapping(source = "restaurant.id", target="restaurantId")
 	CartItemResponseDto toDto(CartItem cartItem);
 	
+
 	CartRestaurantResponseDto toDto(CartRestaurant cartRestaurant);
+	
+
+	@Mapping(source = "food.foodName", target="foodName")
+	OrderSummaryDto toOrderSummaryDto(CartRestaurant cartLine);
 }

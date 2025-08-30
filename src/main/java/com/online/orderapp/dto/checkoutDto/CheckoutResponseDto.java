@@ -1,11 +1,17 @@
 package com.online.orderapp.dto.checkoutDto;
 
+import java.util.List;
+
+import com.online.orderapp.dto.orderDto.OrderSummaryDto;
+
 import lombok.Data;
 
 @Data
 public class CheckoutResponseDto {
 	
 	private Integer id;
+	
+	private String restaurantName;
 	
 	private Integer userId;
 	
@@ -20,6 +26,6 @@ public class CheckoutResponseDto {
 	private Double totalAmount;
 	
 	private Integer itemQuantity;
-	
-	
+		
+	private List<OrderSummaryDto> orderSummary;
 }
