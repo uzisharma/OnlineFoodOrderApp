@@ -23,7 +23,7 @@ public class OrderPlacedDto {
 	
 	private List<OrderItemNew> orderItem;
 	
-	private CheckoutResponseDto checkout;
+	private CheckoutResponseDto checkoutResponseDto;
 	
 	private Double totalPrice;
 	
