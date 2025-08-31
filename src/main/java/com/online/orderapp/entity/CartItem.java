@@ -1,9 +1,11 @@
 package com.online.orderapp.entity;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -35,8 +37,8 @@ public class CartItem {
 	@ManyToOne
 	private Restaurant restaurant;
 	
-	
-	private Double cartPrice;
+	@Column(precision = 10, scale = 2)
+	private BigDecimal cartPrice;
 	
 	private Integer totalCartItem;
 	

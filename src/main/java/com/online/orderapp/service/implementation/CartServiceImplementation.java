@@ -1,5 +1,7 @@
 package com.online.orderapp.service.implementation;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -38,80 +40,7 @@ public class CartServiceImplementation implements CartService{
 	private final CheckoutRepository checkoutRepo;
 	private final CartMapper cartMapper;
 
-//	@Override
-//	@Transactional
-//	public CartResponseDto addFoodToCart(Integer userId,Integer restaurantId, Integer foodId, Integer quantity) {
-//		User user = userRepo.findById(userId)
-//				.orElseThrow(()-> new NoSuchElementException("User Not Found"));
-//		
-//		Food food = foodRepo.findById(foodId)
-//				.orElseThrow(()-> new NoSuchElementException("Food not found"));
-//		
-//		Restaurant restaurant = restaurantRepo.findById(restaurantId)
-//				.orElseThrow(()->new NoSuchElementException("restaurant with id :"+restaurantId+" not found"));
-//		
-//		//Get or create cart
-//		Cart cart = user.getUserCart();
-//		if(cart==null) {
-//			cart = new Cart();
-//			cart.setUser(user);
-//			CartItem cartItem = new CartItem();
-//			cart.setUserCartItem(cartItem);
-//			cartItem.setCart(cart);
-//			cartRepo.save(cart);
-//			cartItemRepo.save(cartItem);
-//		}
-//		
-//		user.setUserCart(cart);
-//		userRepo.save(user);
-//		
-//		CartItem cartItem = cart.getUserCartItem();
-//		
-//		if(cartItem==null) {
-//			cartItem = new CartItem();
-//			cartItem.setCart(cart);
-//		}
-//		
-//		//Check if food already exist in cart 
-//		Optional<CartRestaurant> existingItem = cartItem.getCartRestaurant()
-//				.stream()
-//				.filter(cr -> cr.getFood().getId().equals(foodId))
-//				.findFirst();
-//		
-//		if(existingItem.isPresent()) {
-//			CartRestaurant cartRestaurant = existingItem.get();
-////			cartRestaurant.setRestaurant(restaurant);
-//			cartRestaurant.setQuantity( quantity);
-//			cartRestaurant.setQuantityPrice(cartRestaurant.getQuantity() * (double)food.getPrice() );
-//			cartRestaurantRepo.save(cartRestaurant);
-//		}else {
-//			CartRestaurant cartRestaurant = new CartRestaurant();
-//			cartRestaurant.setCartItems(cartItem);
-//			cartRestaurant.setFood(food);
-//			cartRestaurant.setQuantity(quantity);
-//			cartRestaurant.setQuantityPrice(quantity * (double)food.getPrice());
-//			
-//			
-//			cartItem.getCartRestaurant().add(cartRestaurant);
-//			cartRestaurantRepo.save(cartRestaurant);
-//		}
-//		
-//		double total = cartItem.getCartRestaurant()
-//				.stream()
-//				.mapToDouble(CartRestaurant::getQuantityPrice)
-//				.sum();
-//		cartItem.setCartPrice(total);
-//		int totalCartItem = (int)cartItem.getCartRestaurant()
-//				.stream()
-//				.count();
-//		cartItem.setTotalCartItem(totalCartItem);
-//		cartItem.setRestaurant(restaurant);
-//		
-//		cartItemRepo.save(cartItem);
-////		return cartRepo.save(cart);
-//		return cartMapper.toDto(cart);
-//				
-//	}
+
 
 	
 	public CartResponseDto addFoodToCart(Integer userId, Integer restaurantId, Integer foodId, Integer quantity) {
@@ -153,24 +82,34 @@ public class CartServiceImplementation implements CartService{
 	    if (existingItem.isPresent()) {
 	        CartRestaurant cartRestaurant = existingItem.get();
 	        cartRestaurant.setQuantity(quantity);
-	        cartRestaurant.setQuantityPrice(cartRestaurant.getQuantity() * (double) food.getPrice());
+	        
+	        BigDecimal quantityPrice = food.getPrice()
+	        		.multiply(BigDecimal.valueOf(quantity));
+	        
+	        cartRestaurant.setQuantityPrice(quantityPrice);
 	        cartRestaurantRepo.save(cartRestaurant);
 	    } else {
 	        CartRestaurant cartRestaurant = new CartRestaurant();
 	        cartRestaurant.setCartItems(cartItem);
 	        cartRestaurant.setFood(food);
 	        cartRestaurant.setQuantity(quantity);
-	        cartRestaurant.setQuantityPrice(quantity * (double) food.getPrice());
+	        
+	        BigDecimal quantityPrice = food.getPrice()
+	        		.multiply(BigDecimal.valueOf(quantity));
+	        
+	        cartRestaurant.setQuantityPrice(quantityPrice);
 
 	        cartItem.getCartRestaurant().add(cartRestaurant);
 	        cartRestaurantRepo.save(cartRestaurant);
 	    }
 
 	    // Recalculate totals
-	    double total = cartItem.getCartRestaurant()
+	    BigDecimal total = cartItem.getCartRestaurant()
 	            .stream()
-	            .mapToDouble(CartRestaurant::getQuantityPrice)
-	            .sum();
+	            .map(CartRestaurant::getQuantityPrice)
+	            .reduce(BigDecimal.ZERO, BigDecimal::add)
+	            .setScale(2, RoundingMode.HALF_UP);
+	    
 	    cartItem.setCartPrice(total);
 
 	    int totalCartItem = cartItem.getCartRestaurant().size();
@@ -201,13 +140,7 @@ public class CartServiceImplementation implements CartService{
 				.orElseThrow(()->new NoSuchElementException("User not found with Id :"+id));
 		Checkout checkout = checkoutRepo.findByUserId(user.getId())
 				.orElseThrow(()->new NoSuchElementException("Checkout not found with id :"+user.getId()));
-//		
-//		List<Checkout> checkout = checkoutRepo.findByUserId(id);
-//		
-//		if (checkout.isEmpty()) {
-//		    throw new NoSuchElementException("No checkout found for user id: " + id);
-//		}
-//		
+	
 		if (user.getUserCart() == null) {
 		    throw new NoSuchElementException("Cart does not exist for user id: " + id);
 		}
@@ -218,10 +151,7 @@ public class CartServiceImplementation implements CartService{
 		user.setUserCart(null);
 		
 		checkout.setCart(null);
-//		
-//		checkout.forEach(item->{
-//			item.setCart(null);
-//		});
+
 		cartRepo.delete(cart);
 
 		return "Cart Deleted with id: "+id;

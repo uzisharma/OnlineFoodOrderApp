@@ -7,7 +7,7 @@ import org.mapstruct.ReportingPolicy;
 import com.online.orderapp.dto.orderDto.OrderPlacedDto;
 import com.online.orderapp.entity.OrderPlaced;
 
-@Mapper(componentModel = "spring",  uses = { CheckoutMapper.class }, unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(componentModel = "spring",  uses = { CheckoutMapper.class, BigDecimalMapper.class }, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface OrderPlacedMapper {
 
 	@Mapping(source = "user.userName", target="userName")

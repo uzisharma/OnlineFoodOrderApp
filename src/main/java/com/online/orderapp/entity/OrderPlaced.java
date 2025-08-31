@@ -1,5 +1,6 @@
 package com.online.orderapp.entity;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -49,7 +50,8 @@ public class OrderPlaced {
 	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
 	private Checkout checkout;
 	
-	private Double totalPrice;
+	@Column(precision = 10, scale = 2)
+	private BigDecimal totalPrice;
 	
 	private LocalDate deliveryDate;
 	

@@ -11,7 +11,7 @@ import com.online.orderapp.dto.foodDto.FoodResponseDto;
 import com.online.orderapp.entity.Food;
 import com.online.orderapp.entity.Restaurant;
 
-@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(componentModel = "spring",uses = { BigDecimalMapper.class },unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface FoodMapper {
 	
 	@Mapping(source = "restaurants", target = "restaurantId" )

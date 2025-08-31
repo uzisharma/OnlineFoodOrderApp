@@ -10,7 +10,7 @@ import com.online.orderapp.entity.Checkout;
 
 
 @Mapper(componentModel = "spring",
-uses = { CartMapper.class },
+uses = { CartMapper.class, BigDecimalMapper.class },
 unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface CheckoutMapper {
 		

@@ -11,7 +11,7 @@ import com.online.orderapp.entity.Cart;
 import com.online.orderapp.entity.CartItem;
 import com.online.orderapp.entity.CartRestaurant;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = { BigDecimalMapper.class })
 public interface CartMapper {
 	
 	@Mapping(source = "userCartItem", target="userCartItem")

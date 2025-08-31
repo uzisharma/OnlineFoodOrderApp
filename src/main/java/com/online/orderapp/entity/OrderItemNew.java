@@ -1,8 +1,11 @@
 package com.online.orderapp.entity;
 
 
+import java.math.BigDecimal;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -30,7 +33,8 @@ public class OrderItemNew {
 	
 	private Integer quantity;
 	
-	private Double quantityPrice;
+	@Column(precision = 10, scale = 2)
+	private BigDecimal quantityPrice;
 	
 	
 }

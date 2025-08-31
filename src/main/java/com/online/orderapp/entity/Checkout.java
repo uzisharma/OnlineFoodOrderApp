@@ -1,5 +1,8 @@
 package com.online.orderapp.entity;
 
+import java.math.BigDecimal;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,11 +27,14 @@ public class Checkout {
 	
 	private Double gstPercent;
 	
-	private Double gstAmount;
+	@Column(precision = 10, scale = 2)
+	private BigDecimal gstAmount;
 	
-	private Double originalAmount;
+	@Column(precision = 10, scale = 2)
+	private BigDecimal originalAmount;
 	
-	private Double totalAmount;
+	@Column(precision = 10, scale = 2)
+	private BigDecimal totalAmount;
 	
 	private Integer itemQuantity;
 	
