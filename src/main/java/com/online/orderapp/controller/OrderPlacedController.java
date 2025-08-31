@@ -1,5 +1,7 @@
 package com.online.orderapp.controller;
 
+import java.time.LocalDateTime;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,16 +29,27 @@ public class OrderPlacedController {
 	private final OrderPlacedMapper orderMapper;
 
 	@PostMapping("/place")
-	public ResponseEntity<ResponseStructure<OrderPlacedDto>> placeOrder(@RequestBody PlaceOrderRequestDto request){
-		OrderPlaced orderPlaced=orderPlacedService.placeOrder(request.getCartId(), request.getPaymentStatus());
-		OrderPlacedDto response = orderMapper.toDto(orderPlaced);
-		ResponseStructure<OrderPlacedDto> apiResponse = new ResponseStructure<>();
-		apiResponse.setData(response);
-		apiResponse.setMessage("Order placed successfully");
-		apiResponse.setStatusCode(HttpStatus.CREATED.value());
-		
-		return new ResponseEntity<>(apiResponse, HttpStatus.CREATED);
-		
-		
+	public ResponseEntity<ResponseStructure<OrderPlacedDto>> placeOrder(@RequestBody PlaceOrderRequestDto request) {
+	    OrderPlaced orderPlaced = orderPlacedService.placeOrder(request.getCartId(), request.getPaymentStatus());
+	    OrderPlacedDto response = orderMapper.toDto(orderPlaced);
+
+	    ResponseStructure<OrderPlacedDto> apiResponse = new ResponseStructure<>();
+	    apiResponse.setData(response);
+
+	    // If the order already existed, return 200 instead of 201
+	    boolean isExisting = orderPlaced.getOrderPlacedAt() != null 
+	            && orderPlaced.getOrderPlacedAt().isBefore(LocalDateTime.now().minusSeconds(5));
+
+	    if (isExisting) {
+	        apiResponse.setMessage("Order already exists");
+	        apiResponse.setStatusCode(HttpStatus.OK.value());
+	        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+	    } else {
+	        apiResponse.setMessage("Order placed successfully");
+	        apiResponse.setStatusCode(HttpStatus.CREATED.value());
+	        return new ResponseEntity<>(apiResponse, HttpStatus.CREATED);
+	    }
 	}
+
+
 }
