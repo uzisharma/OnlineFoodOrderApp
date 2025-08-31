@@ -10,7 +10,9 @@ public class FoodResponseDto {
 	private Integer id;
 	private String foodName;
 	private String description;
-	private float price;
+	private Double price;
+	
+	private byte[] foodImage;
 	
 	private List<Integer> restaurantId;
 }

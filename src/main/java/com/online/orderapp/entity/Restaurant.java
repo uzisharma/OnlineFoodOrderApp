@@ -1,5 +1,6 @@
 package com.online.orderapp.entity;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +11,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -49,6 +51,20 @@ public class Restaurant {
 	private LocalDateTime createdAt;
 	@UpdateTimestamp
 	private LocalDateTime updatedAt;
+	
+	
+	@Column(precision = 2, scale =1)
+	private BigDecimal rating;
+	
+	
+	private Integer deliveryTime;
+	
+	@Column(precision = 2, scale = 2)
+	private BigDecimal deliveryCharges;
+	
+	private byte[] restaurantImage;
+	
+	
 	
 	@ManyToMany
 	@JoinTable(name="restaurant_food", joinColumns = @JoinColumn(name="id_restaurant"), 

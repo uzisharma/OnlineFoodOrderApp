@@ -28,6 +28,9 @@ public class Food {
 	@Column(precision = 10, scale = 2)
 	private BigDecimal price;
 	
+	
+	private byte[] foodImage;
+	
 	@JsonIgnore
 	@ManyToMany(mappedBy = "food")
 	List<Restaurant> restaurants;
