@@ -1,5 +1,6 @@
 package com.online.orderapp.service.implementation;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -10,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.online.orderapp.dto.restaurantDto.RestaurantDetailResponseDto;
 import com.online.orderapp.dto.restaurantDto.RestaurantRequestDto;
@@ -109,6 +111,21 @@ public class RestaurantServiceImplementation implements RestaurantService {
 		}else {
 			return food;
 		}
+	}
+
+
+	@Override
+	public String uploadImage(MultipartFile file, Integer id) throws IOException {
+		// TODO Auto-generated method stub
+		
+		byte[] image = file.getBytes();
+		Restaurant restaurant = restaurantRepository.findById(id)
+			.orElseThrow(()-> new NoSuchElementException("Restaurant is not available with id : "+ id));
+		
+		restaurant.setRestaurantImage(image);
+		restaurantRepository.save(restaurant);
+		
+		return "Image Uploaded";
 	}
 
 

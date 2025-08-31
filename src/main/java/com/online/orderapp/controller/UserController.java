@@ -97,7 +97,9 @@ public class UserController {
 	}
 	
 	@PatchMapping("/{id}/user/uploadImage")
-	public ResponseEntity<ResponseStructure<String>> uploadImage(@RequestParam MultipartFile image, @PathVariable Integer id) throws IOException{
+	public ResponseEntity<ResponseStructure<String>> uploadImage(
+			@RequestParam MultipartFile image, 
+			@PathVariable Integer id) throws IOException{
 		String response = userService.uploadImage(image, id);
 		ResponseStructure<String> apiResponse = new ResponseStructure<>();
 		apiResponse.setData(response);

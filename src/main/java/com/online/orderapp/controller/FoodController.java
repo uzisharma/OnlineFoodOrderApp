@@ -1,11 +1,14 @@
 package com.online.orderapp.controller;
 
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.online.orderapp.dto.ResponseStructure;
 import com.online.orderapp.dto.foodDto.FoodRequestDto;
@@ -80,6 +84,19 @@ public class FoodController {
 		
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	
+	}
+	
+	@PatchMapping("/{id}/restaurant/uploadImage")
+	public ResponseEntity<ResponseStructure<String>> uploadImage(
+			@RequestParam MultipartFile image,
+			@PathVariable Integer id) throws IOException{
+		
+		String response = foodService.uploadImage(image, id);
+		ResponseStructure<String> apiResponse = new ResponseStructure<>();
+		apiResponse.setData(response);
+		apiResponse.setMessage("Success");
+		apiResponse.setStatusCode(HttpStatus.OK.value());
+		return new ResponseEntity<>(apiResponse, HttpStatus.OK);
 	}
 	
 	

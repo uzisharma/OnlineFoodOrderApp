@@ -1,10 +1,12 @@
 package com.online.orderapp.service;
 
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 
 import org.springframework.data.domain.Page;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.online.orderapp.dto.restaurantDto.RestaurantDetailResponseDto;
 import com.online.orderapp.dto.restaurantDto.RestaurantRequestDto;
@@ -30,5 +32,7 @@ public interface RestaurantService {
 	Restaurant assignFood(Integer restaurantId, Set<Integer> foodId);
 	
 	List<Food> findFoodByRestaurantId(Integer id);
+
+	public String uploadImage(MultipartFile image, Integer id) throws IOException;
 	
 }
