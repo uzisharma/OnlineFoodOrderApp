@@ -3,6 +3,9 @@ package com.online.orderapp.mapper;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class BigDecimalMapper {
 
 	public Double asDouble(BigDecimal value) {

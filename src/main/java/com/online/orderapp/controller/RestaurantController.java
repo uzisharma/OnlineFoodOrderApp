@@ -18,6 +18,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.online.orderapp.dto.ResponseStructure;
+import com.online.orderapp.dto.restaurantDto.RestaurantDetailResponseDto;
+import com.online.orderapp.dto.restaurantDto.RestaurantRequestDto;
+import com.online.orderapp.dto.restaurantDto.RestaurantResponseDto;
 import com.online.orderapp.entity.Food;
 import com.online.orderapp.entity.Restaurant;
 import com.online.orderapp.service.RestaurantService;
@@ -33,9 +36,9 @@ public class RestaurantController {
 	private RestaurantService restaurantService;
 	
 	@PostMapping("/save")
-	public ResponseEntity<ResponseStructure<Restaurant>> createRestaurant(@RequestBody Restaurant restaurant){
-		Restaurant response = restaurantService.createRestaurant(restaurant);
-		ResponseStructure<Restaurant> apiResponse = new ResponseStructure<>();
+	public ResponseEntity<ResponseStructure<RestaurantResponseDto>> createRestaurant(@RequestBody RestaurantRequestDto request){
+		RestaurantResponseDto response = restaurantService.createRestaurant(request);
+		ResponseStructure<RestaurantResponseDto> apiResponse = new ResponseStructure<>();
 		apiResponse.setData(response);
 		apiResponse.setMessage("Restaurant Object is created");
 		apiResponse.setStatusCode(HttpStatus.CREATED.value());
@@ -45,36 +48,24 @@ public class RestaurantController {
 	}
 	
 	@GetMapping("/get/{id}")
-	public ResponseEntity<ResponseStructure<Restaurant>> fetchById(@PathVariable Integer id){
-		Restaurant response = restaurantService.fetchById(id);
-		ResponseStructure<Restaurant> apiResponse = new ResponseStructure<>();
+	public ResponseEntity<ResponseStructure<RestaurantDetailResponseDto>> fetchById(@PathVariable Integer id){
+		RestaurantDetailResponseDto response = restaurantService.fetchById(id);
+		ResponseStructure<RestaurantDetailResponseDto> apiResponse = new ResponseStructure<>();
 		apiResponse.setData(response);
 		apiResponse.setMessage("Restaurant Object Found");
 		apiResponse.setStatusCode(HttpStatus.OK.value());
 		
 		return new ResponseEntity<>(apiResponse, HttpStatus.OK);
 	}
-	
-//	@GetMapping("/getAll")
-//	public ResponseEntity<ResponseStructure<List<Restaurant>>> getAllRestaurant(){
-//		List<Restaurant> response = restaurantService.getAllRestaurant();
-//		ResponseStructure<List<Restaurant>> apiResponse = new ResponseStructure<>();
-//		apiResponse.setData(response);
-//		apiResponse.setMessage("Api ran Successfully");
-//		apiResponse.setStatusCode(HttpStatus.OK.value());
-//		
-//		return new ResponseEntity<>(apiResponse, HttpStatus.OK);
-////		return ResponseEntity.ok(apiResponse); //another way to send ok response
-//		
-//	}
+
 	
 	@GetMapping("/getAll")
-	public ResponseEntity<ResponseStructure<Page<?>>> getAllRestaurants(
+	public ResponseEntity<ResponseStructure<Page<RestaurantResponseDto>>> getAllRestaurants(
 			@RequestParam(defaultValue = "0", required = false) int pageNum,
 			@RequestParam(defaultValue = "5", required = false) int pageSize,
 			@RequestParam(defaultValue = "createdAt", required = false) String sortBy){
-		Page<?> response = restaurantService.getAllRestaurants(pageNum, pageSize, sortBy);
-		ResponseStructure<Page<?>> apiResponse = new ResponseStructure<>();
+		Page<RestaurantResponseDto> response = restaurantService.getAllRestaurants(pageNum, pageSize, sortBy);
+		ResponseStructure<Page<RestaurantResponseDto>> apiResponse = new ResponseStructure<>();
 		apiResponse.setData(response);
 		apiResponse.setMessage("Data Fetched Acoording to page");
 		apiResponse.setStatusCode(HttpStatus.OK.value());
@@ -83,9 +74,9 @@ public class RestaurantController {
 	}
 	
 	@PutMapping("/update")
-	public ResponseEntity<ResponseStructure<Restaurant>> updateRestaurant(@RequestParam int id, @RequestBody Restaurant restaurant){
-		Restaurant response = restaurantService.updateRestaurant(id, restaurant);
-		ResponseStructure<Restaurant> apiResponse = new ResponseStructure<>();
+	public ResponseEntity<ResponseStructure<RestaurantResponseDto>> updateRestaurant(@RequestParam int id, @RequestBody RestaurantRequestDto request){
+		RestaurantResponseDto response = restaurantService.updateRestaurant(id, request);
+		ResponseStructure<RestaurantResponseDto> apiResponse = new ResponseStructure<>();
 		apiResponse.setData(response);
 		apiResponse.setMessage("Updated Successfully");
 		apiResponse.setStatusCode(HttpStatus.OK.value());

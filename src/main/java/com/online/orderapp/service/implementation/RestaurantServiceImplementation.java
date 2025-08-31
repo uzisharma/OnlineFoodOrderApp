@@ -5,60 +5,67 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.online.orderapp.dto.restaurantDto.RestaurantDetailResponseDto;
+import com.online.orderapp.dto.restaurantDto.RestaurantRequestDto;
+import com.online.orderapp.dto.restaurantDto.RestaurantResponseDto;
 import com.online.orderapp.entity.Food;
 import com.online.orderapp.entity.Restaurant;
+import com.online.orderapp.mapper.RestaurantMapper;
 import com.online.orderapp.repository.FoodRepository;
 import com.online.orderapp.repository.RestaurantRepository;
 import com.online.orderapp.service.RestaurantService;
 
+import lombok.AllArgsConstructor;
+
 @Service
+@AllArgsConstructor
 public class RestaurantServiceImplementation implements RestaurantService {
 	
-	@Autowired
-	private RestaurantRepository restaurantRepository;
+	private final RestaurantRepository restaurantRepository;	
+	private final FoodRepository foodRepository;
+	private final RestaurantMapper restaurantMapper;
 	
-	@Autowired
-	private FoodRepository foodRepository;
-
+	
+	
 	@Override
-	public Restaurant createRestaurant(Restaurant restaurant) {
-		return restaurantRepository.save(restaurant);
+	public RestaurantResponseDto createRestaurant(RestaurantRequestDto restaurant) {
+		return restaurantMapper.toDto(restaurantRepository.save(restaurantMapper.toEntity(restaurant)));
 	}
 
+	
 	@Override
-	public Restaurant fetchById(int id) {
-//		Optional<Restaurant> response= restaurantRepository.findById(id);
-//		if(response.isPresent()) {
-//			return response.get();
-//		}else {
-//			throw new NoSuchElementException("Restaurant with ID : "+id+" not found");
-//		}
-		return restaurantRepository.findById(id).orElseThrow(()->new NoSuchElementException("Restaurant with ID : "+id+" not found"));
+	public RestaurantDetailResponseDto fetchById(int id) {
+		 Restaurant restaurant = restaurantRepository.findById(id)
+				.orElseThrow(()->new NoSuchElementException("Restaurant with ID : "+id+" not found"));
+		 
+		 return restaurantMapper.toDetailDto(restaurant);
 	}
 
-//	@Override
-//	public List<Restaurant> getAllRestaurant() {
-//		return restaurantRepository.findAll();
-//	}
+
 
 	@Override
-	public Page<?> getAllRestaurants(int pageNum, int pageSize, String sortBy) {
+	public Page<RestaurantResponseDto> getAllRestaurants(int pageNum, int pageSize, String sortBy) {
 		Sort sort = Sort.by(sortBy).ascending();
 		Pageable pageable = PageRequest.of(pageNum, pageSize, sort);
-		Page<?> page = restaurantRepository.findAll(pageable);
-		return page;
+		Page<Restaurant> page = restaurantRepository.findAll(pageable);
+		
+		 
+		return page.map(restaurantMapper::toDto);
 	}
 
+	
+	
 	@Override
-	public Restaurant updateRestaurant(int id, Restaurant restaurant) {
-		Restaurant fetchedRes= restaurantRepository.findById(id).orElseThrow(()->new NoSuchElementException("Restaurant with ID : "+id+" not found"));
+	public RestaurantResponseDto updateRestaurant(int id, RestaurantRequestDto restaurant) {
+		Restaurant fetchedRes= restaurantRepository.findById(id)
+				.orElseThrow(()->new NoSuchElementException("Restaurant with ID : "+id+" not found"));
+		
 		if(fetchedRes!=null) {
 			fetchedRes.setEmail(restaurant.getEmail());
 			fetchedRes.setAddress(restaurant.getAddress());
@@ -66,18 +73,20 @@ public class RestaurantServiceImplementation implements RestaurantService {
 			fetchedRes.setRestaurantName(restaurant.getRestaurantName());
 			restaurantRepository.save(fetchedRes);
 		}
-		return fetchedRes;
+		return restaurantMapper.toDto(fetchedRes);
 	}
 
 	@Override
 	public void deleteRestaurant(Integer id) {
-		Restaurant restaurant =fetchById(id);
+		 Restaurant restaurant = restaurantRepository.findById(id)
+					.orElseThrow(()->new NoSuchElementException("Restaurant with ID : "+id+" not found"));
+		
 		restaurantRepository.delete(restaurant);
 	}
 	
 	@Override
 	public Restaurant assignFood(Integer restaurantId, Set<Integer> foodId) {
-		Restaurant restaurant = fetchById(restaurantId);
+		Restaurant restaurant = restaurantMapper.toRestaurantEntity(fetchById(restaurantId));
 		
 		List<Food> foodItems = new ArrayList<>();
 		

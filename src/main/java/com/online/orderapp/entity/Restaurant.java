@@ -59,7 +59,7 @@ public class Restaurant {
 	
 	private Integer deliveryTime;
 	
-	@Column(precision = 2, scale = 2)
+	@Column(precision = 6, scale = 2)
 	private BigDecimal deliveryCharges;
 	
 	private byte[] restaurantImage;
