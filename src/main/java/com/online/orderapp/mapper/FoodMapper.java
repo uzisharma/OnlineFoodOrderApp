@@ -7,6 +7,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 
+import com.online.orderapp.dto.foodDto.FoodRequestDto;
 import com.online.orderapp.dto.foodDto.FoodResponseDto;
 import com.online.orderapp.entity.Food;
 import com.online.orderapp.entity.Restaurant;
@@ -24,6 +25,8 @@ public interface FoodMapper {
 				.map(Restaurant::getId)
 				.toList();
 	}
+	
+	Food toEntity(FoodRequestDto foodRequestDto);
 
 
 }

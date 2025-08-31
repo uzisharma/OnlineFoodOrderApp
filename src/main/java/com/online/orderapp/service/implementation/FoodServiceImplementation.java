@@ -8,6 +8,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.online.orderapp.dto.foodDto.FoodRequestDto;
 import com.online.orderapp.dto.foodDto.FoodResponseDto;
 import com.online.orderapp.entity.Food;
 import com.online.orderapp.entity.Restaurant;
@@ -30,8 +31,9 @@ public class FoodServiceImplementation implements FoodService {
 
 	
 	@Override
-	public FoodResponseDto createFood(Food food) {
-		Food response= foodRepository.save(food);
+	public FoodResponseDto createFood(FoodRequestDto request) {
+		
+		Food response= foodRepository.save(foodMapper.toEntity(request));
 		return foodMapper.toDto(response);
 	}
 
@@ -50,9 +52,11 @@ public class FoodServiceImplementation implements FoodService {
 	}
 
 	@Override
-	public FoodResponseDto updateFood(Food food, Integer id) {
+	public FoodResponseDto updateFood(FoodRequestDto request, Integer id) {
 		Food fetchedFood = foodRepository.findById(id)
 				.orElseThrow(()->new NoSuchElementException("Unable to find food with id :"+ id));
+		Food food = foodMapper.toEntity(request);
+		
 		if(fetchedFood!=null) {
 			fetchedFood.setFoodName(food.getFoodName());
 			fetchedFood.setDescription(food.getDescription());

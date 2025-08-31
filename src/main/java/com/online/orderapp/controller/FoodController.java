@@ -15,9 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.online.orderapp.dto.ResponseStructure;
+import com.online.orderapp.dto.foodDto.FoodRequestDto;
 import com.online.orderapp.dto.foodDto.FoodResponseDto;
-import com.online.orderapp.entity.Food;
-import com.online.orderapp.entity.Restaurant;
 import com.online.orderapp.service.FoodService;
 
 @RestController
@@ -30,8 +29,8 @@ public class FoodController {
 
 	
 	@PostMapping("/save")
-	public ResponseEntity<ResponseStructure<FoodResponseDto>> createFood(@RequestBody Food food){
-		FoodResponseDto response = foodService.createFood(food);
+	public ResponseEntity<ResponseStructure<FoodResponseDto>> createFood(@RequestBody FoodRequestDto request){
+		FoodResponseDto response = foodService.createFood(request);
 		ResponseStructure<FoodResponseDto> apiResponse = new ResponseStructure<>();
 		apiResponse.setData(response);
 		apiResponse.setMessage("Food Object Added");
@@ -65,8 +64,8 @@ public class FoodController {
 	}
 	
 	@PutMapping("/update")
-	public ResponseEntity<ResponseStructure<FoodResponseDto>> updateFood(@RequestParam Integer id, @RequestBody Food food){
-		FoodResponseDto response = foodService.updateFood(food, id);
+	public ResponseEntity<ResponseStructure<FoodResponseDto>> updateFood(@RequestParam Integer id, @RequestBody FoodRequestDto request){
+		FoodResponseDto response = foodService.updateFood(request, id);
 		ResponseStructure<FoodResponseDto> apiResponse = new ResponseStructure<>();
 		apiResponse.setData(response);
 		apiResponse.setMessage("Updated Successfully");
@@ -76,7 +75,7 @@ public class FoodController {
 	}
 	
 	@DeleteMapping("/{id}/delete")
-	public ResponseEntity<Restaurant> deleteRestaurant(@PathVariable Integer id){
+	public ResponseEntity<FoodResponseDto> deleteFood(@PathVariable Integer id){
 		 foodService.deleteFood(id);
 		
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
