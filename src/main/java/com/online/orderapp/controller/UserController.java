@@ -23,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.online.orderapp.dto.ResponseStructure;
 import com.online.orderapp.dto.userDto.UserLoginRequestDto;
 import com.online.orderapp.dto.userDto.UserLoginResponseDto;
+import com.online.orderapp.dto.userDto.UserRequestDto;
 import com.online.orderapp.dto.userDto.UserResponseDto;
 import com.online.orderapp.entity.User;
 import com.online.orderapp.service.UserService;
@@ -70,9 +71,9 @@ public class UserController {
 	}
 	
 	@PutMapping("/update")
-	public ResponseEntity<ResponseStructure<User>> updateUser(@RequestParam int id, @RequestBody User user){
-		User response = userService.updateUser(user, id);
-		ResponseStructure<User> apiResponse = new ResponseStructure<>();
+	public ResponseEntity<ResponseStructure<UserResponseDto>> updateUser(@RequestParam int id, @RequestBody UserRequestDto request){
+		UserResponseDto response = userService.updateUser(request, id);
+		ResponseStructure<UserResponseDto> apiResponse = new ResponseStructure<>();
 		apiResponse.setData(response);
 		apiResponse.setMessage("User updated successfully");
 		apiResponse.setStatusCode(HttpStatus.OK.value());

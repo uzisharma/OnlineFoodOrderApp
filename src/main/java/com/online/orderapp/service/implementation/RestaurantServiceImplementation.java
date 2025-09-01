@@ -73,6 +73,9 @@ public class RestaurantServiceImplementation implements RestaurantService {
 			fetchedRes.setAddress(restaurant.getAddress());
 			fetchedRes.setContactNumber(restaurant.getContactNumber());
 			fetchedRes.setRestaurantName(restaurant.getRestaurantName());
+			fetchedRes.setDeliveryCharges(restaurant.getDeliveryCharges());
+			fetchedRes.setRating(restaurant.getRating());
+			fetchedRes.setDeliveryTime(restaurant.getDeliveryTime());
 			restaurantRepository.save(fetchedRes);
 		}
 		return restaurantMapper.toDto(fetchedRes);

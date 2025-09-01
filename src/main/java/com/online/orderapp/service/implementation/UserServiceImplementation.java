@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.online.orderapp.dto.userDto.UserLoginResponseDto;
+import com.online.orderapp.dto.userDto.UserRequestDto;
 import com.online.orderapp.dto.userDto.UserResponseDto;
 import com.online.orderapp.entity.User;
 import com.online.orderapp.mapper.UserMapper;
@@ -70,19 +71,14 @@ public class UserServiceImplementation implements UserService{
 
 	@Override
 	@CachePut(value="user_cache")
-	public User updateUser(User user, Integer id) {
-		User fetchedUser = userRepository.findById(id).orElseThrow(()->new NoSuchElementException("User not found"));
-		if(fetchedUser!=null) {
-			fetchedUser.setUserName(user.getUserName());
-			fetchedUser.setAddress(user.getAddress());
-			fetchedUser.setContactNumber(user.getContactNumber());
-			fetchedUser.setEmail(user.getEmail());
-			fetchedUser.setGender(user.getGender());
-			fetchedUser.setImage(user.getImage());
-			fetchedUser.setPassword(user.getPassword());
-			userRepository.save(fetchedUser);
-		}
-		return fetchedUser;
+	public UserResponseDto updateUser(UserRequestDto request, Integer id) {
+	    User existingUser = userRepository.findById(id)
+	            .orElseThrow(() -> new NoSuchElementException("User not found"));
+
+	    userMapper.updateUserFromDto(request, existingUser); // updates only fields from dto
+	    User updatedUser = userRepository.save(existingUser);
+
+	    return userMapper.toUserResponse(updatedUser);
 	}
 
 	@Override

@@ -1,6 +1,5 @@
 package com.online.orderapp.dto.foodDto;
 
-import java.util.List;
 
 import lombok.Data;
 
@@ -14,5 +13,5 @@ public class FoodResponseDto {
 	
 	private byte[] foodImage;
 	
-	private List<Integer> restaurantId;
+//	private List<Integer> restaurantId;
 }

@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.online.orderapp.dto.userDto.UserLoginResponseDto;
+import com.online.orderapp.dto.userDto.UserRequestDto;
 import com.online.orderapp.dto.userDto.UserResponseDto;
 import com.online.orderapp.entity.User;
 
@@ -17,7 +18,7 @@ public interface UserService {
 	
 	Page<User> getAllUsers(int pageNum, int pageSize);
 	
-	User updateUser(User user, Integer id);
+	UserResponseDto updateUser(UserRequestDto request, Integer id);
 	
 	void deleteUser(Integer id);
 	

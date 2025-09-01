@@ -2,9 +2,11 @@ package com.online.orderapp.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.ReportingPolicy;
 
 import com.online.orderapp.dto.userDto.UserLoginResponseDto;
+import com.online.orderapp.dto.userDto.UserRequestDto;
 import com.online.orderapp.dto.userDto.UserResponseDto;
 import com.online.orderapp.entity.User;
 
@@ -24,5 +26,10 @@ public interface UserMapper {
 	
 	//Retrieve user
 	UserResponseDto toUserResponse(User user);
+	
+	User toEntity(UserRequestDto userRequestDto);
+	
+	@Mapping(target="password", ignore=true)
+	void updateUserFromDto(UserRequestDto dto, @MappingTarget User entity);
 
 }
