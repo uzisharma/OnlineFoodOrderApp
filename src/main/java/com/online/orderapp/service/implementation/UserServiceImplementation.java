@@ -61,10 +61,10 @@ public class UserServiceImplementation implements UserService{
 	
 	@Cacheable(value="user_cache")
 	@Override
-	public Page<User> getAllUsers(int pageNum, int pageSize) {
+	public Page<UserResponseDto> getAllUsers(int pageNum, int pageSize) {
 		Pageable pageable = PageRequest.of(pageNum, pageSize);
 		Page<User> page = userRepository.findAll(pageable);
-		return page;
+		return page.map(userMapper::toUserResponse);
 		
 	}
 

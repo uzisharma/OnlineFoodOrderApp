@@ -7,12 +7,17 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.online.orderapp.dto.orderDto.OrderPlacedResponseDto;
 import com.online.orderapp.entity.Cart;
 import com.online.orderapp.entity.Checkout;
 import com.online.orderapp.entity.OrderItemNew;
 import com.online.orderapp.entity.OrderPlaced;
+import com.online.orderapp.mapper.OrderPlacedMapper;
 import com.online.orderapp.repository.CartRepository;
 import com.online.orderapp.repository.CheckoutRepository;
 import com.online.orderapp.repository.OrderPlacedRepository;
@@ -33,6 +38,7 @@ public class OrderPlacedServiceImplementation implements OrderPlacedService{
 	private final CheckoutRepository checkoutRepository;
 	private final CartItemService cartItemService;
 	private final CheckoutService checkoutService;
+	private final OrderPlacedMapper orderMapper;
 	
 	
 @Override
@@ -85,6 +91,18 @@ public OrderPlaced placeOrder(Integer cartId, PaymentStatus paymentStatus) {
 
                 return saved;
             });
+}
+
+
+@Override
+public Page<OrderPlacedResponseDto> getAllOrders(int pageNum, int pageSize, String sortBy) {
+	// TODO Auto-generated method stub
+	
+	Pageable pageable = PageRequest.of(pageNum, pageSize);
+	Page<OrderPlaced> page = orderPlacedRepository.findAll(pageable);
+	
+	
+	return page.map(orderMapper::toDto);
 }
 
 

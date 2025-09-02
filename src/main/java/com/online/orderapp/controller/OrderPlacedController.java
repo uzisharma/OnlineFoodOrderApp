@@ -2,15 +2,18 @@ package com.online.orderapp.controller;
 
 import java.time.LocalDateTime;
 
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.online.orderapp.dto.ResponseStructure;
-import com.online.orderapp.dto.orderDto.OrderPlacedDto;
+import com.online.orderapp.dto.orderDto.OrderPlacedResponseDto;
 import com.online.orderapp.dto.orderDto.PlaceOrderRequestDto;
 import com.online.orderapp.entity.OrderPlaced;
 import com.online.orderapp.mapper.OrderPlacedMapper;
@@ -29,11 +32,11 @@ public class OrderPlacedController {
 	private final OrderPlacedMapper orderMapper;
 
 	@PostMapping("/place")
-	public ResponseEntity<ResponseStructure<OrderPlacedDto>> placeOrder(@RequestBody PlaceOrderRequestDto request) {
+	public ResponseEntity<ResponseStructure<OrderPlacedResponseDto>> placeOrder(@RequestBody PlaceOrderRequestDto request) {
 	    OrderPlaced orderPlaced = orderPlacedService.placeOrder(request.getCartId(), request.getPaymentStatus());
-	    OrderPlacedDto response = orderMapper.toDto(orderPlaced);
+	    OrderPlacedResponseDto response = orderMapper.toDto(orderPlaced);
 
-	    ResponseStructure<OrderPlacedDto> apiResponse = new ResponseStructure<>();
+	    ResponseStructure<OrderPlacedResponseDto> apiResponse = new ResponseStructure<>();
 	    apiResponse.setData(response);
 
 	    // If the order already existed, return 200 instead of 201
@@ -50,6 +53,22 @@ public class OrderPlacedController {
 	        return new ResponseEntity<>(apiResponse, HttpStatus.CREATED);
 	    }
 	}
+	
+	
+	@GetMapping("/getAll")
+	public ResponseEntity<ResponseStructure<Page<OrderPlacedResponseDto>>> getAllOrders(
+			@RequestParam(defaultValue = "0", required = false) int pageNum,
+			@RequestParam(defaultValue = "5", required = false) int pageSize,
+			@RequestParam(defaultValue = "createdAt", required = false) String sortBy){
+		Page<OrderPlacedResponseDto> response = orderPlacedService.getAllOrders(pageNum, pageSize, sortBy);
+		ResponseStructure<Page<OrderPlacedResponseDto>> apiResponse = new ResponseStructure<>();
+		apiResponse.setData(response);
+		apiResponse.setMessage("Data Fetched Acoording to page");
+		apiResponse.setStatusCode(HttpStatus.OK.value());
+		
+		return ResponseEntity.ok(apiResponse);
+	}
+	
 
 
 }

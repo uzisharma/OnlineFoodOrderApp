@@ -16,7 +16,7 @@ public interface UserService {
 	
 	UserResponseDto getUser(Integer id);
 	
-	Page<User> getAllUsers(int pageNum, int pageSize);
+	Page<UserResponseDto> getAllUsers(int pageNum, int pageSize);
 	
 	UserResponseDto updateUser(UserRequestDto request, Integer id);
 	

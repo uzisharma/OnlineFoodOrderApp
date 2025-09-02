@@ -11,8 +11,8 @@ import com.online.orderapp.util.PaymentStatus;
 import lombok.Data;
 
 @Data
-public class OrderPlacedDto {
-	
+public class OrderPlacedResponseDto {
+
 	private String id;
 	
 	private String userName;
