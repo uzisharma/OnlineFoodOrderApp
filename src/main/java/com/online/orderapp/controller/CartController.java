@@ -1,5 +1,6 @@
 package com.online.orderapp.controller;
 
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.online.orderapp.dto.ResponseStructure;
@@ -42,18 +44,31 @@ public class CartController {
 		return ResponseEntity.ok(apiResponse);
 	}
 	
-	@GetMapping("/get/{id}")
-	public ResponseEntity<ResponseStructure<CartResponseDto>> getUserCart(@PathVariable Integer id){
-		CartResponseDto response = cartService.findCartByUserId(id);
+	@GetMapping("/get/{userId}")
+	public ResponseEntity<ResponseStructure<CartResponseDto>> getUserCart(@PathVariable Integer userId){
+		CartResponseDto response = cartService.findCartByUserId(userId);
 		
 		ResponseStructure<CartResponseDto> apiResponse = new ResponseStructure<>();
 		apiResponse.setData(response);
-		apiResponse.setMessage("User found with id: "+ id);
+		apiResponse.setMessage("User found with id: "+ userId);
 		apiResponse.setStatusCode(HttpStatus.OK.value());
 		
 		return ResponseEntity.ok(apiResponse);
 	}
 	
+	@GetMapping("/getAll")
+	public ResponseEntity<ResponseStructure<Page<CartResponseDto>>> getAllCart(
+			@RequestParam(defaultValue="0", required=false) int pageNum,
+			@RequestParam(defaultValue = "10", required=false) int pageSize
+			){
+		Page<CartResponseDto> response = cartService.getAllCart(pageNum, pageSize);
+		ResponseStructure<Page<CartResponseDto>> apiResponse = new ResponseStructure<>();
+		apiResponse.setData(response);
+		apiResponse.setMessage("Data Fetched Acoording to page");
+		apiResponse.setStatusCode(HttpStatus.OK.value());		
+		return ResponseEntity.ok(apiResponse);		
+		
+	}
 
 	
 	@DeleteMapping("{id}/delete")

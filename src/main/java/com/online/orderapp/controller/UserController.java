@@ -60,9 +60,9 @@ public class UserController {
 	@GetMapping("/getAll")
 	public ResponseEntity<ResponseStructure<Page<UserResponseDto>>> getAllUser(
 			@RequestParam(defaultValue = "0", required = false) int pageNum,
-			@RequestParam(defaultValue="10", required= false) int PageSize
+			@RequestParam(defaultValue="10", required= false) int pageSize
 			){
-		Page<UserResponseDto> response = userService.getAllUsers(pageNum, PageSize);
+		Page<UserResponseDto> response = userService.getAllUsers(pageNum, pageSize);
 		ResponseStructure<Page<UserResponseDto>> apiResponse = new ResponseStructure<>();
 		apiResponse.setData(response);
 		apiResponse.setMessage("Data Fetched Acoording to page");

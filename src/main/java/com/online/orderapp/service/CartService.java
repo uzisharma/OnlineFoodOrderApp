@@ -1,5 +1,7 @@
 package com.online.orderapp.service;
 
+import org.springframework.data.domain.Page;
+
 import com.online.orderapp.dto.cartDto.CartResponseDto;
 
 public interface CartService{
@@ -10,4 +12,6 @@ public interface CartService{
 
 
 	String deleteCartItemByUserId(Integer id);
+
+	Page<CartResponseDto> getAllCart(int pageNum, int pageSize);
 }

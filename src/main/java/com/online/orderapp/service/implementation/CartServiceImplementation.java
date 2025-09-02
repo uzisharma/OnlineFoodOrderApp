@@ -5,6 +5,9 @@ import java.math.RoundingMode;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.online.orderapp.dto.cartDto.CartResponseDto;
@@ -155,6 +158,16 @@ public class CartServiceImplementation implements CartService{
 		cartRepo.delete(cart);
 
 		return "Cart Deleted with id: "+id;
+	}
+
+
+	@Override
+	public Page<CartResponseDto> getAllCart(int pageNum, int pageSize) {
+		
+		Pageable pageable = PageRequest.of(pageNum, pageSize);
+		Page<Cart> page = cartRepo.findAll(pageable);
+		
+		return page.map(cartMapper::toDto);
 	}
 
 }

@@ -15,6 +15,9 @@ import com.online.orderapp.entity.CartRestaurant;
 public interface CartMapper {
 	
 	@Mapping(source = "userCartItem", target="userCartItem")
+	@Mapping(source = "id", target="cartId")
+	@Mapping(source = "user.id", target="userId")
+	@Mapping(source = "user.userName", target = "userName")
 	CartResponseDto toDto(Cart cart);
 	
 	@Mapping(source = "restaurant.id", target="restaurantId")
