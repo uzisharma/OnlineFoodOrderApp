@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.online.orderapp.dto.ResponseStructure;
+import com.online.orderapp.dto.orderDto.OrderPlacedResponseDto;
 import com.online.orderapp.dto.restaurantDto.RestaurantDetailResponseDto;
 import com.online.orderapp.dto.restaurantDto.RestaurantRequestDto;
 import com.online.orderapp.dto.restaurantDto.RestaurantResponseDto;
@@ -112,6 +113,15 @@ public class RestaurantController {
 		ResponseStructure<List<Food>> apiResponse = new ResponseStructure<List<Food>>();
 		apiResponse.setData(restaurantService.findFoodByRestaurantId(id));
 		apiResponse.setMessage("Food item found");
+		apiResponse.setStatusCode(HttpStatus.OK.value());
+		return ResponseEntity.ok(apiResponse);
+		
+	}
+	@GetMapping("/{restaurantId}/order/getAll")
+	public ResponseEntity<ResponseStructure<List<OrderPlacedResponseDto>>> getOrderPlacedByRestaurantId(@PathVariable Integer restaurantId){
+		ResponseStructure<List<OrderPlacedResponseDto>> apiResponse = new ResponseStructure<List<OrderPlacedResponseDto>>();
+		apiResponse.setData(restaurantService.findOrderPlacedByRestaurantId(restaurantId));
+		apiResponse.setMessage("Order Placed for Restaurant ID : "+ restaurantId);
 		apiResponse.setStatusCode(HttpStatus.OK.value());
 		return ResponseEntity.ok(apiResponse);
 		

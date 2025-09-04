@@ -106,4 +106,15 @@ public Page<OrderPlacedResponseDto> getAllOrders(int pageNum, int pageSize, Stri
 }
 
 
+@Override
+public Page<OrderPlacedResponseDto> getOrderByUserId(Integer userId, int pageNum, int pageSize) {
+	
+	Pageable pageable = PageRequest.of(pageNum, pageSize);
+	
+	Page<OrderPlaced> listOfOrder = orderPlacedRepository.findByUserId(userId, pageable);
+	
+	return listOfOrder.map(orderMapper::toDto);
+}
+
+
 }

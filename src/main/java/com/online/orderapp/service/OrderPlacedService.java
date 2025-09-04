@@ -12,4 +12,6 @@ public interface OrderPlacedService {
 
 	Page<OrderPlacedResponseDto> getAllOrders(int pageNum, int pageSize, String sortBy);
 
+	Page<OrderPlacedResponseDto> getOrderByUserId(Integer userId, int pageNum, int pageSize);
+
 }

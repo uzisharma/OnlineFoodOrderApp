@@ -13,11 +13,14 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.online.orderapp.dto.orderDto.OrderPlacedResponseDto;
 import com.online.orderapp.dto.restaurantDto.RestaurantDetailResponseDto;
 import com.online.orderapp.dto.restaurantDto.RestaurantRequestDto;
 import com.online.orderapp.dto.restaurantDto.RestaurantResponseDto;
 import com.online.orderapp.entity.Food;
+import com.online.orderapp.entity.OrderPlaced;
 import com.online.orderapp.entity.Restaurant;
+import com.online.orderapp.mapper.OrderPlacedMapper;
 import com.online.orderapp.mapper.RestaurantMapper;
 import com.online.orderapp.repository.FoodRepository;
 import com.online.orderapp.repository.RestaurantRepository;
@@ -32,6 +35,7 @@ public class RestaurantServiceImplementation implements RestaurantService {
 	private final RestaurantRepository restaurantRepository;	
 	private final FoodRepository foodRepository;
 	private final RestaurantMapper restaurantMapper;
+	private final OrderPlacedMapper orderMapper;
 	
 	
 	
@@ -115,6 +119,20 @@ public class RestaurantServiceImplementation implements RestaurantService {
 			return food;
 		}
 	}
+	
+	
+	@Override
+	public List<OrderPlacedResponseDto> findOrderPlacedByRestaurantId(Integer restaurantId) {
+		List<OrderPlaced> orderList = restaurantRepository.findOrderPlacedByid(restaurantId);
+		if(orderList==null || orderList.size()==0) {
+			throw new NoSuchElementException("Restaurant with Id : "+restaurantId+" not found or no order is placed with this restaurant");
+		}else {
+			return orderList.stream()
+					.map(orderMapper::toDto)
+					.toList();
+		}
+	}
+
 
 
 	@Override
@@ -130,6 +148,8 @@ public class RestaurantServiceImplementation implements RestaurantService {
 		
 		return "Image Uploaded";
 	}
+
+
 
 
 

@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -64,6 +65,20 @@ public class OrderPlacedController {
 		ResponseStructure<Page<OrderPlacedResponseDto>> apiResponse = new ResponseStructure<>();
 		apiResponse.setData(response);
 		apiResponse.setMessage("Data Fetched Acoording to page");
+		apiResponse.setStatusCode(HttpStatus.OK.value());
+		
+		return ResponseEntity.ok(apiResponse);
+	}
+	
+	@GetMapping("/get/user-order/{userId}")
+	public ResponseEntity<ResponseStructure<Page<OrderPlacedResponseDto>>> getOrderByUserId(@PathVariable Integer userId, 
+			@RequestParam(defaultValue= "0", required = false) int pageNum,
+			@RequestParam(defaultValue = "10", required= false) int pageSize
+			){
+		Page<OrderPlacedResponseDto> response = orderPlacedService.getOrderByUserId(userId, pageNum, pageSize);
+		ResponseStructure<Page<OrderPlacedResponseDto>> apiResponse = new ResponseStructure<>();
+		apiResponse.setData(response);
+		apiResponse.setMessage("Order Placed By User Id :" + userId);
 		apiResponse.setStatusCode(HttpStatus.OK.value());
 		
 		return ResponseEntity.ok(apiResponse);

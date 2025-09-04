@@ -71,7 +71,7 @@ public class CheckoutServiceImplementation implements CheckoutService{
 
 	@Override
 	public String deleteCheckout(Integer userId) {
-		List<OrderPlaced> orderPlaced = orderPlacedRepository.findByUserId(userId);
+		List<OrderPlaced> orderPlaced = orderPlacedRepository.findAllByUserId(userId);
 		Checkout checkout = checkoutRepository.findByUserId(userId)
 			.orElseThrow(()-> new NoSuchElementException("Checkout with userId :" + userId + " is not available"));
 		

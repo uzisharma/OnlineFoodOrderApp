@@ -8,6 +8,7 @@ import java.util.Set;
 import org.springframework.data.domain.Page;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.online.orderapp.dto.orderDto.OrderPlacedResponseDto;
 import com.online.orderapp.dto.restaurantDto.RestaurantDetailResponseDto;
 import com.online.orderapp.dto.restaurantDto.RestaurantRequestDto;
 import com.online.orderapp.dto.restaurantDto.RestaurantResponseDto;
@@ -34,5 +35,7 @@ public interface RestaurantService {
 	List<Food> findFoodByRestaurantId(Integer id);
 
 	public String uploadImage(MultipartFile image, Integer id) throws IOException;
+
+	public List<OrderPlacedResponseDto> findOrderPlacedByRestaurantId(Integer restaurantId);
 	
 }
