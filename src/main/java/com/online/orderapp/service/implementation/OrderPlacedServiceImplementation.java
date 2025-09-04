@@ -117,4 +117,12 @@ public Page<OrderPlacedResponseDto> getOrderByUserId(Integer userId, int pageNum
 }
 
 
+@Override
+public OrderPlacedResponseDto fetchById(String orderId) {
+	OrderPlaced byId = orderPlacedRepository.findById(orderId)
+			.orElseThrow(()->new NoSuchElementException("Order Placed by Order Id : " + orderId));
+	return orderMapper.toDto(byId);
+}
+
+
 }

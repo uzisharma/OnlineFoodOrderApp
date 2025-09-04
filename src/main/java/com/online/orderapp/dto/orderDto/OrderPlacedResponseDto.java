@@ -14,9 +14,11 @@ import lombok.Data;
 public class OrderPlacedResponseDto {
 
 	private String id;
+
+	private Integer userId;
 	
 	private String userName;
-	
+		
 	private Integer restaurantId;
 	
 	private String restaurantName;

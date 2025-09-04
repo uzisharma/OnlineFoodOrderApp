@@ -84,6 +84,16 @@ public class OrderPlacedController {
 		return ResponseEntity.ok(apiResponse);
 	}
 	
+	@GetMapping("/get/{orderId}")
+	public ResponseEntity<ResponseStructure<OrderPlacedResponseDto>> getOrder(String orderId){
+		OrderPlacedResponseDto response = orderPlacedService.fetchById(orderId);
+		ResponseStructure<OrderPlacedResponseDto> apiResponse = new ResponseStructure<>();
+		apiResponse.setData(response);
+		apiResponse.setMessage("Restaurant Object Found");
+		apiResponse.setStatusCode(HttpStatus.OK.value());
+		
+		return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+	}
 
 
 }

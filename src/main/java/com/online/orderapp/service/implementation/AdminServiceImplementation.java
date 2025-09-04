@@ -1,6 +1,9 @@
 package com.online.orderapp.service.implementation;
 import java.util.NoSuchElementException;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -50,6 +53,16 @@ public class AdminServiceImplementation implements AdminService{
 		}
 	
 		return adminMapper.toLoginResponse(admin);
+	}
+
+
+	@Override
+	public Page<AdminResponseDto> getAllAdmin(int pageNum, int pageSize, String sortBy) {
+		// TODO Auto-generated method stub
+		Pageable pageable = PageRequest.of(pageNum, pageSize);
+		Page<Admin> page = adminReposiotory.findAll(pageable);
+		
+		return page.map(adminMapper::toDto);
 	}
 
 
