@@ -12,6 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.online.orderapp.dto.orderDto.AllOrderResponseDto;
 import com.online.orderapp.dto.orderDto.OrderPlacedResponseDto;
 import com.online.orderapp.entity.Cart;
 import com.online.orderapp.entity.Checkout;
@@ -95,14 +96,14 @@ public OrderPlaced placeOrder(Integer cartId, PaymentStatus paymentStatus) {
 
 
 @Override
-public Page<OrderPlacedResponseDto> getAllOrders(int pageNum, int pageSize, String sortBy) {
+public Page<AllOrderResponseDto> getAllOrders(int pageNum, int pageSize, String sortBy) {
 	// TODO Auto-generated method stub
 	
 	Pageable pageable = PageRequest.of(pageNum, pageSize);
 	Page<OrderPlaced> page = orderPlacedRepository.findAll(pageable);
 	
 	
-	return page.map(orderMapper::toDto);
+	return page.map(orderMapper::toAllOrderResposneDto);
 }
 
 

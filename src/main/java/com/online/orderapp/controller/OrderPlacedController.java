@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.online.orderapp.dto.ResponseStructure;
+import com.online.orderapp.dto.orderDto.AllOrderResponseDto;
 import com.online.orderapp.dto.orderDto.OrderPlacedResponseDto;
 import com.online.orderapp.dto.orderDto.PlaceOrderRequestDto;
 import com.online.orderapp.entity.OrderPlaced;
@@ -57,12 +58,12 @@ public class OrderPlacedController {
 	
 	
 	@GetMapping("/getAll")
-	public ResponseEntity<ResponseStructure<Page<OrderPlacedResponseDto>>> getAllOrders(
+	public ResponseEntity<ResponseStructure<Page<AllOrderResponseDto>>> getAllOrders(
 			@RequestParam(defaultValue = "0", required = false) int pageNum,
 			@RequestParam(defaultValue = "5", required = false) int pageSize,
 			@RequestParam(defaultValue = "createdAt", required = false) String sortBy){
-		Page<OrderPlacedResponseDto> response = orderPlacedService.getAllOrders(pageNum, pageSize, sortBy);
-		ResponseStructure<Page<OrderPlacedResponseDto>> apiResponse = new ResponseStructure<>();
+		Page<AllOrderResponseDto> response = orderPlacedService.getAllOrders(pageNum, pageSize, sortBy);
+		ResponseStructure<Page<AllOrderResponseDto>> apiResponse = new ResponseStructure<>();
 		apiResponse.setData(response);
 		apiResponse.setMessage("Data Fetched Acoording to page");
 		apiResponse.setStatusCode(HttpStatus.OK.value());
@@ -85,7 +86,7 @@ public class OrderPlacedController {
 	}
 	
 	@GetMapping("/get/{orderId}")
-	public ResponseEntity<ResponseStructure<OrderPlacedResponseDto>> getOrder(String orderId){
+	public ResponseEntity<ResponseStructure<OrderPlacedResponseDto>> getOrder(@PathVariable String orderId){
 		OrderPlacedResponseDto response = orderPlacedService.fetchById(orderId);
 		ResponseStructure<OrderPlacedResponseDto> apiResponse = new ResponseStructure<>();
 		apiResponse.setData(response);
