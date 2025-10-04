@@ -13,6 +13,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.online.orderapp.filter.JwtFilter;
+import com.online.orderapp.util.Endpoints;
 import com.online.orderapp.util.Role;
 
 import lombok.RequiredArgsConstructor;
@@ -33,10 +34,9 @@ public class SecurityConfig {
 		return http
 				.csrf(csrf->csrf.disable())
 				.authorizeHttpRequests(request->request
-						.requestMatchers("/api/user/save","/api/user/login").permitAll()
-						.requestMatchers("/api/user/update").hasRole(Role.ADMIN.name())
-						.requestMatchers("/api/user/delete-all").hasRole(Role.USER.name())
-						.anyRequest().authenticated())
+						.requestMatchers(Endpoints.PUBLIC).permitAll()
+						.requestMatchers(Endpoints.USER).hasAnyRole(Role.USER.name(),Role.ADMIN.name())
+						.anyRequest().hasRole(Role.ADMIN.name()))
 				.httpBasic(Customizer.withDefaults())
 				.sessionManagement(session->session
 						.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
