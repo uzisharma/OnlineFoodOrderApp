@@ -12,4 +12,6 @@ public class UserLoginResponseDto {
 	private String email;
 	private String gender;
 	private Integer totalCartItem;
+	
+	private String token;
 }

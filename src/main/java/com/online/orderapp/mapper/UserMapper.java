@@ -15,7 +15,7 @@ public interface UserMapper {
 	
 	//login
 	@Mapping(target="totalCartItem" , expression = "java(getTotalCartItem(user))")
-	UserLoginResponseDto toLoginResponse(User user);
+	UserLoginResponseDto toLoginResponse(User user,String token);
 
 	default Integer getTotalCartItem(User user) {
 		if(user.getUserCart() !=null && user.getUserCart().getUserCartItem() != null) {

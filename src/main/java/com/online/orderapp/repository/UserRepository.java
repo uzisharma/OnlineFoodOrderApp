@@ -30,4 +30,6 @@ public interface UserRepository extends JpaRepository<User, Integer>{
 	Optional<User> findByUserNameWithCart(
 			@Param("userName") String userName);
 
+	Optional<User> findByUserName(String username);
+
 }

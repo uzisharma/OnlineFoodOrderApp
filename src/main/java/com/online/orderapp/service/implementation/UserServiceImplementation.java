@@ -10,6 +10,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,6 +24,7 @@ import com.online.orderapp.dto.userDto.UserResponseDto;
 import com.online.orderapp.entity.User;
 import com.online.orderapp.mapper.UserMapper;
 import com.online.orderapp.repository.UserRepository;
+import com.online.orderapp.service.JwtService;
 import com.online.orderapp.service.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -31,6 +36,8 @@ public class UserServiceImplementation implements UserService{
 	private final UserRepository userRepository;
 	private final UserMapper userMapper;
 	private final PasswordEncoder passwordEncoder;
+	private final AuthenticationManager authManager;
+	private final JwtService jwtService;
 
 	@Override
 	public User saveUser(User user) {
@@ -48,15 +55,28 @@ public class UserServiceImplementation implements UserService{
 	
 	@Override
 	public UserLoginResponseDto login(String userName, String rawPassword) {
+//		
+//		User user = userRepository.findByUserNameWithCart(userName).orElseThrow(()-> new NoSuchElementException("Incorrect Login Credentials"));
+//		
+//		// Check password using BCrypt
+//		if(!passwordEncoder.matches(rawPassword, user.getPassword())) {
+//			throw new NoSuchElementException("Invalid username or password");
+//		}
+//		
+//		return userMapper.toLoginResponse(user);
 		
-		User user = userRepository.findByUserNameWithCart(userName).orElseThrow(()-> new NoSuchElementException("Incorrect Login Credentials"));
-		
-		// Check password using BCrypt
-		if(!passwordEncoder.matches(rawPassword, user.getPassword())) {
-			throw new NoSuchElementException("Invalid username or password");
+		try {
+			Authentication auth = authManager.authenticate(
+					new UsernamePasswordAuthenticationToken(userName, rawPassword));
+			
+				String token =  jwtService.generateToken((UserDetails)auth.getPrincipal());
+				User user = userRepository.findByUserName(userName)
+						.orElseThrow(()-> new NoSuchElementException("Invalid username : "+ userName));
+				return userMapper.toLoginResponse(user, token);
+			
+		}catch(Exception e) {
+			throw new RuntimeException("Invalid Credentials");
 		}
-		
-		return userMapper.toLoginResponse(user);
 	}
 	
 	@Cacheable(value="user_cache")
