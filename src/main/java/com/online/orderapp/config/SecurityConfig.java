@@ -33,9 +33,9 @@ public class SecurityConfig {
 		return http
 				.csrf(csrf->csrf.disable())
 				.authorizeHttpRequests(request->request
-						.requestMatchers("/").permitAll()
-						.requestMatchers("/").hasRole(Role.ADMIN.name())
-						.requestMatchers("/").hasRole(Role.USER.name())
+						.requestMatchers("/api/user/save","/api/user/login").permitAll()
+						.requestMatchers("/api/user/update").hasRole(Role.ADMIN.name())
+						.requestMatchers("/api/user/delete-all").hasRole(Role.USER.name())
 						.anyRequest().authenticated())
 				.httpBasic(Customizer.withDefaults())
 				.sessionManagement(session->session

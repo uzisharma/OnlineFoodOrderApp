@@ -30,6 +30,7 @@ public interface UserMapper {
 	User toEntity(UserRequestDto userRequestDto);
 	
 	@Mapping(target="password", ignore=true)
+	@Mapping(target="id", ignore = true)
 	void updateUserFromDto(UserRequestDto dto, @MappingTarget User entity);
 
 }
