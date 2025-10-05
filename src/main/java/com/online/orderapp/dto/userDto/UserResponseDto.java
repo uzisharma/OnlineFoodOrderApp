@@ -1,5 +1,7 @@
 package com.online.orderapp.dto.userDto;
 
+import com.online.orderapp.util.Role;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,4 +17,6 @@ public class UserResponseDto {
 	private String address;
 	private String gender;
 	private byte[] image;
+	
+	private Role role;
 }

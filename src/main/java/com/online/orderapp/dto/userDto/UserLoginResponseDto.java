@@ -14,4 +14,5 @@ public class UserLoginResponseDto {
 	private Integer totalCartItem;
 	
 	private String token;
+	private String role;
 }

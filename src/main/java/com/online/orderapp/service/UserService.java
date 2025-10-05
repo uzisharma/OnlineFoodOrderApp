@@ -9,6 +9,7 @@ import com.online.orderapp.dto.userDto.UserLoginResponseDto;
 import com.online.orderapp.dto.userDto.UserRequestDto;
 import com.online.orderapp.dto.userDto.UserResponseDto;
 import com.online.orderapp.entity.User;
+import com.online.orderapp.util.Role;
 
 public interface UserService {
 
@@ -16,7 +17,7 @@ public interface UserService {
 	
 	UserResponseDto getUser(Integer id);
 	
-	Page<UserResponseDto> getAllUsers(int pageNum, int pageSize);
+	Page<UserResponseDto> getAllUsers(int pageNum, int pageSize, Role role);
 	
 	UserResponseDto updateUser(UserRequestDto request, Integer id);
 	

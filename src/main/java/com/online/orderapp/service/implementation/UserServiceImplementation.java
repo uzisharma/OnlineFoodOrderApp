@@ -26,6 +26,7 @@ import com.online.orderapp.mapper.UserMapper;
 import com.online.orderapp.repository.UserRepository;
 import com.online.orderapp.service.JwtService;
 import com.online.orderapp.service.UserService;
+import com.online.orderapp.util.Role;
 
 import lombok.RequiredArgsConstructor;
 
@@ -55,24 +56,16 @@ public class UserServiceImplementation implements UserService{
 	
 	@Override
 	public UserLoginResponseDto login(String userName, String rawPassword) {
-//		
-//		User user = userRepository.findByUserNameWithCart(userName).orElseThrow(()-> new NoSuchElementException("Incorrect Login Credentials"));
-//		
-//		// Check password using BCrypt
-//		if(!passwordEncoder.matches(rawPassword, user.getPassword())) {
-//			throw new NoSuchElementException("Invalid username or password");
-//		}
-//		
-//		return userMapper.toLoginResponse(user);
 		
 		try {
 			Authentication auth = authManager.authenticate(
 					new UsernamePasswordAuthenticationToken(userName, rawPassword));
 			
 				String token =  jwtService.generateToken((UserDetails)auth.getPrincipal());
+				Role role = jwtService.extractRole(token);
 				User user = userRepository.findByUserName(userName)
 						.orElseThrow(()-> new NoSuchElementException("Invalid username : "+ userName));
-				return userMapper.toLoginResponse(user, token);
+				return userMapper.toLoginResponse(user, token, role.name());
 			
 		}catch(Exception e) {
 			throw new RuntimeException("Invalid Credentials");
@@ -81,9 +74,10 @@ public class UserServiceImplementation implements UserService{
 	
 	@Cacheable(value="user_cache")
 	@Override
-	public Page<UserResponseDto> getAllUsers(int pageNum, int pageSize) {
+	public Page<UserResponseDto> getAllUsers(int pageNum, int pageSize, Role role) {
 		Pageable pageable = PageRequest.of(pageNum, pageSize);
-		Page<User> page = userRepository.findAll(pageable);
+//		Page<User> page = userRepository.findAll(pageable);
+		Page<User> page = userRepository.findByRole(role, pageable);
 		return page.map(userMapper::toUserResponse);
 		
 	}

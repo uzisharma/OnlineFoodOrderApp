@@ -17,9 +17,9 @@ import jakarta.persistence.Lob;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -44,11 +44,12 @@ public class User {
 	@NotBlank
 	private String password;
 	@NotNull
-	@Pattern(
-			regexp = "^[A-Za-z0-9._+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$",
-			flags = Pattern.Flag.CASE_INSENSITIVE,
-			message = "Invalid email format"
-			)
+//	@Pattern(
+//			regexp = "^[A-Za-z0-9._+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$",
+//			flags = Pattern.Flag.CASE_INSENSITIVE,
+//			message = "Invalid email format"
+//			)
+	@Email
 	private String email;
 	@NotNull
 	private long contactNumber;

@@ -27,6 +27,7 @@ import com.online.orderapp.dto.userDto.UserRequestDto;
 import com.online.orderapp.dto.userDto.UserResponseDto;
 import com.online.orderapp.entity.User;
 import com.online.orderapp.service.UserService;
+import com.online.orderapp.util.Role;
 
 import jakarta.validation.Valid;
 
@@ -39,6 +40,7 @@ public class UserController {
 	
 	@PostMapping("/save")
 	ResponseEntity<ResponseStructure<User>> saveUser(@Valid @RequestBody User user){
+		System.out.println(user);
 		User response =userService.saveUser(user);
 		ResponseStructure<User> apiResponse = new ResponseStructure<>();
 		apiResponse.setData(response);
@@ -60,9 +62,10 @@ public class UserController {
 	@GetMapping("/getAll")
 	public ResponseEntity<ResponseStructure<Page<UserResponseDto>>> getAllUser(
 			@RequestParam(defaultValue = "0", required = false) int pageNum,
-			@RequestParam(defaultValue="10", required= false) int pageSize
+			@RequestParam(defaultValue="10", required= false) int pageSize,
+			@RequestParam(defaultValue="USER", required=false) Role role
 			){
-		Page<UserResponseDto> response = userService.getAllUsers(pageNum, pageSize);
+		Page<UserResponseDto> response = userService.getAllUsers(pageNum, pageSize, role);
 		ResponseStructure<Page<UserResponseDto>> apiResponse = new ResponseStructure<>();
 		apiResponse.setData(response);
 		apiResponse.setMessage("Data Fetched Acoording to page");
